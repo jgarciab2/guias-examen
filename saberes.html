@@ -1,0 +1,579 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Saberes y Pensamiento Científico · 5º · 1er Trimestre</title>
+<style>
+  :root{
+    --bg:#eafaf4; --card:#ffffff; --ink:#15324a; --muted:#5b6b8c;
+    --primary:#ff5fa2; --primary-d:#e0458a; --accent:#1aa6b7; --accent-d:#128695;
+    --good:#2ecc71; --good-d:#25a35a; --bad:#ff5a5a; --warn:#ffb020;
+    --line:#dcebe4; --shadow:0 8px 24px rgba(21,50,74,.12);
+    --art:#e23b5a; --vein:#2a7fd6;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0f1b22; --card:#16242d; --ink:#eaf6f2; --muted:#9fb6c6;
+      --line:#26404b; --shadow:0 8px 24px rgba(0,0,0,.4);
+    }
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    line-height:1.5;-webkit-text-size-adjust:100%}
+  .wrap{max-width:760px;margin:0 auto;padding:16px}
+  header.top{text-align:center;padding:14px 0 4px}
+  header.top h1{margin:.15em 0;font-size:clamp(1.5rem,5.5vw,2.3rem);color:var(--primary);line-height:1.1}
+  header.top .sub{color:var(--accent);font-weight:800;font-size:1.05rem}
+  header.top .mini{color:var(--muted);font-size:.9rem}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:20px;
+    box-shadow:var(--shadow);padding:20px;margin:16px 0}
+  button{font:inherit;cursor:pointer;border:none;border-radius:14px;padding:12px 18px;
+    font-weight:700;transition:transform .05s ease, filter .15s ease}
+  button:active{transform:scale(.97)}
+  .btn-primary{background:var(--primary);color:#fff}
+  .btn-primary:hover{filter:brightness(1.05)}
+  .btn-accent{background:var(--accent);color:#fff}
+  .btn-ghost{background:transparent;color:var(--muted);border:2px solid var(--line)}
+  .tema{display:inline-block;background:var(--accent);color:#fff;font-size:.78rem;
+    font-weight:800;padding:4px 12px;border-radius:999px;margin-bottom:10px;letter-spacing:.3px}
+  .bar{height:12px;background:var(--line);border-radius:999px;overflow:hidden;margin:6px 0 2px}
+  .bar > i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--primary));
+    width:0;transition:width .3s ease}
+  .q{font-size:1.2rem;font-weight:700;margin:4px 0 16px}
+  .opt{display:block;width:100%;text-align:left;background:var(--card);border:2px solid var(--line);
+    border-radius:14px;padding:14px 16px;margin:8px 0;font-weight:600;color:var(--ink)}
+  .opt:hover{border-color:var(--accent)}
+  .opt.sel{border-color:var(--accent);background:rgba(26,166,183,.12)}
+  .opt.ok{border-color:var(--good);background:rgba(46,204,113,.15)}
+  .opt.no{border-color:var(--bad);background:rgba(255,90,90,.15)}
+  .opt[disabled]{cursor:default;opacity:1}
+  .fb{margin-top:14px;padding:14px 16px;border-radius:14px;font-weight:700;display:none}
+  .fb.show{display:block}
+  .fb.ok{background:rgba(46,204,113,.15);color:var(--good-d)}
+  .fb.no{background:rgba(255,90,90,.15);color:var(--bad)}
+  .modelo{margin-top:10px;padding:12px 14px;border-left:4px solid var(--accent);
+    background:rgba(26,166,183,.08);border-radius:0 12px 12px 0;display:none}
+  .modelo.show{display:block}
+  .modelo b{color:var(--accent-d)}
+  .nav{display:flex;justify-content:space-between;gap:10px;margin-top:18px}
+  .count{text-align:center;color:var(--muted);font-weight:700;font-size:.9rem}
+  .center{text-align:center}
+  .big{font-size:3rem;margin:6px 0}
+  .score{font-size:2.4rem;font-weight:800;color:var(--primary)}
+  .hidden{display:none}
+  footer{text-align:center;color:var(--muted);font-size:.8rem;padding:20px 0}
+
+  /* Chips y ranuras (relacionar / diagramas) */
+  .pool{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 4px}
+  .chip{background:var(--card);border:2px solid var(--accent);color:var(--accent-d);
+    border-radius:999px;padding:8px 14px;font-weight:700;font-size:.95rem}
+  .chip.used{opacity:.35;pointer-events:none}
+  .chip.pick{background:var(--accent);color:#fff}
+  .slots{display:grid;gap:8px;margin-top:4px}
+  .slot{display:flex;align-items:center;gap:10px;border:2px dashed var(--line);
+    border-radius:14px;padding:10px 12px;min-height:52px;background:var(--card);cursor:pointer;text-align:left;width:100%}
+  .slot .num{flex:0 0 30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;
+    font-weight:800;display:flex;align-items:center;justify-content:center;font-size:.95rem}
+  .slot .filled{font-weight:700}
+  .slot .holder{color:var(--muted);font-weight:600}
+  .slot.has{border-style:solid;border-color:var(--accent)}
+  .slot.ok{border-style:solid;border-color:var(--good);background:rgba(46,204,113,.12)}
+  .slot.no{border-style:solid;border-color:var(--bad);background:rgba(255,90,90,.12)}
+  .hint{color:var(--muted);font-size:.9rem;margin:2px 0 10px}
+  svg.diagram{width:100%;max-width:360px;height:auto;display:block;margin:6px auto 12px}
+  .mk{fill:var(--accent);stroke:#fff;stroke-width:2}
+  .mkt{fill:#fff;font-weight:800;font-size:13px;text-anchor:middle;dominant-baseline:central;font-family:system-ui,sans-serif}
+
+  /* Guía de estudio */
+  .guia-instr{background:rgba(26,166,183,.1);border:1px solid var(--accent);border-radius:14px;
+    padding:14px 16px;margin:0 0 14px;font-weight:600}
+  details{background:var(--card);border:1px solid var(--line);border-radius:16px;
+    box-shadow:var(--shadow);margin:10px 0;overflow:hidden}
+  details summary{cursor:pointer;padding:14px 16px;font-weight:800;font-size:1.05rem;color:var(--primary);list-style:none}
+  details summary::-webkit-details-marker{display:none}
+  details summary::before{content:"▸ ";color:var(--accent)}
+  details[open] summary::before{content:"▾ "}
+  details > div{padding:0 16px 14px;line-height:1.6}
+  details ul{margin:6px 0;padding-left:20px}
+  details li{margin:4px 0}
+  .key{color:var(--accent-d);font-weight:800}
+
+  /* Impresión: solo la guía. Margen superior amplio para que no se corte el título. */
+  @page{ margin: 2cm 1.5cm 1.5cm 1.5cm; }
+  @media print{
+    html,body{background:#fff;color:#000;margin:0;padding:0}
+    .wrap{max-width:none;padding:0;margin:0}
+    header.top, #inicio, #quiz, #fin, footer, button{display:none !important}
+    #guia:not(.hidden){display:block !important}
+    #guiaTitulo{display:block !important;font-size:1.4rem;margin:0 0 12px;padding-top:4px}
+    details{border:1px solid #bbb !important;box-shadow:none !important;break-inside:avoid;page-break-inside:avoid;margin:0 0 10px !important}
+    details > div{display:block !important}
+    .guia-instr{display:none !important}
+    .key{color:#000;text-decoration:underline}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <h1>Saberes y Pensamiento Científico</h1>
+    <div class="sub">5º de primaria · 1er Trimestre · Noviembre</div>
+    <div class="mini">Examen interactivo + guía de estudio</div>
+  </header>
+
+  <!-- INICIO -->
+  <section id="inicio" class="card center">
+    <p class="big">🔬🫁❤️</p>
+    <p style="font-weight:700;font-size:1.1rem">¡Pon a prueba lo que aprendiste!</p>
+    <p style="color:var(--muted)">Preguntas de opción múltiple, relacionar columnas y armar los sistemas del cuerpo.</p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:14px">
+      <button class="btn-primary" onclick="startQuiz()">Empezar examen</button>
+      <button class="btn-accent" onclick="showGuia()">📘 Guía de estudio</button>
+    </div>
+  </section>
+
+  <!-- QUIZ -->
+  <section id="quiz" class="hidden">
+    <div class="card">
+      <div class="bar"><i id="barFill"></i></div>
+      <div class="count" id="count"></div>
+      <div id="qbody"></div>
+      <div class="fb" id="fb"></div>
+      <div class="modelo" id="modelo"></div>
+      <div class="nav">
+        <button class="btn-ghost" id="btnCheck" onclick="check()">Revisar</button>
+        <button class="btn-primary" id="btnNext" onclick="next()">Siguiente ▶</button>
+      </div>
+    </div>
+    <div class="center"><button class="btn-ghost" onclick="showGuia()">📘 Ver guía de estudio</button></div>
+  </section>
+
+  <!-- FIN -->
+  <section id="fin" class="hidden">
+    <div class="card center">
+      <p class="big">🎉</p>
+      <p style="font-weight:700">Tu resultado</p>
+      <p class="score" id="scoreTxt"></p>
+      <p id="scoreMsg" style="color:var(--muted)"></p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:14px">
+        <button class="btn-primary" onclick="startQuiz()">Repetir</button>
+        <button class="btn-accent" onclick="showGuia()">📘 Guía de estudio</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- GUÍA -->
+  <section id="guia" class="hidden">
+    <h2 id="guiaTitulo" class="hidden">Guía de estudio · Saberes y Pensamiento Científico · 5º · 1er Trimestre</h2>
+    <div class="card center" style="padding-top:22px">
+      <div class="tema">GUÍA DE ESTUDIO</div>
+      <p style="font-weight:700;margin:4px 0">Repasa cada tema y luego haz el examen.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:8px">
+        <button class="btn-primary" onclick="startQuiz()">Ir al examen ▶</button>
+        <button class="btn-ghost" onclick="window.print()">🖨️ Imprimir guía</button>
+      </div>
+      <p class="hint">Al imprimir solo sale la guía, con buen margen arriba.</p>
+    </div>
+    <div class="guia-instr">Repasa todos los temas. 👇</div>
+    <div id="guiaBody"></div>
+    <div class="center"><button class="btn-ghost" onclick="backHome()">⟵ Inicio</button></div>
+  </section>
+
+  <footer><a href="index.html" style="color:var(--accent);font-weight:700;text-decoration:none">🏠 Menú de materias</a><br>Hecho para estudiar 💚 · Saberes y Pensamiento Científico</footer>
+</div>
+
+<script>
+"use strict";
+
+/* ---------- SVG diagramas (números = ranuras a nombrar) ---------- */
+const SVG_RESP = `
+<svg class="diagram" viewBox="0 0 220 300" role="img" aria-label="Sistema respiratorio">
+  <!-- cabeza/nariz -->
+  <ellipse cx="110" cy="34" rx="30" ry="30" fill="none" stroke="var(--ink)" stroke-width="3"/>
+  <path d="M110 55 q-8 6 -3 14 M110 55 q8 6 3 14" fill="none" stroke="var(--ink)" stroke-width="3"/>
+  <!-- laringe -->
+  <rect x="100" y="70" width="20" height="18" rx="6" fill="none" stroke="var(--ink)" stroke-width="3"/>
+  <!-- tráquea -->
+  <line x1="110" y1="88" x2="110" y2="150" stroke="var(--ink)" stroke-width="7" stroke-linecap="round"/>
+  <!-- bronquios -->
+  <path d="M110 150 L78 182 M110 150 L142 182" fill="none" stroke="var(--ink)" stroke-width="5" stroke-linecap="round"/>
+  <!-- pulmones -->
+  <path d="M78 178 q-34 8 -30 60 q2 34 30 36 q14 -2 14 -26 l0 -58 q0 -14 -14 -12 z" fill="rgba(255,95,162,.18)" stroke="var(--ink)" stroke-width="3"/>
+  <path d="M142 178 q34 8 30 60 q-2 34 -30 36 q-14 -2 -14 -26 l0 -58 q0 -14 14 -12 z" fill="rgba(255,95,162,.18)" stroke="var(--ink)" stroke-width="3"/>
+  <!-- diafragma -->
+  <path d="M40 282 q70 24 140 0" fill="none" stroke="var(--ink)" stroke-width="4" stroke-dasharray="2 6"/>
+  <!-- marcadores -->
+  <g><circle cx="150" cy="62" r="13" class="mk"/><text x="150" y="62" class="mkt">1</text></g>
+  <g><circle cx="140" cy="79" r="13" class="mk"/><text x="140" y="79" class="mkt">2</text></g>
+  <g><circle cx="140" cy="120" r="13" class="mk"/><text x="140" y="120" class="mkt">3</text></g>
+  <g><circle cx="90"  cy="170" r="13" class="mk"/><text x="90"  y="170" class="mkt">4</text></g>
+  <g><circle cx="58"  cy="230" r="13" class="mk"/><text x="58"  y="230" class="mkt">5</text></g>
+  <g><circle cx="185" cy="280" r="13" class="mk"/><text x="185" y="280" class="mkt">6</text></g>
+</svg>`;
+
+const SVG_HEART = `
+<svg class="diagram" viewBox="0 0 240 260" role="img" aria-label="El corazón">
+  <!-- aorta -->
+  <path d="M120 20 q-6 20 6 40" fill="none" stroke="var(--art)" stroke-width="10" stroke-linecap="round"/>
+  <!-- forma del corazón -->
+  <path d="M120 240 C40 180 30 120 60 95 C85 74 115 90 120 112 C125 90 155 74 180 95 C210 120 200 180 120 240 Z"
+        fill="rgba(226,59,90,.12)" stroke="var(--ink)" stroke-width="3"/>
+  <!-- tabique -->
+  <line x1="120" y1="98" x2="120" y2="222" stroke="var(--ink)" stroke-width="2" stroke-dasharray="4 4"/>
+  <!-- línea aurícula/ventrículo -->
+  <path d="M62 140 q58 26 116 0" fill="none" stroke="var(--ink)" stroke-width="2" stroke-dasharray="4 4"/>
+  <!-- marcadores: 1 AD, 2 AI, 3 VD, 4 VI -->
+  <g><circle cx="88"  cy="122" r="13" class="mk"/><text x="88"  y="122" class="mkt">1</text></g>
+  <g><circle cx="152" cy="122" r="13" class="mk"/><text x="152" y="122" class="mkt">2</text></g>
+  <g><circle cx="90"  cy="178" r="13" class="mk"/><text x="90"  y="178" class="mkt">3</text></g>
+  <g><circle cx="150" cy="178" r="13" class="mk"/><text x="150" y="178" class="mkt">4</text></g>
+</svg>`;
+
+/* ---------- Banco de preguntas ----------
+   tipo: "mc" opción múltiple | "match" relacionar | "diagram" armar sistema
+   match/diagram: slots[{n,label,ans}], ans = texto del chip correcto        */
+const BANCO = [
+  // DIAGRAMA RESPIRATORIO
+  { tema:"Sistema respiratorio", tipo:"diagram", svg:SVG_RESP,
+    q:"Arma el sistema respiratorio: coloca cada nombre en su número.",
+    slots:[
+      {n:1, ans:"Fosas nasales"},
+      {n:2, ans:"Laringe"},
+      {n:3, ans:"Tráquea"},
+      {n:4, ans:"Bronquios"},
+      {n:5, ans:"Pulmones"},
+      {n:6, ans:"Diafragma"},
+    ]},
+  { tema:"Sistema respiratorio", tipo:"mc",
+    q:"¿Cuál es la función principal del sistema respiratorio?",
+    opts:["Digerir los alimentos","Tomar oxígeno del aire y expulsar dióxido de carbono","Bombear la sangre","Pensar y mover el cuerpo"], ans:1 },
+  { tema:"Sistema respiratorio", tipo:"mc",
+    q:"El músculo que separa el pecho del abdomen y ayuda a respirar es el…",
+    opts:["Corazón","Diafragma","Estómago","Pulmón"], ans:1 },
+
+  // DIAGRAMA CORAZÓN / CIRCULATORIO
+  { tema:"El corazón", tipo:"diagram", svg:SVG_HEART,
+    q:"Arma el corazón: coloca cada cavidad en su número.",
+    hint:"Pista: las aurículas están arriba y los ventrículos abajo.",
+    slots:[
+      {n:1, ans:"Aurícula derecha"},
+      {n:2, ans:"Aurícula izquierda"},
+      {n:3, ans:"Ventrículo derecho"},
+      {n:4, ans:"Ventrículo izquierdo"},
+    ]},
+  { tema:"Sistema circulatorio", tipo:"mc",
+    q:"El corazón es un músculo que sirve para…",
+    opts:["Respirar aire","Bombear la sangre por todo el cuerpo","Digerir la comida","Producir saliva"], ans:1 },
+  { tema:"Sistema circulatorio", tipo:"match",
+    q:"Relaciona cada vaso sanguíneo con lo que hace.",
+    slots:[
+      {n:1, label:"Arterias", ans:"Llevan la sangre del corazón al cuerpo"},
+      {n:2, label:"Venas", ans:"Regresan la sangre al corazón"},
+      {n:3, label:"Capilares", ans:"Vasos muy finos que reparten a las células"},
+    ]},
+  { tema:"Sistema circulatorio", tipo:"mc",
+    q:"¿Cuántas cavidades (cámaras) tiene el corazón?",
+    opts:["2","3","4","6"], ans:2 },
+  { tema:"El pulso", tipo:"mc",
+    q:"¿En dónde se puede sentir el pulso?",
+    opts:["En el cabello","En la muñeca y en el cuello","En las uñas","En los dientes"], ans:1 },
+
+  // DESARROLLO HUMANO
+  { tema:"Desarrollo humano", tipo:"mc",
+    q:"¿Cuál es el orden correcto de las etapas de la vida?",
+    opts:["Adultez, niñez, vejez, adolescencia","Niñez, adolescencia, adultez, vejez","Vejez, adultez, niñez, adolescencia","Adolescencia, niñez, vejez, adultez"], ans:1 },
+  { tema:"Cigoto", tipo:"mc",
+    q:"El cigoto es…",
+    opts:["Un órgano del cuerpo","La célula que se forma al unirse el óvulo y el espermatozoide","Un tipo de alimento","Un hueso del bebé"], ans:1 },
+  { tema:"Desarrollo embrionario", tipo:"match",
+    q:"Ordena el desarrollo embrionario: ¿qué va en cada paso?",
+    hint:"Del más pequeño (1) al más desarrollado (4).",
+    slots:[
+      {n:1, label:"1º", ans:"Cigoto"},
+      {n:2, label:"2º", ans:"Blastocisto"},
+      {n:3, label:"3º", ans:"Embrión"},
+      {n:4, label:"4º", ans:"Feto"},
+    ]},
+  { tema:"Blastocisto", tipo:"mc",
+    q:"El blastocisto es…",
+    opts:["Un grupo de células que se forma pocos días después de la fecundación","El corazón del bebé","Un alimento del embarazo","La última etapa de la vida"], ans:0 },
+
+  // ALIMENTACIÓN
+  { tema:"Dieta equilibrada", tipo:"mc",
+    q:"Una dieta equilibrada es la que…",
+    opts:["Solo tiene dulces","Incluye alimentos de todos los grupos en las cantidades correctas","Solo tiene carne","No incluye frutas ni verduras"], ans:1 },
+  { tema:"Alimentación", tipo:"mc",
+    q:"Que un alimento sea inocuo quiere decir que…",
+    opts:["Tiene muchas calorías","No causa daño a la salud (está limpio y seguro)","Es muy caro","Tiene mucho color"], ans:1 },
+
+  // PLANTAS
+  { tema:"Reproducción de plantas", tipo:"mc",
+    q:"Las plantas con flores se reproducen principalmente por…",
+    opts:["Semillas","Piedras","Agua sola","Aire"], ans:0 },
+
+  // DATOS Y GRÁFICAS
+  { tema:"Moda", tipo:"mc",
+    q:"En los datos 4, 7, 4, 2, 4, 9 la MODA es…",
+    opts:["9","4","2","6"], ans:1 },
+  { tema:"Gráfica de barras", tipo:"mc",
+    q:"En una gráfica de barras, la barra más alta representa…",
+    opts:["El dato con menor cantidad","El dato con mayor cantidad","El promedio","Un error"], ans:1 },
+
+  // VALOR POSICIONAL
+  { tema:"Valor posicional", tipo:"match",
+    q:"Relaciona cada orden con su valor.",
+    slots:[
+      {n:1, label:"Unidad de millar", ans:"1 000"},
+      {n:2, label:"Decena de millar", ans:"10 000"},
+      {n:3, label:"Centena de millar", ans:"100 000"},
+    ]},
+
+  // OPERACIONES
+  { tema:"Multiplicación", tipo:"mc",
+    q:"¿Cuánto es 24 × 3?",
+    opts:["72","68","54","27"], ans:0 },
+  { tema:"División", tipo:"mc",
+    q:"¿Cuánto es 84 ÷ 4?",
+    opts:["24","21","18","14"], ans:1 },
+  { tema:"Fracciones", tipo:"mc",
+    q:"¿Cuánto es 1/4 + 1/4, simplificado?",
+    opts:["2/8","1/2","1/4","2/4 (sin simplificar)"], ans:1 },
+];
+
+/* ---------- Guía de estudio ---------- */
+const GUIA = [
+  ["🫁 Sistema respiratorio",
+    `<p>Lleva <span class="key">oxígeno</span> al cuerpo y saca el <span class="key">dióxido de carbono</span>.</p>
+     <p><b>Partes (por donde pasa el aire):</b></p>
+     <ul>
+       <li><span class="key">Fosas nasales</span> → entra el aire y se limpia.</li>
+       <li><span class="key">Faringe</span> y <span class="key">laringe</span> → paso del aire (aquí está la voz).</li>
+       <li><span class="key">Tráquea</span> → tubo que baja el aire.</li>
+       <li><span class="key">Bronquios</span> → dos tubos que entran a los pulmones.</li>
+       <li><span class="key">Pulmones</span> → aquí se toma el oxígeno.</li>
+       <li><span class="key">Diafragma</span> → músculo que sube y baja para respirar.</li>
+     </ul>`],
+  ["❤️ Sistema circulatorio y corazón",
+    `<p>El <span class="key">corazón</span> es un músculo que <span class="key">bombea la sangre</span> por todo el cuerpo. Tiene <span class="key">4 cavidades</span>: 2 aurículas (arriba) y 2 ventrículos (abajo).</p>
+     <ul>
+       <li><span class="key">Arterias</span>: llevan la sangre <b>del</b> corazón al cuerpo.</li>
+       <li><span class="key">Venas</span>: <b>regresan</b> la sangre al corazón.</li>
+       <li><span class="key">Capilares</span>: vasos muy finos que reparten a las células.</li>
+     </ul>
+     <p><b>Pulso:</b> se siente en la <span class="key">muñeca</span> y en el <span class="key">cuello</span> (también en la sien). Es el latido del corazón.</p>`],
+  ["👶 Desarrollo humano y embrionario",
+    `<p><b>Etapas de la vida:</b> niñez → adolescencia → adultez → vejez.</p>
+     <p><b>Desarrollo embrionario (orden):</b></p>
+     <ul>
+       <li><span class="key">Cigoto</span>: célula que se forma al unirse el óvulo y el espermatozoide.</li>
+       <li><span class="key">Blastocisto</span>: grupo de células, pocos días después.</li>
+       <li><span class="key">Embrión</span> → luego <span class="key">feto</span> (ya tiene forma de bebé).</li>
+     </ul>`],
+  ["🍎 Dieta equilibrada e inocua",
+    `<ul>
+       <li><span class="key">Dieta equilibrada</span>: comer de <b>todos los grupos</b> (frutas y verduras, cereales, leguminosas y alimentos de origen animal) en las cantidades correctas.</li>
+       <li><span class="key">Inocua</span>: que <b>no hace daño</b> a la salud; el alimento está limpio y seguro.</li>
+     </ul>`],
+  ["🌱 Reproducción de plantas",
+    `<ul>
+       <li>Con flores: se reproducen por <span class="key">semillas</span> (la flor se convierte en fruto con semillas).</li>
+       <li>Sin semillas: también hay plantas que se reproducen por tallos, raíces u hojas (asexual).</li>
+     </ul>`],
+  ["📊 Tabla de datos, gráfica de barras y moda",
+    `<ul>
+       <li><span class="key">Tabla de datos</span>: organiza la información en filas y columnas.</li>
+       <li><span class="key">Gráfica de barras</span>: la barra <b>más alta</b> es el dato con <b>mayor</b> cantidad.</li>
+       <li><span class="key">Moda</span>: el dato que <b>más se repite</b>. Ej: en 4, 7, 4, 2, 4 la moda es <b>4</b>.</li>
+     </ul>`],
+  ["🔢 Unidades de millar",
+    `<ul>
+       <li><span class="key">Unidad de millar</span> = 1 000</li>
+       <li><span class="key">Decena de millar</span> = 10 000</li>
+       <li><span class="key">Centena de millar</span> = 100 000</li>
+     </ul>
+     <p>Ejemplo: en <b>45 300</b> el 4 es una <b>decena de millar</b> y el 5 una <b>unidad de millar</b>.</p>`],
+  ["➗ Multiplicaciones, divisiones y fracciones",
+    `<ul>
+       <li><span class="key">Multiplicación</span>: 24 × 3 = <b>72</b>.</li>
+       <li><span class="key">División</span>: 84 ÷ 4 = <b>21</b>.</li>
+       <li><span class="key">Suma de fracciones</span> con igual denominador: sumas los de arriba. 1/4 + 1/4 = 2/4, y simplificado = <span class="key">1/2</span>.</li>
+     </ul>`],
+];
+
+/* ---------- Motor ---------- */
+const $ = s => document.querySelector(s);
+let orden = [], idx = 0, aciertos = 0, answered = false, pick = null, assign = {};
+
+function shuffle(a){ a=a.slice(); for(let i=a.length-1;i>0;i--){const j=(Math.random()*(i+1))|0;[a[i],a[j]]=[a[j],a[i]];} return a; }
+
+function startQuiz(){
+  orden = shuffle(BANCO.map((_,i)=>i));
+  idx=0; aciertos=0;
+  $("#inicio").classList.add("hidden");
+  $("#guia").classList.add("hidden");
+  $("#fin").classList.add("hidden");
+  $("#quiz").classList.remove("hidden");
+  render();
+  window.scrollTo(0,0);
+}
+
+function render(){
+  answered=false; pick=null; assign={};
+  const q = BANCO[orden[idx]];
+  $("#count").textContent = `Pregunta ${idx+1} de ${orden.length}`;
+  $("#barFill").style.width = (idx/orden.length*100)+"%";
+  $("#fb").className="fb"; $("#fb").textContent="";
+  $("#modelo").className="modelo"; $("#modelo").innerHTML="";
+  $("#btnCheck").disabled=false; $("#btnCheck").style.display="";
+  $("#btnNext").style.display="none";
+
+  let h = `<div class="tema">${q.tema}</div><div class="q">${q.q}</div>`;
+  if(q.hint) h += `<div class="hint">${q.hint}</div>`;
+
+  if(q.tipo==="mc"){
+    h += q.opts.map((o,i)=>`<button class="opt" data-i="${i}" onclick="pickOpt(${i})">${o}</button>`).join("");
+  } else {
+    if(q.svg) h += q.svg;
+    const names = shuffle(q.slots.map(s=>s.ans));
+    h += `<div class="pool" id="pool">`+ names.map(n=>`<button class="chip" data-name="${n}" onclick="pickChip(this)">${n}</button>`).join("") +`</div>`;
+    h += `<div class="slots" id="slots">`+ q.slots.map(s=>
+      `<button class="slot" data-n="${s.n}" onclick="dropChip(${s.n})">
+         <span class="num">${s.n}</span>
+         ${s.label?`<span class="filled">${s.label}</span> →`:``}
+         <span class="holder" data-holder="${s.n}">toca para colocar…</span>
+       </button>`).join("") +`</div>`;
+  }
+  $("#qbody").innerHTML = h;
+}
+
+/* opción múltiple */
+function pickOpt(i){
+  if(answered) return;
+  document.querySelectorAll(".opt").forEach(b=>b.classList.remove("sel"));
+  document.querySelector(`.opt[data-i="${i}"]`).classList.add("sel");
+  pick = i;
+}
+
+/* chips */
+function pickChip(el){
+  if(answered) return;
+  if(el.classList.contains("used")) return;
+  document.querySelectorAll(".chip").forEach(c=>c.classList.remove("pick"));
+  el.classList.add("pick");
+  pick = el.getAttribute("data-name");
+}
+function dropChip(n){
+  if(answered) return;
+  const q = BANCO[orden[idx]];
+  const holder = document.querySelector(`[data-holder="${n}"]`);
+  const slot = document.querySelector(`.slot[data-n="${n}"]`);
+  // si la ranura ya tenía algo, devolver ese chip al pool
+  if(assign[n]){ freeChip(assign[n]); }
+  if(pick==null){ // vaciar ranura
+    delete assign[n]; holder.textContent="toca para colocar…"; slot.classList.remove("has"); return;
+  }
+  // si ese chip estaba en otra ranura, quitarlo de allá
+  for(const k in assign){ if(assign[k]===pick){ delete assign[k];
+    const h2=document.querySelector(`[data-holder="${k}"]`); h2.textContent="toca para colocar…";
+    document.querySelector(`.slot[data-n="${k}"]`).classList.remove("has"); } }
+  assign[n]=pick;
+  holder.textContent=pick; holder.classList.remove("holder"); holder.classList.add("filled");
+  holder.style.color="var(--ink)";
+  slot.classList.add("has");
+  markChip(pick,true);
+  document.querySelectorAll(".chip").forEach(c=>c.classList.remove("pick"));
+  pick=null;
+}
+function markChip(name,used){
+  const c=document.querySelector(`.chip[data-name="${CSS.escape(name)}"]`);
+  if(c){ c.classList.toggle("used",used); }
+}
+function freeChip(name){ markChip(name,false); }
+
+/* revisar */
+function check(){
+  if(answered) return;
+  const q = BANCO[orden[idx]];
+  let ok=false;
+  if(q.tipo==="mc"){
+    if(pick==null){ flash("Elige una respuesta primero 🙂","no"); return; }
+    document.querySelectorAll(".opt").forEach(b=>{
+      const i=+b.getAttribute("data-i");
+      b.disabled=true;
+      if(i===q.ans) b.classList.add("ok");
+      if(i===pick && pick!==q.ans) b.classList.add("no");
+    });
+    ok = (pick===q.ans);
+    $("#modelo").innerHTML = `<b>Respuesta correcta:</b> ${q.opts[q.ans]}`;
+    $("#modelo").classList.add("show");
+  } else {
+    if(Object.keys(assign).length < q.slots.length){ flash("Coloca todos los nombres 🙂","no"); return; }
+    ok=true;
+    q.slots.forEach(s=>{
+      const slot=document.querySelector(`.slot[data-n="${s.n}"]`);
+      const good = assign[s.n]===s.ans;
+      slot.classList.add(good?"ok":"no");
+      if(!good) ok=false;
+    });
+    document.querySelectorAll(".chip").forEach(c=>c.style.pointerEvents="none");
+    if(!ok){
+      $("#modelo").innerHTML = `<b>Así se relaciona:</b><br>` +
+        q.slots.map(s=>`${s.n}. ${s.label?s.label+" → ":""}<b>${s.ans}</b>`).join("<br>");
+      $("#modelo").classList.add("show");
+    }
+  }
+  answered=true;
+  if(ok){ aciertos++; flash("¡Correcto! 🎉","ok"); }
+  else { flash("Revisa la respuesta correcta 👇","no"); }
+  $("#btnCheck").style.display="none";
+  $("#btnNext").style.display="";
+  $("#btnNext").textContent = (idx+1<orden.length) ? "Siguiente ▶" : "Ver resultado 🏁";
+}
+function flash(msg,kind){ const fb=$("#fb"); fb.textContent=msg; fb.className="fb show "+kind; }
+
+function next(){
+  if(idx+1<orden.length){ idx++; render(); window.scrollTo(0,0); }
+  else finish();
+}
+function finish(){
+  $("#barFill").style.width="100%";
+  $("#quiz").classList.add("hidden");
+  $("#fin").classList.remove("hidden");
+  const tot=orden.length;
+  $("#scoreTxt").textContent = `${aciertos} / ${tot}`;
+  const pct=aciertos/tot;
+  $("#scoreMsg").textContent = pct===1 ? "¡Perfecto! Te la sabes toda 🌟"
+    : pct>=.7 ? "¡Muy bien! Repasa lo que falló."
+    : "Buen intento. Lee la guía y vuelve a intentar 💪";
+  window.scrollTo(0,0);
+}
+
+/* guía */
+function showGuia(){
+  if(!$("#guiaBody").dataset.ready){
+    $("#guiaBody").innerHTML = GUIA.map(([t,c],i)=>
+      `<details open><summary>${t}</summary><div>${c}</div></details>`).join("");
+    $("#guiaBody").dataset.ready="1";
+  }
+  ["inicio","quiz","fin"].forEach(id=>$("#"+id).classList.add("hidden"));
+  $("#guia").classList.remove("hidden");
+  window.scrollTo(0,0);
+}
+function backHome(){
+  $("#guia").classList.add("hidden");
+  $("#inicio").classList.remove("hidden");
+  window.scrollTo(0,0);
+}
+
+/* self-check: cada pregunta tiene respuesta válida */
+(function selfCheck(){
+  BANCO.forEach((q,i)=>{
+    if(q.tipo==="mc"){ console.assert(q.opts[q.ans]!==undefined, "mc sin ans válida #"+i); }
+    else { q.slots.forEach(s=>console.assert(typeof s.ans==="string"&&s.ans.length, "slot sin ans #"+i)); }
+  });
+})();
+</script>
+</body>
+</html>

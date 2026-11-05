@@ -2,3 +2,4 @@
 _check.js
 node_modules/
 .vercel/
+.serena/
