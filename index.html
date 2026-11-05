@@ -58,6 +58,7 @@
   <div class="card">
     <div class="lbl">1) Elige el grado:</div>
     <div class="grades" id="grades">
+      <button class="grado" data-g="2" onclick="pickGrade('2')">2º</button>
       <button class="grado" data-g="3" onclick="pickGrade('3')">3º</button>
       <button class="grado" data-g="4" onclick="pickGrade('4')">4º</button>
       <button class="grado active" data-g="5" onclick="pickGrade('5')">5º</button>
@@ -76,10 +77,10 @@
 <script>
 "use strict";
 const MATERIAS = {
-  "3":[
-    {n:"Lenguajes", f:"lenguajes.html?g=3", em:"📚"},
-    {n:"Saberes y Pensamiento Científico", f:"saberes.html?g=3", em:"🔬"},
+  "2":[
+    {n:"Saberes y Pensamiento Científico", f:"saberes.html?g=2", em:"🔬"},
   ],
+  "3":[{n:"Lenguajes", f:"lenguajes.html?g=3", em:"📚"}],
   "4":[
     {n:"Lenguajes", f:"lenguajes.html?g=4", em:"📚"},
     {n:"Saberes y Pensamiento Científico", f:"saberes.html?g=4", em:"🔬"},
