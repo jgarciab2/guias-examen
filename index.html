@@ -79,6 +79,7 @@
 const MATERIAS = {
   "2":[
     {n:"Saberes y Pensamiento Científico", f:"saberes.html?g=2", em:"🔬"},
+    {n:"Lenguajes", em:"📚", soon:true},
   ],
   "3":[{n:"Lenguajes", f:"lenguajes.html?g=3", em:"📚"}],
   "4":[
@@ -99,10 +100,14 @@ function pickGrade(g){
   // dropdown (lo que pidió el usuario: seleccionable con las materias)
   document.getElementById("sel").innerHTML =
     `<option value="" disabled selected>— Elige una materia —</option>` +
-    list.map((m,i)=>`<option value="${i}">${m.em} ${m.n}</option>`).join("");
+    list.map((m,i)=> m.soon
+      ? `<option value="" disabled>${m.em} ${m.n} — Próximamente</option>`
+      : `<option value="${i}">${m.em} ${m.n}</option>`).join("");
   // tarjetas rápidas (mismo listado, un toque directo)
   document.getElementById("cards").innerHTML = list.map(m=>
-    `<a class="mat" href="${m.f}"><span class="em">${m.em}</span><span>${m.n}</span><span class="go">Abrir ▶</span></a>`).join("");
+    m.soon
+      ? `<div class="mat" style="opacity:.55;cursor:default"><span class="em">${m.em}</span><span>${m.n}</span><span class="go" style="color:var(--muted)">Próximamente</span></div>`
+      : `<a class="mat" href="${m.f}"><span class="em">${m.em}</span><span>${m.n}</span><span class="go">Abrir ▶</span></a>`).join("");
   syncBtn();
 }
 function syncBtn(){
