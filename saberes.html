@@ -234,7 +234,7 @@ const SVG_HEART = `
 /* ---------- Banco de preguntas ----------
    tipo: "mc" opción múltiple | "match" relacionar | "diagram" armar sistema
    match/diagram: slots[{n,label,ans}], ans = texto del chip correcto        */
-const BANCO = [
+const BANCO5 = [
   // DIAGRAMA RESPIRATORIO
   { tema:"Sistema respiratorio", tipo:"diagram", svg:SVG_RESP,
     q:"Arma el sistema respiratorio: coloca cada nombre en su número.",
@@ -342,8 +342,8 @@ const BANCO = [
     opts:["2/8","1/2","1/4","2/4 (sin simplificar)"], ans:1 },
 ];
 
-/* ---------- Guía de estudio ---------- */
-const GUIA = [
+/* ---------- Guía de estudio (5º) ---------- */
+const GUIA5 = [
   ["🫁 Sistema respiratorio",
     `<p>Lleva <span class="key">oxígeno</span> al cuerpo y saca el <span class="key">dióxido de carbono</span>.</p>
      <p><b>Partes (por donde pasa el aire):</b></p>
@@ -401,6 +401,150 @@ const GUIA = [
        <li><span class="key">Suma de fracciones</span> con igual denominador: sumas los de arriba. 1/4 + 1/4 = 2/4, y simplificado = <span class="key">1/2</span>.</li>
      </ul>`],
 ];
+
+/* ====================== 4º GRADO ====================== */
+/* Contenido fiel a la guía resuelta (Miss Viky Gómez). Faltan 14–21 en la foto. */
+const SVG_DIGEST = `
+<svg class="diagram" viewBox="0 0 220 320" role="img" aria-label="Sistema digestivo">
+  <!-- boca -->
+  <ellipse cx="108" cy="26" rx="22" ry="12" fill="rgba(255,95,162,.18)" stroke="var(--ink)" stroke-width="3"/>
+  <!-- esófago -->
+  <line x1="108" y1="38" x2="108" y2="118" stroke="var(--ink)" stroke-width="7" stroke-linecap="round"/>
+  <!-- estómago (J) -->
+  <path d="M108 118 q46 2 46 42 q0 36 -40 40 q-30 3 -30 -18 q0 -16 20 -17" fill="rgba(255,176,32,.20)" stroke="var(--ink)" stroke-width="3"/>
+  <!-- intestino grueso (marco) -->
+  <path d="M62 182 L62 258 q0 20 20 20 L150 278 q20 0 20 -20 L170 168" fill="none" stroke="var(--ink)" stroke-width="9" stroke-linecap="round"/>
+  <!-- intestino delgado (serpentea dentro) -->
+  <path d="M100 196 q26 2 26 16 q0 14 -24 15 q-24 1 -24 16 q0 15 26 16 q26 1 26 16" fill="none" stroke="var(--ink)" stroke-width="5" stroke-linecap="round"/>
+  <!-- marcadores -->
+  <g><circle cx="140" cy="22"  r="13" class="mk"/><text x="140" y="22"  class="mkt">1</text></g>
+  <g><circle cx="138" cy="86"  r="13" class="mk"/><text x="138" y="86"  class="mkt">2</text></g>
+  <g><circle cx="162" cy="150" r="13" class="mk"/><text x="162" y="150" class="mkt">3</text></g>
+  <g><circle cx="150" cy="232" r="13" class="mk"/><text x="150" y="232" class="mkt">4</text></g>
+  <g><circle cx="48"  cy="236" r="13" class="mk"/><text x="48"  y="236" class="mkt">5</text></g>
+</svg>`;
+
+const BANCO4 = [
+  // SISTEMA LOCOMOTOR
+  { tema:"Sistema locomotor", tipo:"mc",
+    q:"El sistema que da soporte al cuerpo, protege los órganos internos y permite el movimiento (junto con los músculos) es el…",
+    opts:["Sistema locomotor","Sistema digestivo","Sistema circulatorio","Sistema respiratorio"], ans:0 },
+  { tema:"Sistema locomotor", tipo:"mc",
+    q:"Los puntos de unión entre dos o más huesos que permiten doblar partes del cuerpo (codos, rodillas, muñecas) se llaman…",
+    opts:["Articulaciones","Músculos","Tendones","Nervios"], ans:0 },
+  { tema:"Sistema locomotor", tipo:"mc",
+    q:"Para cuidar y mantener fuerte el sistema locomotor es necesario…",
+    opts:["Buena postura y alimentos ricos en calcio","Comer muchos dulces","No hacer nunca ejercicio","Cargar cosas muy pesadas"], ans:0 },
+
+  // SISTEMA DIGESTIVO (diagrama)
+  { tema:"Sistema digestivo", tipo:"diagram", svg:SVG_DIGEST,
+    q:"Arma el sistema digestivo: coloca cada órgano en su número.",
+    hint:"Sigue el camino de los alimentos, de arriba hacia abajo.",
+    slots:[
+      {n:1, ans:"Boca"},
+      {n:2, ans:"Esófago"},
+      {n:3, ans:"Estómago"},
+      {n:4, ans:"Intestino delgado"},
+      {n:5, ans:"Intestino grueso"},
+    ]},
+  { tema:"Sistema digestivo", tipo:"mc",
+    q:"¿En qué parte comienza la digestión al masticar los alimentos y mezclarlos con la saliva?",
+    opts:["En la boca","En el estómago","En el intestino","En el esófago"], ans:0 },
+  { tema:"Sistema digestivo", tipo:"mc",
+    q:"Órgano con forma de bolsa muscular donde los alimentos se mezclan con los jugos gástricos hasta volverse una papilla líquida:",
+    opts:["El estómago","El hígado","El intestino grueso","La boca"], ans:0 },
+  { tema:"Sistema digestivo", tipo:"mc",
+    q:"¿Cuál es el órgano que transporta el bolo alimenticio desde la boca hasta el estómago?",
+    opts:["El esófago","La tráquea","El intestino","El hígado"], ans:0 },
+  { tema:"Sistema digestivo", tipo:"match",
+    q:"Relaciona cada órgano con su función.",
+    slots:[
+      {n:1, label:"Boca", ans:"Mastica y mezcla con saliva"},
+      {n:2, label:"Estómago", ans:"Mezcla con jugos gástricos"},
+      {n:3, label:"Intestino delgado", ans:"Absorbe los nutrientes"},
+      {n:4, label:"Intestino grueso", ans:"Absorbe el agua de los restos"},
+    ]},
+
+  // VALOR POSICIONAL Y NÚMEROS
+  { tema:"Valor posicional", tipo:"mc",
+    q:"¿Cuál es el valor posicional del dígito 8 en el número 48,325?",
+    opts:["8 unidades de millar (8,000)","8 centenas (800)","8 decenas (80)","8 unidades (8)"], ans:0 },
+  { tema:"Notación desarrollada", tipo:"mc",
+    q:"¿Cómo se escribe en notación desarrollada el número 62,409?",
+    opts:["60,000 + 2,000 + 400 + 9","6,000 + 200 + 40 + 9","60,000 + 2,000 + 40 + 9","600,000 + 2,000 + 400 + 9"], ans:0 },
+  { tema:"Valor posicional", tipo:"mc",
+    q:"En el número 35,782, ¿cuántas Decenas de Millar (DM) tiene?",
+    opts:["3","5","7","2"], ans:0 },
+  { tema:"Valor posicional", tipo:"mc",
+    q:"¿Qué número se forma con la suma: 90,000 + 5,000 + 300 + 60 + 4?",
+    opts:["95,364","9,564","95,634","90,564"], ans:0 },
+  { tema:"Valor posicional", tipo:"mc",
+    q:"¿Cuál de los siguientes números tiene exactamente 7 centenas?",
+    opts:["54,712","7,540","45,217","17,254"], ans:0 },
+
+  // MULTIPLICAR POR 10, 100, 1,000 (recorrer el punto)
+  { tema:"Multiplicar por 10", tipo:"mc",
+    q:"¿Cuál es el resultado de 4.5 × 10? (recuerda recorrer el punto 1 lugar a la derecha)",
+    opts:["45","4.50","450","0.45"], ans:0 },
+  { tema:"Multiplicar por 100", tipo:"mc",
+    q:"Al multiplicar 3.25 × 100, el punto se recorre 2 lugares a la derecha. ¿Cuál es el resultado?",
+    opts:["325","32.5","3,250","0.0325"], ans:0 },
+  { tema:"Multiplicar por 1,000", tipo:"mc",
+    q:"¿Cuál es el resultado de 8 × 1,000?",
+    opts:["8,000","800","80,000","80"], ans:0 },
+  { tema:"Multiplicar por 10,000", tipo:"mc",
+    q:"Si multiplicas 1.25 × 10,000, ¿qué cantidad obtienes?",
+    opts:["12,500","1,250","125,000","125"], ans:0 },
+];
+
+const GUIA4 = [
+  ["🦴 Sistema locomotor",
+    `<ul>
+       <li>Da <span class="key">soporte</span> al cuerpo, <span class="key">protege</span> los órganos internos y, junto con los músculos, permite el <span class="key">movimiento</span>.</li>
+       <li><span class="key">Articulaciones</span>: puntos de unión entre dos o más huesos; permiten doblar codos, rodillas y muñecas.</li>
+       <li>Para cuidarlo: <span class="key">buena postura</span> y <span class="key">alimentos ricos en calcio</span>.</li>
+     </ul>`],
+  ["🍽️ Sistema digestivo",
+    `<p>El camino de los alimentos, en orden:</p>
+     <ul>
+       <li><span class="key">Boca</span>: inicia la digestión al masticar y mezclar con la saliva.</li>
+       <li><span class="key">Esófago</span>: transporta el bolo alimenticio de la boca al estómago.</li>
+       <li><span class="key">Estómago</span>: bolsa muscular; mezcla con los jugos gástricos hasta formar una papilla líquida.</li>
+       <li><span class="key">Intestino delgado</span>: absorbe los <b>nutrientes</b> de los alimentos.</li>
+       <li><span class="key">Intestino grueso</span>: absorbe el <b>agua</b> de los restos no digeridos.</li>
+     </ul>`],
+  ["🔢 Valor posicional y notación desarrollada",
+    `<ul>
+       <li>El dígito <b>8</b> en <b>48,325</b> vale <span class="key">8 unidades de millar = 8,000</span>.</li>
+       <li>Notación desarrollada de <b>62,409</b>: <span class="key">60,000 + 2,000 + 400 + 9</span>.</li>
+       <li><b>35,782</b> tiene <span class="key">3 decenas de millar (DM)</span>.</li>
+       <li>90,000 + 5,000 + 300 + 60 + 4 = <span class="key">95,364</span>.</li>
+       <li>Las <b>centenas</b> son el 3er dígito desde la derecha. <b>54,712</b> tiene <span class="key">7 centenas</span>.</li>
+     </ul>`],
+  ["✖️ Multiplicar por 10, 100 y 1,000",
+    `<p>Se recorre el <span class="key">punto decimal</span> a la derecha tantos lugares como ceros tenga el número.</p>
+     <ul>
+       <li>× 10 → 1 lugar: <b>4.5 × 10 = 45</b>.</li>
+       <li>× 100 → 2 lugares: <b>3.25 × 100 = 325</b>.</li>
+       <li>× 1,000 → 3 lugares: <b>8 × 1,000 = 8,000</b>.</li>
+       <li>× 10,000 → 4 lugares: <b>1.25 × 10,000 = 12,500</b>.</li>
+     </ul>`],
+];
+
+/* ---------- Selección de grado por URL: saberes.html?g=4 ó ?g=5 ---------- */
+const GRADOS = {
+  "4": { label:"4º", banco:BANCO4, guia:GUIA4 },
+  "5": { label:"5º", banco:BANCO5, guia:GUIA5 },
+};
+let gradoActual = (new URLSearchParams(location.search).get("g")==="4") ? "4" : "5";
+let BANCO = GRADOS[gradoActual].banco;
+let GUIA  = GRADOS[gradoActual].guia;
+(function initGrado(){
+  const lbl = GRADOS[gradoActual].label;
+  const sub = document.querySelector(".sub"); if(sub) sub.textContent = lbl+" de primaria · 1er Trimestre · Noviembre";
+  document.title = "Saberes y Pensamiento Científico · "+lbl+" · 1er Trimestre";
+  const gt = document.getElementById("guiaTitulo"); if(gt) gt.textContent = "Guía de estudio · Saberes y Pensamiento Científico · "+lbl+" · 1er Trimestre";
+})();
 
 /* ---------- Motor ---------- */
 const $ = s => document.querySelector(s);
