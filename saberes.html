@@ -531,12 +531,173 @@ const GUIA4 = [
      </ul>`],
 ];
 
-/* ---------- Selección de grado por URL: saberes.html?g=4 ó ?g=5 ---------- */
+/* ====================== 3º GRADO ====================== */
+/* Ejercicios tomados de la guía resuelta (Eric Leonardo). Solo opción múltiple y relacionar. */
+const BANCO3 = [
+  // 1. UNIDADES, DECENAS Y CENTENAS
+  { tema:"Unidades, decenas y centenas", tipo:"mc",
+    q:"Una decena tiene ___ unidades.", opts:["10","1","100","5"], ans:0 },
+  { tema:"Unidades, decenas y centenas", tipo:"mc",
+    q:"Una centena tiene ___ decenas.", opts:["10","100","1","5"], ans:0 },
+  { tema:"Unidades, decenas y centenas", tipo:"mc",
+    q:"Una centena tiene ___ unidades.", opts:["100","10","1000","50"], ans:0 },
+  { tema:"Unidades, decenas y centenas", tipo:"mc",
+    q:"En el número 365, ¿cuánto vale el dígito 3?", opts:["300","30","3","60"], ans:0 },
+  { tema:"Unidades, decenas y centenas", tipo:"mc",
+    q:"¿Qué número se forma con 2 centenas, 4 decenas y 5 unidades?", opts:["245","254","425","2045"], ans:0 },
+  { tema:"Unidades, decenas y centenas", tipo:"mc",
+    q:"¿Qué número se forma con 5 centenas, 2 decenas y 8 unidades?", opts:["528","258","852","5028"], ans:0 },
+
+  // 2. COMPOSICIÓN Y DESCOMPOSICIÓN
+  { tema:"Composición y descomposición", tipo:"mc",
+    q:"¿Cómo se descompone el número 254?", opts:["200 + 50 + 4","200 + 5 + 4","2 + 5 + 4","20 + 50 + 4"], ans:0 },
+  { tema:"Composición y descomposición", tipo:"mc",
+    q:"¿Cómo se descompone el número 627?", opts:["600 + 20 + 7","600 + 2 + 7","6 + 20 + 7","60 + 20 + 7"], ans:0 },
+  { tema:"Composición y descomposición", tipo:"mc",
+    q:"¿Qué número se forma con 300 + 40 + 7?", opts:["347","374","3407","437"], ans:0 },
+  { tema:"Composición y descomposición", tipo:"mc",
+    q:"¿Qué número se forma con 100 + 60 + 4?", opts:["164","146","1604","614"], ans:0 },
+
+  // 3. ANTECESOR Y SUCESOR
+  { tema:"Antecesor y sucesor", tipo:"mc",
+    q:"El antecesor es el número que está ANTES. ¿Cuál es el antecesor de 200?", opts:["199","201","100","202"], ans:0 },
+  { tema:"Antecesor y sucesor", tipo:"mc",
+    q:"El sucesor es el número que está DESPUÉS. ¿Cuál es el sucesor de 349?", opts:["350","348","359","340"], ans:0 },
+  { tema:"Antecesor y sucesor", tipo:"mc",
+    q:"¿Cuál es el sucesor de 478?", opts:["479","477","480","488"], ans:0 },
+
+  // 4. SUMAS, RESTAS Y PROBLEMAS
+  { tema:"Sumas y restas", tipo:"mc", q:"¿Cuánto es 32 + 15?", opts:["47","45","57","42"], ans:0 },
+  { tema:"Sumas y restas", tipo:"mc", q:"¿Cuánto es 58 − 13?", opts:["45","44","55","35"], ans:0 },
+  { tema:"Sumas y restas", tipo:"mc", q:"¿Cuánto es 67 − 24?", opts:["43","45","41","23"], ans:0 },
+  { tema:"Problemas", tipo:"mc",
+    q:"Mariana tiene 35 colores y recibe 12 más. ¿Cuántos colores tiene ahora?", opts:["47","23","45","57"], ans:0 },
+  { tema:"Problemas", tipo:"mc",
+    q:"Luis tenía 48 estampas y regaló 15. ¿Cuántas le quedaron?", opts:["33","63","23","35"], ans:0 },
+
+  // 5. FIGURAS GEOMÉTRICAS
+  { tema:"Figuras geométricas", tipo:"mc",
+    q:"¿Qué figura tiene tres lados?", opts:["Triángulo","Cuadrado","Círculo","Rectángulo"], ans:0 },
+  { tema:"Figuras geométricas", tipo:"mc",
+    q:"¿Qué figura tiene cuatro lados iguales y cuatro esquinas?", opts:["Cuadrado","Triángulo","Círculo","Rectángulo"], ans:0 },
+  { tema:"Figuras geométricas", tipo:"mc",
+    q:"¿Qué figura no tiene lados rectos ni esquinas?", opts:["Círculo","Cuadrado","Triángulo","Rectángulo"], ans:0 },
+  { tema:"Figuras geométricas", tipo:"match",
+    q:"Relaciona cada figura con su característica.",
+    slots:[
+      {n:1, label:"Triángulo", ans:"3 lados"},
+      {n:2, label:"Cuadrado", ans:"4 lados iguales"},
+      {n:3, label:"Rectángulo", ans:"4 lados (2 largos y 2 cortos)"},
+      {n:4, label:"Círculo", ans:"Sin lados ni esquinas"},
+    ]},
+
+  // 6. LOS CINCO SENTIDOS
+  { tema:"Los cinco sentidos", tipo:"mc",
+    q:"¿Qué sentido usamos para escuchar el timbre de la escuela?", opts:["Oído","Vista","Gusto","Olfato"], ans:0 },
+  { tema:"Los cinco sentidos", tipo:"mc",
+    q:"¿Qué sentido usamos para oler una flor?", opts:["Olfato","Tacto","Gusto","Vista"], ans:0 },
+  { tema:"Los cinco sentidos", tipo:"match",
+    q:"Relaciona cada sentido con la parte del cuerpo que usamos.",
+    slots:[
+      {n:1, label:"Vista", ans:"Ojos"},
+      {n:2, label:"Oído", ans:"Orejas"},
+      {n:3, label:"Olfato", ans:"Nariz"},
+      {n:4, label:"Gusto", ans:"Lengua"},
+      {n:5, label:"Tacto", ans:"Piel"},
+    ]},
+
+  // 7. EL PLATO DEL BUEN COMER
+  { tema:"Plato del Buen Comer", tipo:"mc",
+    q:"La tortilla de maíz pertenece al grupo de los…", opts:["Cereales","Frutas y verduras","Leguminosas","Origen animal"], ans:0 },
+  { tema:"Plato del Buen Comer", tipo:"mc",
+    q:"El huevo es un alimento de origen…", opts:["Animal","Vegetal","Cereal","Mineral"], ans:0 },
+  { tema:"Plato del Buen Comer", tipo:"match",
+    q:"Relaciona cada alimento con su grupo del Plato del Buen Comer.",
+    slots:[
+      {n:1, label:"Zanahoria", ans:"Frutas y verduras"},
+      {n:2, label:"Tortilla", ans:"Cereales"},
+      {n:3, label:"Frijoles", ans:"Leguminosas"},
+      {n:4, label:"Huevo", ans:"Origen animal"},
+    ]},
+
+  // 8. MEDIDAS DEL TIEMPO
+  { tema:"Medidas del tiempo", tipo:"mc", q:"Un minuto tiene ___ segundos.", opts:["60","100","10","30"], ans:0 },
+  { tema:"Medidas del tiempo", tipo:"mc", q:"Una semana tiene ___ días.", opts:["7","5","30","12"], ans:0 },
+  { tema:"Medidas del tiempo", tipo:"mc", q:"Un año tiene ___ meses.", opts:["12","10","24","7"], ans:0 },
+  { tema:"Medidas del tiempo", tipo:"mc",
+    q:"¿Cuál de las opciones contiene SOLAMENTE meses del año?",
+    opts:["Enero, febrero y marzo","Lunes, martes y miércoles","Primavera, verano y otoño","Segundos, minutos y horas"], ans:0 },
+  { tema:"Medidas del tiempo", tipo:"mc",
+    q:"¿Qué día de la semana va después del miércoles?", opts:["Jueves","Martes","Viernes","Domingo"], ans:0 },
+];
+
+const GUIA3 = [
+  ["🔢 Unidades, decenas y centenas",
+    `<ul>
+       <li>1 decena = <span class="key">10 unidades</span>.</li>
+       <li>1 centena = <span class="key">10 decenas</span> = <span class="key">100 unidades</span>.</li>
+       <li>En <b>365</b>: 3 = <span class="key">300</span> (centenas), 6 = <span class="key">60</span> (decenas), 5 = <span class="key">5</span> (unidades).</li>
+       <li>2 centenas + 4 decenas + 5 unidades = <span class="key">245</span>.</li>
+     </ul>`],
+  ["🧩 Composición y descomposición",
+    `<p>Descomponer es separar en centenas, decenas y unidades. Componer es juntarlas.</p>
+     <ul>
+       <li>254 = <span class="key">200 + 50 + 4</span></li>
+       <li>381 = <span class="key">300 + 80 + 1</span></li>
+       <li>627 = <span class="key">600 + 20 + 7</span></li>
+       <li>300 + 40 + 7 = <span class="key">347</span></li>
+     </ul>`],
+  ["↔️ Antecesor y sucesor",
+    `<ul>
+       <li><span class="key">Antecesor</span>: el número que está ANTES (uno menos).</li>
+       <li><span class="key">Sucesor</span>: el número que está DESPUÉS (uno más).</li>
+       <li>De 200 → antecesor <b>199</b>, sucesor <b>201</b>.</li>
+       <li>De 349 → antecesor <b>348</b>, sucesor <b>350</b>.</li>
+     </ul>`],
+  ["➕ Sumas, restas y problemas",
+    `<ul>
+       <li>32 + 15 = <span class="key">47</span> · 46 + 21 = <span class="key">67</span></li>
+       <li>58 − 13 = <span class="key">45</span> · 67 − 24 = <span class="key">43</span></li>
+       <li>Mariana: 35 + 12 = <span class="key">47</span> colores.</li>
+       <li>Luis: 48 − 15 = <span class="key">33</span> estampas.</li>
+     </ul>`],
+  ["🔺 Figuras geométricas",
+    `<ul>
+       <li><span class="key">Triángulo</span>: 3 lados.</li>
+       <li><span class="key">Cuadrado</span>: 4 lados iguales y 4 esquinas.</li>
+       <li><span class="key">Rectángulo</span>: 4 lados (2 largos y 2 cortos).</li>
+       <li><span class="key">Círculo</span>: sin lados rectos ni esquinas.</li>
+     </ul>`],
+  ["👀 Los cinco sentidos",
+    `<ul>
+       <li><span class="key">Vista</span> (ojos): observar colores y formas.</li>
+       <li><span class="key">Oído</span> (orejas): escuchar sonidos.</li>
+       <li><span class="key">Olfato</span> (nariz): percibir olores.</li>
+       <li><span class="key">Gusto</span> (lengua): reconocer sabores.</li>
+       <li><span class="key">Tacto</span> (piel): sentir texturas y temperaturas.</li>
+     </ul>`],
+  ["🍎 El Plato del Buen Comer",
+    `<p>Tiene tres grupos de alimentos para comer variado:</p>
+     <ul>
+       <li><span class="key">Frutas y verduras</span>: zanahoria, manzana…</li>
+       <li><span class="key">Cereales</span>: tortilla, arroz…</li>
+       <li><span class="key">Leguminosas y alimentos de origen animal</span>: frijoles, huevo…</li>
+     </ul>`],
+  ["⏰ Medidas del tiempo",
+    `<ul>
+       <li>1 minuto = <span class="key">60 segundos</span> · 1 hora = <span class="key">60 minutos</span>.</li>
+       <li>1 semana = <span class="key">7 días</span> · 1 año = <span class="key">12 meses</span>.</li>
+       <li>Días: lunes, martes, miércoles, jueves, viernes, sábado y domingo.</li>
+     </ul>`],
+];
+
+/* ---------- Selección de grado por URL: saberes.html?g=3 / 4 / 5 ---------- */
 const GRADOS = {
+  "3": { label:"3º", banco:BANCO3, guia:GUIA3 },
   "4": { label:"4º", banco:BANCO4, guia:GUIA4 },
   "5": { label:"5º", banco:BANCO5, guia:GUIA5 },
 };
-let gradoActual = (new URLSearchParams(location.search).get("g")==="4") ? "4" : "5";
+let gradoActual = (()=>{ const g=new URLSearchParams(location.search).get("g"); return GRADOS[g]?g:"5"; })();
 let BANCO = GRADOS[gradoActual].banco;
 let GUIA  = GRADOS[gradoActual].guia;
 (function initGrado(){
