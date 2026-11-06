@@ -738,7 +738,8 @@ function render(){
   if(q.hint) h += `<div class="hint">${q.hint}</div>`;
 
   if(q.tipo==="mc"){
-    h += q.opts.map((o,i)=>`<button class="opt" data-i="${i}" onclick="pickOpt(${i})">${o}</button>`).join("");
+    // ponytail: baraja el orden visible; data-i conserva el índice real, así check() no cambia
+    h += shuffle(q.opts.map((_,i)=>i)).map(i=>`<button class="opt" data-i="${i}" onclick="pickOpt(${i})">${q.opts[i]}</button>`).join("");
   } else {
     if(q.svg) h += q.svg;
     const names = shuffle(q.slots.map(s=>s.ans));
