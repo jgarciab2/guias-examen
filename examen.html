@@ -1,0 +1,605 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Examen · 5º · 1er Trimestre</title>
+<style>
+  :root{
+    --bg:#eafaf4; --card:#ffffff; --ink:#15324a; --muted:#5b6b8c;
+    --primary:#ff5fa2; --primary-d:#e0458a; --accent:#1aa6b7; --accent-d:#128695;
+    --good:#2ecc71; --good-d:#25a35a; --bad:#ff5a5a; --warn:#ffb020;
+    --line:#dcebe4; --shadow:0 8px 24px rgba(21,50,74,.12);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0f1b22; --card:#16242d; --ink:#eaf6f2; --muted:#9fb6c6;
+      --line:#26404b; --shadow:0 8px 24px rgba(0,0,0,.4);
+    }
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    line-height:1.5;-webkit-text-size-adjust:100%}
+  .wrap{max-width:760px;margin:0 auto;padding:16px}
+  header.top{text-align:center;padding:14px 0 4px}
+  header.top h1{margin:.15em 0;font-size:clamp(1.5rem,5.5vw,2.3rem);color:var(--primary);line-height:1.1}
+  header.top .sub{color:var(--accent);font-weight:800;font-size:1.05rem}
+  header.top .mini{color:var(--muted);font-size:.9rem}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:20px;
+    box-shadow:var(--shadow);padding:20px;margin:16px 0}
+  button{font:inherit;cursor:pointer;border:none;border-radius:14px;padding:12px 18px;
+    font-weight:700;transition:transform .05s ease, filter .15s ease}
+  button:active{transform:scale(.97)}
+  .btn-primary{background:var(--primary);color:#fff}
+  .btn-primary:hover{filter:brightness(1.05)}
+  .btn-accent{background:var(--accent);color:#fff}
+  .btn-ghost{background:transparent;color:var(--muted);border:2px solid var(--line)}
+  .tema{display:inline-block;background:var(--accent);color:#fff;font-size:.78rem;
+    font-weight:800;padding:4px 12px;border-radius:999px;margin-bottom:10px;letter-spacing:.3px}
+  .bar{height:12px;background:var(--line);border-radius:999px;overflow:hidden;margin:6px 0 2px}
+  .bar > i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--primary));
+    width:0;transition:width .3s ease}
+  .q{font-size:1.2rem;font-weight:700;margin:4px 0 16px}
+  .opt{display:block;width:100%;text-align:left;background:var(--card);border:2px solid var(--line);
+    border-radius:14px;padding:14px 16px;margin:8px 0;font-weight:600;color:var(--ink)}
+  .opt:hover{border-color:var(--accent)}
+  .opt.sel{border-color:var(--accent);background:rgba(26,166,183,.12)}
+  .opt.ok{border-color:var(--good);background:rgba(46,204,113,.15)}
+  .opt.no{border-color:var(--bad);background:rgba(255,90,90,.15)}
+  .opt[disabled]{cursor:default;opacity:1}
+  .fb{margin-top:14px;padding:14px 16px;border-radius:14px;font-weight:700;display:none}
+  .fb.show{display:block}
+  .fb.ok{background:rgba(46,204,113,.15);color:var(--good-d)}
+  .fb.no{background:rgba(255,90,90,.15);color:var(--bad)}
+  .modelo{margin-top:10px;padding:12px 14px;border-left:4px solid var(--accent);
+    background:rgba(26,166,183,.08);border-radius:0 12px 12px 0;display:none}
+  .modelo.show{display:block}
+  .modelo b{color:var(--accent-d)}
+  .nav{display:flex;justify-content:space-between;gap:10px;margin-top:18px}
+  .count{text-align:center;color:var(--muted);font-weight:700;font-size:.9rem}
+  .center{text-align:center}
+  .big{font-size:3rem;margin:6px 0}
+  .score{font-size:2.4rem;font-weight:800;color:var(--primary)}
+  .hidden{display:none}
+  footer{text-align:center;color:var(--muted);font-size:.8rem;padding:20px 0}
+
+  /* Chips y ranuras (relacionar) */
+  .pool{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 4px}
+  .chip{background:var(--card);border:2px solid var(--accent);color:var(--accent-d);
+    border-radius:999px;padding:8px 14px;font-weight:700;font-size:.95rem}
+  .chip.used{opacity:.35;pointer-events:none}
+  .chip.pick{background:var(--accent);color:#fff}
+  .slots{display:grid;gap:8px;margin-top:4px}
+  .slot{display:flex;align-items:center;gap:10px;border:2px dashed var(--line);
+    border-radius:14px;padding:10px 12px;min-height:52px;background:var(--card);cursor:pointer;text-align:left;width:100%}
+  .slot .num{flex:0 0 30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;
+    font-weight:800;display:flex;align-items:center;justify-content:center;font-size:.95rem}
+  .slot .filled{font-weight:700}
+  .slot .holder{color:var(--muted);font-weight:600}
+  .slot.has{border-style:solid;border-color:var(--accent)}
+  .slot.ok{border-style:solid;border-color:var(--good);background:rgba(46,204,113,.12)}
+  .slot.no{border-style:solid;border-color:var(--bad);background:rgba(255,90,90,.12)}
+  .hint{color:var(--muted);font-size:.9rem;margin:2px 0 10px}
+
+  /* Guía de estudio */
+  .guia-instr{background:rgba(26,166,183,.1);border:1px solid var(--accent);border-radius:14px;
+    padding:14px 16px;margin:0 0 14px;font-weight:600}
+  details{background:var(--card);border:1px solid var(--line);border-radius:16px;
+    box-shadow:var(--shadow);margin:10px 0;overflow:hidden}
+  details summary{cursor:pointer;padding:14px 16px;font-weight:800;font-size:1.05rem;color:var(--primary);list-style:none}
+  details summary::-webkit-details-marker{display:none}
+  details summary::before{content:"▸ ";color:var(--accent)}
+  details[open] summary::before{content:"▾ "}
+  details > div{padding:0 16px 14px;line-height:1.6}
+  details ul{margin:6px 0;padding-left:20px}
+  details li{margin:4px 0}
+  .key{color:var(--accent-d);font-weight:800}
+
+  /* Impresión: solo la guía. */
+  @page{ margin: 2cm 1.5cm 1.5cm 1.5cm; }
+  @media print{
+    html,body{background:#fff;color:#000;margin:0;padding:0}
+    .wrap{max-width:none;padding:0;margin:0}
+    header.top, #inicio, #quiz, #fin, footer, button{display:none !important}
+    #guia:not(.hidden){display:block !important}
+    #guiaTitulo{display:block !important;font-size:1.4rem;margin:0 0 12px;padding-top:4px}
+    details{border:1px solid #bbb !important;box-shadow:none !important;break-inside:avoid;page-break-inside:avoid;margin:0 0 10px !important}
+    details > div{display:block !important}
+    .guia-instr{display:none !important}
+    .key{color:#000;text-decoration:underline}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <h1 id="h1">Examen</h1>
+    <div class="sub">5º de primaria · 1er Trimestre · Noviembre</div>
+    <div class="mini">Examen interactivo + guía de estudio</div>
+  </header>
+
+  <!-- INICIO -->
+  <section id="inicio" class="card center">
+    <p class="big" id="emoji">📝</p>
+    <p style="font-weight:700;font-size:1.1rem">¡Pon a prueba lo que aprendiste!</p>
+    <p style="color:var(--muted)">Preguntas de opción múltiple, relacionar columnas y elegir la opción correcta.</p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:14px">
+      <button class="btn-primary" onclick="startQuiz()">Empezar examen</button>
+      <button class="btn-accent" onclick="showGuia()">📘 Guía de estudio</button>
+    </div>
+  </section>
+
+  <!-- QUIZ -->
+  <section id="quiz" class="hidden">
+    <div class="card">
+      <div class="bar"><i id="barFill"></i></div>
+      <div class="count" id="count"></div>
+      <div id="qbody"></div>
+      <div class="fb" id="fb"></div>
+      <div class="modelo" id="modelo"></div>
+      <div class="nav">
+        <button class="btn-ghost" id="btnCheck" onclick="check()">Revisar</button>
+        <button class="btn-primary" id="btnNext" onclick="next()">Siguiente ▶</button>
+      </div>
+    </div>
+    <div class="center"><button class="btn-ghost" onclick="showGuia()">📘 Ver guía de estudio</button></div>
+  </section>
+
+  <!-- FIN -->
+  <section id="fin" class="hidden">
+    <div class="card center">
+      <p class="big">🎉</p>
+      <p style="font-weight:700">Tu resultado</p>
+      <p class="score" id="scoreTxt"></p>
+      <p id="scoreMsg" style="color:var(--muted)"></p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:14px">
+        <button class="btn-primary" onclick="startQuiz()">Repetir</button>
+        <button class="btn-accent" onclick="showGuia()">📘 Guía de estudio</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- GUÍA -->
+  <section id="guia" class="hidden">
+    <h2 id="guiaTitulo" class="hidden">Guía de estudio</h2>
+    <div class="card center" style="padding-top:22px">
+      <div class="tema">GUÍA DE ESTUDIO</div>
+      <p style="font-weight:700;margin:4px 0">Repasa cada tema y luego haz el examen.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:8px">
+        <button class="btn-primary" onclick="startQuiz()">Ir al examen ▶</button>
+        <button class="btn-ghost" onclick="window.print()">🖨️ Imprimir guía</button>
+      </div>
+      <p class="hint">Al imprimir solo sale la guía, con buen margen arriba.</p>
+    </div>
+    <div class="guia-instr">Repasa todos los temas. 👇</div>
+    <div id="guiaBody"></div>
+    <div class="center"><button class="btn-ghost" onclick="backHome()">⟵ Inicio</button></div>
+  </section>
+
+  <footer><a href="index.html" style="color:var(--accent);font-weight:700;text-decoration:none">🏠 Menú de materias</a><br>Hecho para estudiar 💚</footer>
+</div>
+
+<script>
+"use strict";
+
+/* ====================== ÉTICA, NATURALEZA Y SOCIEDADES (5º) ====================== */
+const BANCO_ETICA = [
+  { tema:"Biodiversidad", tipo:"mc",
+    q:"¿Qué es la biodiversidad?",
+    opts:["La variedad de seres vivos (plantas, animales y otros) que hay en un lugar","Solo los animales de un zoológico","El número de personas de un país","La cantidad de agua de un río"], ans:0 },
+  { tema:"Megadiverso", tipo:"mc",
+    q:"A un país rico en variedad y cantidad de ecosistemas y seres vivos se le llama país…",
+    opts:["Megadiverso","Desértico","Continental","Fronterizo"], ans:0 },
+  { tema:"México megadiverso", tipo:"mc",
+    q:"Por su enorme biodiversidad, México está…",
+    opts:["Entre los primeros 5 países megadiversos del mundo","Entre los últimos lugares del mundo","Fuera de la lista de países con naturaleza","Solo entre los países fríos"], ans:0 },
+  { tema:"Grupo de países", tipo:"mc",
+    q:"México pertenece al grupo de países…",
+    opts:["Megadiversos","Polares","Sin costas","Desérticos"], ans:0 },
+  { tema:"Elige la correcta · Hemisferios", tipo:"mc",
+    q:"Elige la opción correcta sobre los hemisferios:",
+    opts:["México se encuentra en el hemisferio norte (arriba del ecuador)","México se encuentra en el hemisferio sur","El hemisferio norte está debajo del ecuador","Los hemisferios dividen la Tierra de este a oeste únicamente"], ans:0 },
+  { tema:"Factores del clima", tipo:"match",
+    q:"Relaciona cada factor con lo que significa.",
+    slots:[
+      {n:1, label:"Altitud", ans:"Altura de un lugar sobre el nivel del mar"},
+      {n:2, label:"Latitud", ans:"Distancia de un lugar al ecuador"},
+      {n:3, label:"Continentalidad", ans:"Qué tan lejos del mar está un lugar"},
+    ]},
+  { tema:"Climas de México", tipo:"mc",
+    q:"¿Cuáles son los principales tipos de clima en México?",
+    opts:["Cálido, seco, templado y frío","Solo frío y nevado","Solo cálido","Lluvioso y espacial"], ans:0 },
+  { tema:"Tipos de clima", tipo:"match",
+    q:"Relaciona cada clima con su característica.",
+    slots:[
+      {n:1, label:"Cálido", ans:"Hace mucho calor casi todo el año"},
+      {n:2, label:"Seco", ans:"Llueve muy poco (zonas desérticas)"},
+      {n:3, label:"Templado", ans:"Ni mucho calor ni mucho frío"},
+      {n:4, label:"Frío", ans:"Temperaturas bajas, en montañas altas"},
+    ]},
+  { tema:"Peligro de extinción", tipo:"mc",
+    q:"Que una especie esté en peligro de extinción significa que…",
+    opts:["Está en riesgo de desaparecer para siempre","Hay demasiados de esos animales","Es una especie nueva","Vive solo en zoológicos por gusto"], ans:0 },
+  { tema:"Clasificación de riesgo", tipo:"match",
+    q:"Relaciona cada categoría de riesgo con lo que quiere decir.",
+    slots:[
+      {n:1, label:"En peligro de extinción", ans:"Su área o población se redujo mucho y puede desaparecer"},
+      {n:2, label:"Amenazada", ans:"Podría llegar a estar en peligro si sigue así"},
+      {n:3, label:"Protección especial", ans:"Se cuida para que no llegue a estar en riesgo"},
+      {n:4, label:"Probablemente extinta", ans:"Ya no se encuentra en estado silvestre en el país"},
+    ]},
+  { tema:"Pérdida de biodiversidad", tipo:"mc",
+    q:"¿Cuál es una causa de la pérdida de biodiversidad?",
+    opts:["La deforestación, la contaminación y la caza excesiva","Plantar árboles y cuidar el agua","Crear áreas naturales protegidas","Separar la basura"], ans:0 },
+  { tema:"Elige la correcta · Biodiversidad", tipo:"mc",
+    q:"Elige la opción correcta sobre las afectaciones a la biodiversidad:",
+    opts:["Contaminar, talar bosques y cazar sin control dañan la biodiversidad","Reciclar daña la biodiversidad","Cuidar el agua reduce la biodiversidad","La biodiversidad no se puede perder nunca"], ans:0 },
+  { tema:"Sustentabilidad", tipo:"mc",
+    q:"La sustentabilidad consiste en…",
+    opts:["Satisfacer nuestras necesidades sin dañar los recursos de las futuras generaciones","Gastar todos los recursos lo más rápido posible","Usar solo recursos de otros países","No usar nunca ningún recurso"], ans:0 },
+  { tema:"Modelo de desarrollo", tipo:"mc",
+    q:"El modelo de desarrollo que cuida la naturaleza y piensa en el futuro se llama desarrollo…",
+    opts:["Sustentable","Destructivo","Ilimitado","Desordenado"], ans:0 },
+  { tema:"Sistema económico", tipo:"mc",
+    q:"El sistema económico que predomina actualmente en el mundo es el…",
+    opts:["Capitalismo","Trueque únicamente","Feudalismo","Esclavismo"], ans:0 },
+  { tema:"Valores ambientales", tipo:"mc",
+    q:"¿Cuál es un valor ambiental?",
+    opts:["El respeto y el cuidado responsable de la naturaleza","Tirar basura en la calle","Desperdiciar el agua","Talar árboles por diversión"], ans:0 },
+  { tema:"Elige la correcta · Medio ambiente sano", tipo:"mc",
+    q:"Elige la opción correcta sobre el derecho a un medio ambiente sano:",
+    opts:["Todas las personas tienen derecho a vivir en un medio ambiente sano","Solo los adultos tienen ese derecho","Es un premio que se gana trabajando","Nadie tiene ese derecho"], ans:0 },
+  { tema:"Tipos de comercio", tipo:"match",
+    q:"Relaciona cada tipo de comercio con su ejemplo.",
+    slots:[
+      {n:1, label:"Comercio local", ans:"Comprar en la tienda de tu colonia"},
+      {n:2, label:"Comercio nacional", ans:"Vender productos dentro del mismo país"},
+      {n:3, label:"Comercio internacional", ans:"Vender o comprar entre distintos países"},
+    ]},
+  { tema:"Desastre", tipo:"mc",
+    q:"Un desastre es…",
+    opts:["Una alteración grave que causa muchos daños a las personas y su entorno","Una fiesta en la comunidad","Un día soleado normal","Un juego de la escuela"], ans:0 },
+  { tema:"Antrópico", tipo:"mc",
+    q:"Cuando algo es antrópico quiere decir que…",
+    opts:["Es causado por la acción del ser humano","Lo causa únicamente la naturaleza","No tiene ninguna causa","Ocurre solo en otros planetas"], ans:0 },
+  { tema:"Elige la correcta · Suelo", tipo:"mc",
+    q:"Elige la opción correcta sobre el suelo:",
+    opts:["El suelo es la capa de tierra donde crecen las plantas y hay distintos tipos","El suelo es solo el agua de los ríos","Todos los suelos del mundo son iguales","El suelo no sirve para la vida"], ans:0 },
+];
+
+const GUIA_ETICA = [
+  ["🌎 Biodiversidad y México megadiverso",
+    `<ul>
+       <li><span class="key">Biodiversidad</span>: la variedad de seres vivos (plantas, animales, hongos…) de un lugar.</li>
+       <li><span class="key">País megadiverso</span>: muy rico en variedad y cantidad de ecosistemas y especies.</li>
+       <li><span class="key">México</span> está <b>entre los primeros 5 países megadiversos</b> del mundo; pertenece al grupo de <span class="key">países megadiversos</span>.</li>
+     </ul>`],
+  ["🧭 Hemisferios, climas y sus factores",
+    `<ul>
+       <li><span class="key">Hemisferio norte</span>: mitad de la Tierra arriba del ecuador. <b>México está en el hemisferio norte.</b> El <span class="key">hemisferio sur</span> está debajo del ecuador.</li>
+       <li>Climas de México: <span class="key">cálido, seco, templado y frío</span>.</li>
+       <li><span class="key">Altitud</span>: altura sobre el nivel del mar · <span class="key">Latitud</span>: distancia al ecuador · <span class="key">Continentalidad</span>: qué tan lejos del mar está un lugar. Los tres influyen en el <b>clima</b> y en el <span class="key">tipo de suelo</span>.</li>
+     </ul>`],
+  ["🐆 Especies en peligro de extinción",
+    `<ul>
+       <li><span class="key">Peligro de extinción</span>: una especie está en riesgo de desaparecer para siempre.</li>
+       <li>Categorías de riesgo: <span class="key">en peligro de extinción</span>, <span class="key">amenazada</span>, <span class="key">sujeta a protección especial</span> y <span class="key">probablemente extinta</span> en estado silvestre.</li>
+       <li><span class="key">Pérdida de biodiversidad</span>: la causan la deforestación, la contaminación, la caza excesiva y el cambio climático.</li>
+     </ul>`],
+  ["♻️ Sustentabilidad y desarrollo",
+    `<ul>
+       <li><span class="key">Sustentabilidad</span>: satisfacer nuestras necesidades sin dañar los recursos de las futuras generaciones.</li>
+       <li><span class="key">Modelo de desarrollo</span> que cuida la naturaleza: el <b>desarrollo sustentable</b>.</li>
+       <li><span class="key">Sistema económico actual</span>: el <b>capitalismo</b>.</li>
+     </ul>`],
+  ["🤝 Valores, derechos, comercio y desastres",
+    `<ul>
+       <li><span class="key">Valores ambientales</span>: respeto, responsabilidad y cuidado de la naturaleza.</li>
+       <li><span class="key">Derecho a un medio ambiente sano</span>: todas las personas lo tienen.</li>
+       <li><span class="key">Tipos de comercio</span>: local, nacional e internacional.</li>
+       <li><span class="key">Desastre</span>: alteración grave que causa muchos daños. <span class="key">Antrópico</span>: causado por el ser humano.</li>
+     </ul>`],
+];
+
+/* ====================== DE LO HUMANO Y LO COMUNITARIO (5º) ====================== */
+const BANCO_HUMANO = [
+  { tema:"Preferencia", tipo:"mc",
+    q:"Una preferencia es…",
+    opts:["Lo que a cada persona le gusta más o elige entre varias opciones","Una obligación de la escuela","Algo que a todos les gusta igual","Una regla del salón"], ans:0 },
+  { tema:"Preferencias y habilidades", tipo:"match",
+    q:"Relaciona cada idea con su significado.",
+    slots:[
+      {n:1, label:"Preferencia", ans:"Lo que me gusta más"},
+      {n:2, label:"Habilidad", ans:"Algo que sé hacer bien"},
+      {n:3, label:"Objetivo", ans:"La meta que quiero alcanzar"},
+    ]},
+  { tema:"Objetivo", tipo:"mc",
+    q:"Un objetivo es…",
+    opts:["Una meta que una persona quiere alcanzar","Un juguete favorito","Un castigo","Una materia de la escuela"], ans:0 },
+  { tema:"Determinación", tipo:"mc",
+    q:"La determinación es…",
+    opts:["La firmeza y el esfuerzo para lograr lo que uno se propone","Dejar las cosas a la mitad","Hacer todo muy rápido sin pensar","Copiar a los demás"], ans:0 },
+  { tema:"Elige la correcta · Interacción", tipo:"mc",
+    q:"Elige la opción correcta sobre la interacción:",
+    opts:["La interacción es la relación entre personas; hay muchas formas de interactuar (hablar, jugar, ayudar)","Interactuar es estar siempre solo","Solo se interactúa por teléfono","Interactuar significa pelear"], ans:0 },
+  { tema:"Bienestar", tipo:"mc",
+    q:"El bienestar es…",
+    opts:["Sentirse bien física y emocionalmente","Tener muchas cosas caras","Estar siempre enojado","No tener amigos"], ans:0 },
+  { tema:"Bienestar colectivo", tipo:"mc",
+    q:"El bienestar colectivo se refiere a…",
+    opts:["Que toda la comunidad esté bien, no solo una persona","Que solo yo esté bien","Ganar a los demás","Que nadie esté bien"], ans:0 },
+  { tema:"Bienestar", tipo:"match",
+    q:"Relaciona cada tipo de bienestar con su ejemplo.",
+    slots:[
+      {n:1, label:"Bienestar individual", ans:"Descansar y sentirme tranquilo yo"},
+      {n:2, label:"Bienestar colectivo", ans:"Que toda mi comunidad viva bien"},
+    ]},
+  { tema:"Conflictos comunitarios", tipo:"mc",
+    q:"Un conflicto comunitario es…",
+    opts:["Un desacuerdo o problema entre personas de una comunidad","Una fiesta del pueblo","Un deporte en equipo","Una tarea de matemáticas"], ans:0 },
+  { tema:"Elige la correcta · Medios de comunicación", tipo:"mc",
+    q:"Elige la opción correcta sobre los medios de comunicación en los conflictos comunitarios:",
+    opts:["Pueden ayudar a informar y a buscar acuerdos para resolver el conflicto","Siempre empeoran todo sin excepción","No sirven para nada","Solo los usan los maestros"], ans:0 },
+  { tema:"Actividad física", tipo:"mc",
+    q:"La actividad física es importante porque…",
+    opts:["Mantiene sano y fuerte nuestro cuerpo","Nos hace daño","Solo sirve para cansarse","No tiene ningún beneficio"], ans:0 },
+  { tema:"Vida saludable", tipo:"mc",
+    q:"Una vida saludable es la que incluye…",
+    opts:["Buena alimentación, ejercicio, descanso e higiene","Comer solo dulces","No dormir nunca","Estar siempre sentado"], ans:0 },
+  { tema:"Hábitos saludables", tipo:"match",
+    q:"Relaciona cada hábito saludable con su ejemplo.",
+    slots:[
+      {n:1, label:"Buena alimentación", ans:"Comer frutas y verduras"},
+      {n:2, label:"Ejercicio", ans:"Jugar, correr o hacer deporte"},
+      {n:3, label:"Descanso", ans:"Dormir las horas necesarias"},
+      {n:4, label:"Higiene", ans:"Lavarse las manos y bañarse"},
+    ]},
+  { tema:"Elige la correcta · Mi cuerpo", tipo:"mc",
+    q:"Elige la opción correcta sobre lo que es bueno para mi cuerpo:",
+    opts:["Comer sano, tomar agua, hacer ejercicio y dormir bien","Comer solo golosinas","No lavarse nunca","Pasar todo el día sin moverse"], ans:0 },
+  { tema:"Sana convivencia", tipo:"mc",
+    q:"La sana convivencia es…",
+    opts:["Vivir y relacionarse con los demás en paz y con respeto","Pelear con todos","Hacer lo que yo quiera sin importar los demás","No hablar con nadie"], ans:0 },
+  { tema:"Sana convivencia", tipo:"mc",
+    q:"¿En qué se basa principalmente la sana convivencia?",
+    opts:["En el respeto, el diálogo y la tolerancia","En los gritos","En la competencia por ganar","En ignorar a los demás"], ans:0 },
+  { tema:"Acciones de convivencia", tipo:"match",
+    q:"Relaciona cada acción con lo que provoca en la convivencia.",
+    slots:[
+      {n:1, label:"Escuchar y respetar", ans:"Fomenta la sana convivencia"},
+      {n:2, label:"Compartir y ayudar", ans:"Fomenta la sana convivencia"},
+      {n:3, label:"Insultar o burlarse", ans:"Daña la convivencia"},
+    ]},
+  { tema:"Elige la correcta · Convivencia", tipo:"mc",
+    q:"Elige la opción correcta sobre la sana convivencia:",
+    opts:["Convivir con respeto y diálogo nos ayuda a sentirnos bien y resolver conflictos","La sana convivencia solo importa en casa","Convivir bien no sirve para nada","Para convivir hay que ganarle a los demás"], ans:0 },
+];
+
+const GUIA_HUMANO = [
+  ["⭐ Preferencias, habilidades y objetivos",
+    `<ul>
+       <li><span class="key">Preferencia</span>: lo que a cada persona le gusta más o elige.</li>
+       <li><span class="key">Habilidad</span>: algo que sé hacer bien.</li>
+       <li><span class="key">Objetivo</span>: la meta que quiero alcanzar.</li>
+       <li><span class="key">Determinación</span>: la firmeza y el esfuerzo para lograr lo que me propongo.</li>
+     </ul>`],
+  ["🤝 Interacción y formas de interactuar",
+    `<ul>
+       <li><span class="key">Interacción</span>: la relación entre dos o más personas.</li>
+       <li><span class="key">Formas de interactuar</span>: hablar, jugar, ayudar, escuchar, trabajar en equipo.</li>
+     </ul>`],
+  ["😊 Bienestar individual y colectivo",
+    `<ul>
+       <li><span class="key">Bienestar</span>: sentirse bien física y emocionalmente.</li>
+       <li><span class="key">Bienestar colectivo</span>: que toda la comunidad esté bien, no solo una persona.</li>
+     </ul>`],
+  ["🗣️ Conflictos comunitarios",
+    `<ul>
+       <li><span class="key">Conflicto comunitario</span>: un desacuerdo o problema entre personas de una comunidad.</li>
+       <li><span class="key">Medios de comunicación</span>: pueden ayudar a informar y a buscar acuerdos para resolverlos.</li>
+     </ul>`],
+  ["💪 Vida saludable y actividad física",
+    `<ul>
+       <li><span class="key">Actividad física</span>: mantiene sano y fuerte el cuerpo.</li>
+       <li><span class="key">Vida saludable</span>: buena alimentación, ejercicio, descanso e higiene.</li>
+       <li><b>Bueno para mi cuerpo</b>: comer sano, tomar agua, moverse y dormir bien.</li>
+     </ul>`],
+  ["🌈 Sana convivencia",
+    `<ul>
+       <li><span class="key">Sana convivencia</span>: vivir y relacionarse con los demás en paz y con respeto.</li>
+       <li>Se basa en el <span class="key">respeto</span>, el <span class="key">diálogo</span> y la <span class="key">tolerancia</span>.</li>
+       <li>La fomentan acciones como <b>escuchar, compartir y ayudar</b>; la dañan los insultos y las burlas.</li>
+     </ul>`],
+];
+
+/* ---------- Selección de materia por URL: examen.html?m=etica / humano ---------- */
+const MATERIAS = {
+  "etica":  { titulo:"Ética, Naturaleza y Sociedades", emoji:"🌎", banco:BANCO_ETICA,  guia:GUIA_ETICA },
+  "humano": { titulo:"De lo Humano y lo Comunitario",  emoji:"🤝", banco:BANCO_HUMANO, guia:GUIA_HUMANO },
+};
+let matActual = (()=>{ const m=new URLSearchParams(location.search).get("m"); return MATERIAS[m]?m:"etica"; })();
+let BANCO = MATERIAS[matActual].banco;
+let GUIA  = MATERIAS[matActual].guia;
+(function initMateria(){
+  const M = MATERIAS[matActual];
+  document.getElementById("h1").textContent = M.titulo;
+  document.getElementById("emoji").textContent = M.emoji;
+  document.title = M.titulo + " · 5º · 1er Trimestre";
+  const gt = document.getElementById("guiaTitulo");
+  if(gt) gt.textContent = "Guía de estudio · " + M.titulo + " · 5º · 1er Trimestre";
+})();
+
+/* ---------- Motor ---------- */
+const $ = s => document.querySelector(s);
+let orden = [], idx = 0, aciertos = 0, answered = false, pick = null, assign = {};
+
+function shuffle(a){ a=a.slice(); for(let i=a.length-1;i>0;i--){const j=(Math.random()*(i+1))|0;[a[i],a[j]]=[a[j],a[i]];} return a; }
+
+function startQuiz(){
+  orden = shuffle(BANCO.map((_,i)=>i));
+  idx=0; aciertos=0;
+  $("#inicio").classList.add("hidden");
+  $("#guia").classList.add("hidden");
+  $("#fin").classList.add("hidden");
+  $("#quiz").classList.remove("hidden");
+  render();
+  window.scrollTo(0,0);
+}
+
+function render(){
+  answered=false; pick=null; assign={};
+  const q = BANCO[orden[idx]];
+  $("#count").textContent = `Pregunta ${idx+1} de ${orden.length}`;
+  $("#barFill").style.width = (idx/orden.length*100)+"%";
+  $("#fb").className="fb"; $("#fb").textContent="";
+  $("#modelo").className="modelo"; $("#modelo").innerHTML="";
+  $("#btnCheck").disabled=false; $("#btnCheck").style.display="";
+  $("#btnNext").style.display="none";
+
+  let h = `<div class="tema">${q.tema}</div><div class="q">${q.q}</div>`;
+  if(q.hint) h += `<div class="hint">${q.hint}</div>`;
+
+  if(q.tipo==="mc"){
+    // baraja el orden visible; data-i conserva el índice real, así check() no cambia
+    h += shuffle(q.opts.map((_,i)=>i)).map(i=>`<button class="opt" data-i="${i}" onclick="pickOpt(${i})">${q.opts[i]}</button>`).join("");
+  } else {
+    if(q.svg) h += q.svg;
+    const names = shuffle(q.slots.map(s=>s.ans));
+    h += `<div class="pool" id="pool">`+ names.map(n=>`<button class="chip" data-name="${n}" onclick="pickChip(this)">${n}</button>`).join("") +`</div>`;
+    h += `<div class="slots" id="slots">`+ q.slots.map(s=>
+      `<button class="slot" data-n="${s.n}" onclick="dropChip(${s.n})">
+         <span class="num">${s.n}</span>
+         ${s.label?`<span class="filled">${s.label}</span> →`:``}
+         <span class="holder" data-holder="${s.n}">toca para colocar…</span>
+       </button>`).join("") +`</div>`;
+  }
+  $("#qbody").innerHTML = h;
+}
+
+/* opción múltiple */
+function pickOpt(i){
+  if(answered) return;
+  document.querySelectorAll(".opt").forEach(b=>b.classList.remove("sel"));
+  document.querySelector(`.opt[data-i="${i}"]`).classList.add("sel");
+  pick = i;
+}
+
+/* chips */
+function pickChip(el){
+  if(answered) return;
+  if(el.classList.contains("used")) return;
+  document.querySelectorAll(".chip").forEach(c=>c.classList.remove("pick"));
+  el.classList.add("pick");
+  pick = el.getAttribute("data-name");
+}
+function dropChip(n){
+  if(answered) return;
+  const holder = document.querySelector(`[data-holder="${n}"]`);
+  const slot = document.querySelector(`.slot[data-n="${n}"]`);
+  if(assign[n]){ freeChip(assign[n]); }
+  if(pick==null){ // vaciar ranura
+    delete assign[n]; holder.textContent="toca para colocar…"; slot.classList.remove("has"); return;
+  }
+  for(const k in assign){ if(assign[k]===pick){ delete assign[k];
+    const h2=document.querySelector(`[data-holder="${k}"]`); h2.textContent="toca para colocar…";
+    document.querySelector(`.slot[data-n="${k}"]`).classList.remove("has"); } }
+  assign[n]=pick;
+  holder.textContent=pick; holder.classList.remove("holder"); holder.classList.add("filled");
+  holder.style.color="var(--ink)";
+  slot.classList.add("has");
+  markChip(pick,true);
+  document.querySelectorAll(".chip").forEach(c=>c.classList.remove("pick"));
+  pick=null;
+}
+function markChip(name,used){
+  const c=document.querySelector(`.chip[data-name="${CSS.escape(name)}"]`);
+  if(c){ c.classList.toggle("used",used); }
+}
+function freeChip(name){ markChip(name,false); }
+
+/* revisar */
+function check(){
+  if(answered) return;
+  const q = BANCO[orden[idx]];
+  let ok=false;
+  if(q.tipo==="mc"){
+    if(pick==null){ flash("Elige una respuesta primero 🙂","no"); return; }
+    document.querySelectorAll(".opt").forEach(b=>{
+      const i=+b.getAttribute("data-i");
+      b.disabled=true;
+      if(i===q.ans) b.classList.add("ok");
+      if(i===pick && pick!==q.ans) b.classList.add("no");
+    });
+    ok = (pick===q.ans);
+    $("#modelo").innerHTML = `<b>Respuesta correcta:</b> ${q.opts[q.ans]}`;
+    $("#modelo").classList.add("show");
+  } else {
+    if(Object.keys(assign).length < q.slots.length){ flash("Coloca todos los nombres 🙂","no"); return; }
+    ok=true;
+    q.slots.forEach(s=>{
+      const slot=document.querySelector(`.slot[data-n="${s.n}"]`);
+      const good = assign[s.n]===s.ans;
+      slot.classList.add(good?"ok":"no");
+      if(!good) ok=false;
+    });
+    document.querySelectorAll(".chip").forEach(c=>c.style.pointerEvents="none");
+    if(!ok){
+      $("#modelo").innerHTML = `<b>Así se relaciona:</b><br>` +
+        q.slots.map(s=>`${s.n}. ${s.label?s.label+" → ":""}<b>${s.ans}</b>`).join("<br>");
+      $("#modelo").classList.add("show");
+    }
+  }
+  answered=true;
+  if(ok){ aciertos++; flash("¡Correcto! 🎉","ok"); }
+  else { flash("Revisa la respuesta correcta 👇","no"); }
+  $("#btnCheck").style.display="none";
+  $("#btnNext").style.display="";
+  $("#btnNext").textContent = (idx+1<orden.length) ? "Siguiente ▶" : "Ver resultado 🏁";
+}
+function flash(msg,kind){ const fb=$("#fb"); fb.textContent=msg; fb.className="fb show "+kind; }
+
+function next(){
+  if(idx+1<orden.length){ idx++; render(); window.scrollTo(0,0); }
+  else finish();
+}
+function finish(){
+  $("#barFill").style.width="100%";
+  $("#quiz").classList.add("hidden");
+  $("#fin").classList.remove("hidden");
+  const tot=orden.length;
+  $("#scoreTxt").textContent = `${aciertos} / ${tot}`;
+  const pct=aciertos/tot;
+  $("#scoreMsg").textContent = pct===1 ? "¡Perfecto! Te la sabes toda 🌟"
+    : pct>=.7 ? "¡Muy bien! Repasa lo que falló."
+    : "Buen intento. Lee la guía y vuelve a intentar 💪";
+  window.scrollTo(0,0);
+}
+
+/* guía */
+function showGuia(){
+  if(!$("#guiaBody").dataset.ready){
+    $("#guiaBody").innerHTML = GUIA.map(([t,c])=>
+      `<details open><summary>${t}</summary><div>${c}</div></details>`).join("");
+    $("#guiaBody").dataset.ready="1";
+  }
+  ["inicio","quiz","fin"].forEach(id=>$("#"+id).classList.add("hidden"));
+  $("#guia").classList.remove("hidden");
+  window.scrollTo(0,0);
+}
+function backHome(){
+  $("#guia").classList.add("hidden");
+  $("#inicio").classList.remove("hidden");
+  window.scrollTo(0,0);
+}
+
+/* self-check: cada pregunta tiene respuesta válida */
+(function selfCheck(){
+  Object.values(MATERIAS).forEach(M=>M.banco.forEach((q,i)=>{
+    if(q.tipo==="mc"){ console.assert(q.opts[q.ans]!==undefined, "mc sin ans válida #"+i); }
+    else { q.slots.forEach(s=>console.assert(typeof s.ans==="string"&&s.ans.length, "slot sin ans #"+i)); }
+  }));
+})();
+</script>
+</body>
+</html>
