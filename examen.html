@@ -41,12 +41,17 @@
   .bar > i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--primary));
     width:0;transition:width .3s ease}
   .q{font-size:1.2rem;font-weight:700;margin:4px 0 16px}
-  .opt{display:block;width:100%;text-align:left;background:var(--card);border:2px solid var(--line);
-    border-radius:14px;padding:14px 16px;margin:8px 0;font-weight:600;color:var(--ink)}
+  .opt{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:var(--card);
+    border:2px solid var(--line);border-radius:14px;padding:14px 16px;margin:8px 0;font-weight:600;color:var(--ink)}
+  .opt::before{content:"";flex:0 0 22px;width:22px;height:22px;border-radius:50%;
+    border:2px solid var(--muted);background:var(--card);transition:box-shadow .1s ease,border-color .1s ease}
   .opt:hover{border-color:var(--accent)}
   .opt.sel{border-color:var(--accent);background:rgba(26,166,183,.12)}
+  .opt.sel::before{border-color:var(--accent);box-shadow:inset 0 0 0 5px var(--accent)}
   .opt.ok{border-color:var(--good);background:rgba(46,204,113,.15)}
+  .opt.ok::before{border-color:var(--good-d);box-shadow:inset 0 0 0 5px var(--good)}
   .opt.no{border-color:var(--bad);background:rgba(255,90,90,.15)}
+  .opt.no::before{border-color:var(--bad);box-shadow:inset 0 0 0 5px var(--bad)}
   .opt[disabled]{cursor:default;opacity:1}
   .fb{margin-top:14px;padding:14px 16px;border-radius:14px;font-weight:700;display:none}
   .fb.show{display:block}
@@ -574,11 +579,220 @@ const GUIA_ETICA2 = [
      </ul>`],
 ];
 
-/* ---------- Selección de materia por URL: examen.html?m=etica / humano / etica2 ---------- */
+/* =======================================================================
+   4º · Ética, Naturaleza y Sociedades  (apegado a la guía de estudio)
+   Guía compartida + 3 variantes de examen (A, B, C)
+   ======================================================================= */
+const GUIA_ETICA4 = [
+  ["🗺️ Mapas, planos y puntos cardinales",
+    `<ul>
+       <li><span class="key">Mapa o plano</span>: representación cartográfica plana de la Tierra o de una parte de ella, vista desde arriba. <b>Ejemplo:</b> el plano de tu colonia o salón.</li>
+       <li><span class="key">Rosa de los vientos</span>: elemento del mapa que nos ayuda a conocer la orientación y los puntos cardinales (Norte, Sur, Este, Oeste). <b>Ejemplo:</b> la estrella con N, S, E y O en la esquina del mapa.</li>
+       <li><span class="key">Puntos cardinales</span>: Norte, Sur, Este y Oeste. <b>Ejemplo:</b> el Sol sale por el Este y se oculta por el Oeste.</li>
+       <li><span class="key">Símbolos del mapa comunitario</span>: sirven para identificar y ubicar lugares. <b>Ejemplo:</b> una cruz = hospital, un libro = escuela.</li>
+       <li><span class="key">Territorio</span>: espacio geográfico delimitado con organización política y comunidad. <b>Ejemplo:</b> tu municipio o tu estado.</li>
+     </ul>`],
+  ["🌳 Naturaleza: ecosistemas y servicios ambientales",
+    `<ul>
+       <li><span class="key">Ecosistema</span>: conjunto de seres vivos, el medio físico donde habitan y las relaciones entre ellos. <b>Ejemplo:</b> un bosque con árboles, venados, insectos, agua y suelo.</li>
+       <li><span class="key">Servicio ambiental</span>: beneficio que nos da la naturaleza. <b>Ejemplo del bosque:</b> purifica el aire y el agua y nos da oxígeno.</li>
+     </ul>`],
+  ["⛑️ Riesgos, desastres y prevención",
+    `<ul>
+       <li><span class="key">Fenómeno natural</span>: puede convertirse en desastre si la comunidad no está preparada. <b>Ejemplo:</b> un sismo (terremoto).</li>
+       <li><span class="key">Prevención de riesgos</span>: acciones y planes que nos ayudan a actuar de manera segura ante un desastre. <b>Ejemplo:</b> hacer simulacros y conocer las rutas de evacuación.</li>
+       <li><span class="key">Mochila de emergencia</span>: objeto indispensable que debe contener linterna, agua, botiquín e identificaciones. <b>Ejemplo:</b> tenerla lista en casa por si hay un sismo.</li>
+     </ul>`],
+  ["🙋 Integridad y protección",
+    `<ul>
+       <li><span class="key">Derecho a la integridad física</span>: nadie debe lastimar ni maltratar nuestro cuerpo. <b>Ejemplo:</b> nadie puede pegarte ni hacerte daño.</li>
+       <li><span class="key">Integridad personal</span>: la garantía de vivir libres de maltrato físico, emocional y abuso. <b>Ejemplo:</b> sentirte seguro y respetado.</li>
+       <li><span class="key">Ante maltrato, acoso o violencia</span>: acude de inmediato a un adulto de confianza. <b>Ejemplo:</b> un maestro o un familiar.</li>
+     </ul>`],
+  ["⚖️ Derechos humanos y buena convivencia",
+    `<ul>
+       <li><span class="key">Decisiones respetando los derechos humanos</span>: debemos basarnos en la dignidad, la justicia y el respeto. <b>Ejemplo:</b> tratar a todas las personas por igual, sin burlarse de nadie.</li>
+     </ul>`],
+];
+
+/* ---- Variante A ---- */
+const BANCO_ETICA4_A = [
+  { tema:"Mapa o plano", tipo:"mc",
+    q:"Es una representación cartográfica plana de la Tierra o de una parte de ella, vista desde arriba:",
+    opts:["El mapa o plano","El globo terráqueo de bolsillo","Una fotografía de las nubes","Un dibujo de personas"], ans:0 },
+  { tema:"Rosa de los vientos", tipo:"mc",
+    q:"Elemento del mapa que nos ayuda a conocer la orientación y los puntos cardinales:",
+    opts:["La rosa de los vientos","La escala del mapa","El título del mapa","La leyenda de colores"], ans:0 },
+  { tema:"Símbolos del mapa", tipo:"mc",
+    q:"¿Para qué sirven los símbolos en un mapa comunitario?",
+    opts:["Para identificar y ubicar lugares como escuelas y hospitales","Para adornar el papel","Para pintar de colores","Para medir el tiempo"], ans:0 },
+  { tema:"Puntos cardinales", tipo:"match",
+    q:"Relaciona cada parte del mapa con lo que significa.",
+    slots:[
+      {n:1, label:"Mapa o plano", ans:"Representación plana vista desde arriba"},
+      {n:2, label:"Rosa de los vientos", ans:"Señala Norte, Sur, Este y Oeste"},
+      {n:3, label:"Símbolos", ans:"Identifican los lugares del mapa"},
+    ]},
+  { tema:"Ecosistema", tipo:"mc",
+    q:"Conjunto de seres vivos, el medio físico donde habitan y las relaciones entre ellos:",
+    opts:["El ecosistema","La ciudad","La escuela","El mercado"], ans:0 },
+  { tema:"Servicio ambiental", tipo:"mc",
+    q:"Es un ejemplo de servicio ambiental que nos brindan los bosques:",
+    opts:["Purificar el aire y el agua","Producir juguetes","Vender comida","Hacer ruido"], ans:0 },
+  { tema:"Fenómeno natural", tipo:"mc",
+    q:"Fenómeno natural que puede convertirse en desastre si la comunidad no está preparada:",
+    opts:["Un sismo (terremoto)","Una fiesta","Un partido de futbol","Un día soleado"], ans:0 },
+  { tema:"Mochila de emergencia", tipo:"mc",
+    q:"Objeto indispensable que debe contener linterna, agua, botiquín e identificaciones:",
+    opts:["La mochila de emergencia","La mochila de la escuela","Una bolsa de dulces","Una caja de juguetes"], ans:0 },
+  { tema:"Riesgos", tipo:"match",
+    q:"Relaciona cada idea con lo que le corresponde.",
+    slots:[
+      {n:1, label:"Ecosistema", ans:"Seres vivos, su medio y sus relaciones"},
+      {n:2, label:"Mochila de emergencia", ans:"Linterna, agua, botiquín e identificaciones"},
+      {n:3, label:"Prevención de riesgos", ans:"Acciones y planes para actuar con seguridad"},
+    ]},
+  { tema:"Integridad física", tipo:"mc",
+    q:"El derecho a la integridad física significa que nadie debe:",
+    opts:["Lastimar ni maltratar nuestro cuerpo","Hacernos reír","Jugar con nosotros","Saludarnos"], ans:0 },
+  { tema:"¿A quién acudir?", tipo:"mc",
+    q:"Ante maltrato, acoso o violencia, ¿a quién debes acudir de inmediato?",
+    opts:["A un adulto de confianza (maestros o familiares)","A nadie","A un desconocido","A una mascota"], ans:0 },
+  { tema:"Derechos humanos", tipo:"mc",
+    q:"Para tomar decisiones respetando los derechos humanos, debemos basarnos en:",
+    opts:["La dignidad, la justicia y el respeto","El miedo y los gritos","Las burlas","La prisa"], ans:0 },
+  { tema:"Elige la correcta · Rosa de los vientos", tipo:"mc",
+    q:"Elige la opción correcta:",
+    opts:["La rosa de los vientos señala los cuatro puntos cardinales","La rosa de los vientos indica la hora","La rosa de los vientos mide la lluvia","La rosa de los vientos es un animal"], ans:0 },
+  { tema:"Elige la correcta · Territorio", tipo:"mc",
+    q:"Elige la opción correcta sobre el territorio:",
+    opts:["Es el espacio geográfico delimitado con organización política y comunidad","Es solo el agua de un río","Es un juguete","No tiene límites ni personas"], ans:0 },
+];
+
+/* ---- Variante B ---- */
+const BANCO_ETICA4_B = [
+  { tema:"Rosa de los vientos", tipo:"mc",
+    q:"¿Cómo se llama el símbolo del mapa que señala los cuatro puntos cardinales?",
+    opts:["La rosa de los vientos","La escala","La portada","El margen"], ans:0 },
+  { tema:"Puntos cardinales", tipo:"match",
+    q:"Relaciona cada punto cardinal con una pista.",
+    slots:[
+      {n:1, label:"Este", ans:"Por donde sale el Sol"},
+      {n:2, label:"Oeste", ans:"Por donde se oculta el Sol"},
+      {n:3, label:"Norte", ans:"Apunta hacia arriba en el mapa"},
+      {n:4, label:"Sur", ans:"Apunta hacia abajo en el mapa"},
+    ]},
+  { tema:"Mapa o plano", tipo:"mc",
+    q:"¿Qué es un mapa o plano?",
+    opts:["Una representación plana de un lugar vista desde arriba","Una canción","Una receta de cocina","Una película"], ans:0 },
+  { tema:"Símbolos del mapa", tipo:"mc",
+    q:"En un mapa comunitario, los símbolos sirven para…",
+    opts:["Identificar lugares como escuelas, hospitales y parques","Hacer más pesado el papel","Esconder la información","Borrar los caminos"], ans:0 },
+  { tema:"Ecosistema", tipo:"mc",
+    q:"¿Cuál es un ejemplo de ecosistema?",
+    opts:["Un bosque con árboles, animales, agua y suelo","Una tienda de ropa","Un salón vacío","Una calculadora"], ans:0 },
+  { tema:"Servicio ambiental", tipo:"match",
+    q:"Relaciona cada elemento con su beneficio o función.",
+    slots:[
+      {n:1, label:"Bosque", ans:"Purifica el aire y el agua"},
+      {n:2, label:"Ecosistema", ans:"Une seres vivos con su medio"},
+      {n:3, label:"Territorio", ans:"Espacio con comunidad y organización"},
+    ]},
+  { tema:"Prevención de riesgos", tipo:"mc",
+    q:"La prevención de riesgos son las acciones y planes que nos ayudan a…",
+    opts:["Actuar de manera segura ante un desastre","Causar más desastres","Olvidar los peligros","Jugar sin cuidado"], ans:0 },
+  { tema:"Mochila de emergencia", tipo:"mc",
+    q:"¿Qué NO debe faltar en una mochila de emergencia?",
+    opts:["Linterna, agua, botiquín e identificaciones","Solo dulces","Solo juguetes","Nada importante"], ans:0 },
+  { tema:"Fenómeno natural", tipo:"mc",
+    q:"Un sismo puede convertirse en desastre cuando…",
+    opts:["La comunidad no está preparada","Todos conocen las rutas de evacuación","Se hacen simulacros","Hay una mochila de emergencia lista"], ans:0 },
+  { tema:"Integridad personal", tipo:"mc",
+    q:"La integridad personal es la garantía de vivir libres de…",
+    opts:["Maltrato físico, emocional y abuso","Tareas escolares","Juegos y amigos","Comida saludable"], ans:0 },
+  { tema:"¿A quién acudir?", tipo:"match",
+    q:"Relaciona cada situación con lo que debes hacer.",
+    slots:[
+      {n:1, label:"Sufres maltrato o acoso", ans:"Acudir a un adulto de confianza"},
+      {n:2, label:"Hay un sismo", ans:"Usar la mochila de emergencia y la ruta de evacuación"},
+      {n:3, label:"Debes decidir con justicia", ans:"Basarte en la dignidad y el respeto"},
+    ]},
+  { tema:"Integridad física", tipo:"mc",
+    q:"Que nadie deba lastimar tu cuerpo es tu derecho a la…",
+    opts:["Integridad física","Pereza","Prisa","Distracción"], ans:0 },
+  { tema:"Elige la correcta · Derechos humanos", tipo:"mc",
+    q:"Elige la opción correcta:",
+    opts:["Respetar los derechos humanos significa actuar con dignidad, justicia y respeto","Los derechos humanos solo son para los adultos","Respetar derechos no sirve de nada","Solo algunas personas merecen respeto"], ans:0 },
+];
+
+/* ---- Variante C ---- */
+const BANCO_ETICA4_C = [
+  { tema:"Conceptos del mapa", tipo:"match",
+    q:"Relaciona cada palabra con su definición.",
+    slots:[
+      {n:1, label:"Mapa o plano", ans:"Representación plana vista desde arriba"},
+      {n:2, label:"Rosa de los vientos", ans:"Indica la orientación y los puntos cardinales"},
+      {n:3, label:"Símbolos", ans:"Identifican lugares del mapa"},
+      {n:4, label:"Territorio", ans:"Espacio delimitado con comunidad"},
+    ]},
+  { tema:"Mapa o plano", tipo:"mc",
+    q:"Si quiero mostrar mi colonia vista desde arriba, hago un…",
+    opts:["Mapa o plano","Poema","Dibujo de un animal","Reloj"], ans:0 },
+  { tema:"Rosa de los vientos", tipo:"mc",
+    q:"La rosa de los vientos me ayuda a conocer…",
+    opts:["La orientación y los puntos cardinales","El sabor de la comida","El color favorito","La hora del recreo"], ans:0 },
+  { tema:"Ecosistema", tipo:"mc",
+    q:"¿Qué es un ecosistema?",
+    opts:["El conjunto de seres vivos, su medio físico y sus relaciones","Una lista de útiles","Un edificio de oficinas","Un videojuego"], ans:0 },
+  { tema:"Servicio ambiental", tipo:"mc",
+    q:"Los bosques nos dan un servicio ambiental cuando…",
+    opts:["Purifican el aire y el agua","Producen basura","Hacen ruido","Venden juguetes"], ans:0 },
+  { tema:"Naturaleza", tipo:"match",
+    q:"Relaciona cada tema de naturaleza y riesgos.",
+    slots:[
+      {n:1, label:"Ecosistema", ans:"Seres vivos y su medio"},
+      {n:2, label:"Servicio ambiental", ans:"Purificar el aire y el agua"},
+      {n:3, label:"Fenómeno natural", ans:"Un sismo que puede ser desastre"},
+      {n:4, label:"Mochila de emergencia", ans:"Linterna, agua y botiquín"},
+    ]},
+  { tema:"Fenómeno natural", tipo:"mc",
+    q:"¿Cuál es un fenómeno natural que puede convertirse en desastre?",
+    opts:["Un sismo o terremoto","Un cumpleaños","Un día de campo","Una caminata"], ans:0 },
+  { tema:"Prevención de riesgos", tipo:"mc",
+    q:"¿Cuál es un ejemplo de prevención de riesgos?",
+    opts:["Hacer simulacros y conocer las rutas de evacuación","Correr sin rumbo","Ignorar las alarmas","Jugar durante la emergencia"], ans:0 },
+  { tema:"Integridad física", tipo:"mc",
+    q:"El derecho a la integridad física significa que nadie debe…",
+    opts:["Lastimar ni maltratar tu cuerpo","Escucharte","Cuidarte","Respetarte"], ans:0 },
+  { tema:"¿A quién acudir?", tipo:"mc",
+    q:"Si alguien te maltrata o te acosa, lo correcto es…",
+    opts:["Acudir de inmediato a un adulto de confianza","Guardar el secreto","No decir nada","Esperar a que pase solo"], ans:0 },
+  { tema:"Derechos humanos", tipo:"match",
+    q:"Relaciona cada derecho o valor con su idea.",
+    slots:[
+      {n:1, label:"Integridad personal", ans:"Vivir libre de maltrato y abuso"},
+      {n:2, label:"Dignidad", ans:"Toda persona es valiosa y merece respeto"},
+      {n:3, label:"Justicia", ans:"Dar a cada quien lo que le corresponde"},
+    ]},
+  { tema:"Derechos humanos", tipo:"mc",
+    q:"Para decidir respetando los derechos humanos nos basamos en…",
+    opts:["La dignidad, la justicia y el respeto","La fuerza","El dinero","La velocidad"], ans:0 },
+  { tema:"Elige la correcta · Integridad", tipo:"mc",
+    q:"Elige la opción correcta sobre la integridad personal:",
+    opts:["Es vivir libres de maltrato físico, emocional y abuso","Es un castigo de la escuela","Es un juego de patio","No le importa a nadie"], ans:0 },
+  { tema:"Elige la correcta · Prevención", tipo:"mc",
+    q:"Elige la opción correcta sobre la prevención de riesgos:",
+    opts:["Son acciones y planes para actuar con seguridad ante un desastre","Es provocar accidentes","Es olvidar los peligros","Es jugar con fuego"], ans:0 },
+];
+
+/* ---------- Selección de materia por URL: examen.html?m=etica / humano / etica2 / etica4a / etica4b / etica4c ---------- */
 const MATERIAS = {
   "etica":  { titulo:"Ética, Naturaleza y Sociedades", emoji:"🌎", grado:"5º", banco:BANCO_ETICA,  guia:GUIA_ETICA },
   "humano": { titulo:"De lo Humano y lo Comunitario",  emoji:"🤝", grado:"5º", banco:BANCO_HUMANO, guia:GUIA_HUMANO },
   "etica2": { titulo:"Ética, Naturaleza y Sociedades", emoji:"🌎", grado:"2º", banco:BANCO_ETICA2, guia:GUIA_ETICA2 },
+  "etica4a":{ titulo:"Ética, Naturaleza y Sociedades · Examen 1", emoji:"🌎", grado:"4º", banco:BANCO_ETICA4_A, guia:GUIA_ETICA4 },
+  "etica4b":{ titulo:"Ética, Naturaleza y Sociedades · Examen 2", emoji:"🌎", grado:"4º", banco:BANCO_ETICA4_B, guia:GUIA_ETICA4 },
+  "etica4c":{ titulo:"Ética, Naturaleza y Sociedades · Examen 3", emoji:"🌎", grado:"4º", banco:BANCO_ETICA4_C, guia:GUIA_ETICA4 },
 };
 let matActual = (()=>{ const m=new URLSearchParams(location.search).get("m"); return MATERIAS[m]?m:"etica"; })();
 let BANCO = MATERIAS[matActual].banco;
