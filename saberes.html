@@ -855,6 +855,7 @@ function finish(){
     : pct>=.7 ? "¡Muy bien! Repasa lo que falló."
     : "Buen intento. Lee la guía y vuelve a intentar 💪";
   window.scrollTo(0,0);
+  if(window.fiesta) fiesta();
 }
 
 /* guía */
@@ -882,5 +883,6 @@ function backHome(){
   });
 })();
 </script>
+<script src="fiesta.js"></script>
 </body>
 </html>

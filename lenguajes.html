@@ -1005,6 +1005,8 @@ function finish(){
   else { emoji="📖"; msg="¡A seguir repasando! Inténtalo de nuevo, tú puedes."; }
   document.getElementById("finEmoji").textContent = emoji;
   document.getElementById("finMsg").textContent = msg;
+  window.scrollTo(0,0);
+  if(window.fiesta) fiesta();
 }
 
 function restart(){
@@ -1024,5 +1026,6 @@ function shuffle(a){ for(let k=a.length-1;k>0;k--){const j=Math.floor(Math.rando
   console.log("%cAutocomprobación OK","color:#2ecc71;font-weight:bold");
 })();
 </script>
+<script src="fiesta.js"></script>
 </body>
 </html>
