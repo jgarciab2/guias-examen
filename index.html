@@ -33,12 +33,6 @@
     transition:transform .05s ease}
   .grado:active{transform:scale(.97)}
   .grado.active{background:var(--accent);color:#fff;border-color:var(--accent)}
-  select{font:inherit;width:100%;padding:14px 16px;border:2px solid var(--line);border-radius:16px;
-    background:var(--card);color:var(--ink);font-weight:700;font-size:1.05rem;margin-top:14px}
-  button.open{font:inherit;cursor:pointer;border:none;border-radius:16px;width:100%;margin-top:14px;
-    padding:16px;font-weight:800;font-size:1.1rem;background:var(--primary);color:#fff;transition:filter .15s}
-  button.open:hover{filter:brightness(1.05)}
-  button.open:disabled{opacity:.45;cursor:default}
   .materias{display:grid;gap:10px;margin-top:14px}
   .mat{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink);
     border:2px solid var(--line);border-radius:16px;padding:14px 16px;font-weight:700;background:var(--card)}
@@ -64,10 +58,7 @@
       <button class="grado active" data-g="5" onclick="pickGrade('5')">5º</button>
     </div>
 
-    <div class="lbl" style="margin-top:18px">2) Elige la materia:</div>
-    <select id="sel" onchange="syncBtn()" aria-label="Materia"></select>
-    <button class="open" id="btn" onclick="abrir()">Abrir examen y guía ▶</button>
-
+    <div class="lbl" style="margin-top:18px">2) Toca la materia:</div>
     <div class="materias" id="cards"></div>
   </div>
 
@@ -103,27 +94,11 @@ function pickGrade(g){
   grado = g;
   document.querySelectorAll(".grado").forEach(b=>b.classList.toggle("active", b.dataset.g===g));
   const list = MATERIAS[g];
-  // dropdown (lo que pidió el usuario: seleccionable con las materias)
-  document.getElementById("sel").innerHTML =
-    `<option value="" disabled selected>— Elige una materia —</option>` +
-    list.map((m,i)=> m.soon
-      ? `<option value="" disabled>${m.em} ${m.n} — Próximamente</option>`
-      : `<option value="${i}">${m.em} ${m.n}</option>`).join("");
-  // tarjetas rápidas (mismo listado, un toque directo)
+  // tarjetas de materias: al elegir grado se despliegan las opciones disponibles
   document.getElementById("cards").innerHTML = list.map(m=>
     m.soon
       ? `<div class="mat" style="opacity:.55;cursor:default"><span class="em">${m.em}</span><span>${m.n}</span><span class="go" style="color:var(--muted)">Próximamente</span></div>`
       : `<a class="mat" href="${m.f}"><span class="em">${m.em}</span><span>${m.n}</span><span class="go">Abrir ▶</span></a>`).join("");
-  syncBtn();
-}
-function syncBtn(){
-  const v = document.getElementById("sel").value;
-  document.getElementById("btn").disabled = (v==="");
-}
-function abrir(){
-  const v = document.getElementById("sel").value;
-  if(v==="") return;
-  location.href = MATERIAS[grado][+v].f;
 }
 pickGrade("5");
 
