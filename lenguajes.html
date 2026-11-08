@@ -723,6 +723,7 @@ function setGrade(g){
   document.getElementById("guiaTitulo").textContent = "📖 Guía de estudio · "+corto;
   document.title = "Lenguajes · "+GRADOS[g].label;   // encabezado de impresión del navegador
   const gb = document.getElementById("guiaBody"); gb.innerHTML=""; delete gb.dataset.listo; // rehacer guía
+  const home = document.querySelector("footer a"); if(home) home.href = "index.html?g="+g; // vuelve al grado actual
 }
 setGrade("5");   // inicializa título, encabezado y estado activo
 // ponytail: grado preseleccionado desde el portal, p.ej. lenguajes.html?g=3

@@ -39,6 +39,15 @@
   .mat:hover{border-color:var(--accent)}
   .mat .em{font-size:1.6rem}
   .mat .go{margin-left:auto;color:var(--accent);font-weight:800}
+  /* materia con variantes de examen (desplegable nativo) */
+  .matg{border:none;background:transparent;padding:0}
+  .matg>summary{list-style:none;cursor:pointer}
+  .matg>summary::-webkit-details-marker{display:none}
+  .cv{display:inline-block;transition:transform .15s ease}
+  .matg[open]>summary .cv{transform:rotate(90deg)}
+  .matg[open]>summary.mat{border-color:var(--accent)}
+  .vars{display:grid;gap:8px;margin-top:8px;padding-left:16px}
+  .mat.sub{padding:12px 14px;font-weight:600}
   footer{text-align:center;color:var(--muted);font-size:.8rem;padding:16px 0}
 </style>
 </head>
@@ -77,9 +86,11 @@ const MATERIAS = {
   "4":[
     {n:"Lenguajes", f:"lenguajes.html?g=4", em:"📚"},
     {n:"Saberes y Pensamiento Científico", f:"saberes.html?g=4", em:"🔬"},
-    {n:"Ética, Naturaleza y Sociedades — Examen 1", f:"examen.html?m=etica4a", em:"🌎"},
-    {n:"Ética, Naturaleza y Sociedades — Examen 2", f:"examen.html?m=etica4b", em:"🌎"},
-    {n:"Ética, Naturaleza y Sociedades — Examen 3", f:"examen.html?m=etica4c", em:"🌎"},
+    {n:"Ética, Naturaleza y Sociedades", em:"🌎", variants:[
+      {n:"Examen 1", f:"examen.html?m=etica4a"},
+      {n:"Examen 2", f:"examen.html?m=etica4b"},
+      {n:"Examen 3", f:"examen.html?m=etica4c"},
+    ]},
   ],
   "5":[
     {n:"Lenguajes", f:"lenguajes.html?g=5", em:"📚"},
@@ -94,16 +105,26 @@ function pickGrade(g){
   grado = g;
   document.querySelectorAll(".grado").forEach(b=>b.classList.toggle("active", b.dataset.g===g));
   const list = MATERIAS[g];
-  // tarjetas de materias: al elegir grado se despliegan las opciones disponibles
-  document.getElementById("cards").innerHTML = list.map(m=>
-    m.soon
-      ? `<div class="mat" style="opacity:.55;cursor:default"><span class="em">${m.em}</span><span>${m.n}</span><span class="go" style="color:var(--muted)">Próximamente</span></div>`
-      : `<a class="mat" href="${m.f}"><span class="em">${m.em}</span><span>${m.n}</span><span class="go">Abrir ▶</span></a>`).join("");
+  // tarjetas de materias; si una materia tiene variantes, la card las despliega al tocarla
+  document.getElementById("cards").innerHTML = list.map(cardHTML).join("");
 }
-pickGrade("5");
+function cardHTML(m){
+  if(m.soon)
+    return `<div class="mat" style="opacity:.55;cursor:default"><span class="em">${m.em}</span><span>${m.n}</span><span class="go" style="color:var(--muted)">Próximamente</span></div>`;
+  if(m.variants)
+    return `<details class="matg"><summary class="mat"><span class="em">${m.em}</span><span>${m.n}</span><span class="go">Elegir <span class="cv">▸</span></span></summary>`+
+      `<div class="vars">`+ m.variants.map(v=>`<a class="mat sub" href="${v.f}"><span>${v.n}</span><span class="go">Abrir ▶</span></a>`).join("") +`</div></details>`;
+  return `<a class="mat" href="${m.f}"><span class="em">${m.em}</span><span>${m.n}</span><span class="go">Abrir ▶</span></a>`;
+}
+// grado inicial: el que venga en la URL (index.html?g=4), si no, 5º
+{ const g=new URLSearchParams(location.search).get("g"); pickGrade(MATERIAS[g]?g:"5"); }
 
-// self-check: cada materia tiene archivo destino
-Object.values(MATERIAS).flat().forEach(m=>console.assert(typeof m.f==="string"&&m.f.includes(".html"),"materia sin archivo: "+m.n));
+// self-check: cada materia abre un archivo o tiene variantes que lo hacen
+Object.values(MATERIAS).flat().forEach(m=>{
+  const dest = m.variants ? m.variants.every(v=>typeof v.f==="string"&&v.f.includes(".html"))
+                          : (m.soon || (typeof m.f==="string"&&m.f.includes(".html")));
+  console.assert(dest, "materia sin destino: "+m.n);
+});
 </script>
 </body>
 </html>

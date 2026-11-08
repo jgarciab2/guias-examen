@@ -705,6 +705,7 @@ let GUIA  = GRADOS[gradoActual].guia;
   const sub = document.querySelector(".sub"); if(sub) sub.textContent = lbl+" de primaria · 1er Trimestre · Noviembre";
   document.title = "Saberes y Pensamiento Científico · "+lbl+" · 1er Trimestre";
   const gt = document.getElementById("guiaTitulo"); if(gt) gt.textContent = "Guía de estudio · Saberes y Pensamiento Científico · "+lbl+" · 1er Trimestre";
+  const home = document.querySelector("footer a"); if(home) home.href = "index.html?g="+gradoActual;
 })();
 
 /* ---------- Motor ---------- */
