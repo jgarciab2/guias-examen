@@ -115,7 +115,7 @@
 <div class="wrap">
   <header class="top">
     <h1 id="h1">Examen</h1>
-    <div class="sub">5º de primaria · 1er Trimestre · Noviembre</div>
+    <div class="sub" id="sub">5º de primaria · 1er Trimestre · Noviembre</div>
     <div class="mini">Examen interactivo + guía de estudio</div>
   </header>
 
@@ -424,21 +424,175 @@ const GUIA_HUMANO = [
      </ul>`],
 ];
 
-/* ---------- Selección de materia por URL: examen.html?m=etica / humano ---------- */
+/* =======================================================================
+   2º · Ética, Naturaleza y Sociedades  (apegado a la guía: 6 temas)
+   ======================================================================= */
+const BANCO_ETICA2 = [
+  /* Tema 1 · Mi comunidad y sus lugares */
+  { tema:"Mi comunidad", tipo:"mc",
+    q:"¿Qué es una comunidad?",
+    opts:["Un lugar donde viven y conviven las personas","Un lugar donde nadie vive","Un lugar donde solo hay animales","Un lugar para guardar juguetes"], ans:0 },
+  { tema:"Lugares de la comunidad", tipo:"match",
+    q:"Relaciona cada lugar con su función.",
+    slots:[
+      {n:1, label:"Escuela", ans:"Para aprender"},
+      {n:2, label:"Parque", ans:"Para jugar"},
+      {n:3, label:"Centro de salud", ans:"Atención médica"},
+    ]},
+  { tema:"Mi comunidad", tipo:"mc",
+    q:"¿Cuál es el lugar donde aprendemos?",
+    opts:["La escuela","El parque","El centro de salud","La tienda"], ans:0 },
+  { tema:"Mi comunidad", tipo:"mc",
+    q:"¿A qué lugar acudimos cuando necesitamos atención médica?",
+    opts:["Al centro de salud","Al parque","A la escuela","A la tienda"], ans:0 },
+  { tema:"Elige la correcta · Comunidad", tipo:"mc",
+    q:"¿Qué podemos utilizar para representar los lugares de la comunidad y cómo llegar a ellos?",
+    opts:["Un croquis","Una receta","Una canción","Un cuento"], ans:0 },
+
+  /* Tema 2 · Elementos naturales y sociales */
+  { tema:"Elementos naturales y sociales", tipo:"mc",
+    q:"¿Cuál de estos es un elemento natural?",
+    opts:["Un río","Un puente","Una escuela","Un hospital"], ans:0 },
+  { tema:"Elementos naturales y sociales", tipo:"mc",
+    q:"¿Cuál de estos es un elemento social construido?",
+    opts:["Un hospital","Una montaña","Un árbol","Un lago"], ans:0 },
+  { tema:"Natural o social", tipo:"mc",
+    q:"Una carretera es un elemento…",
+    opts:["Social construido","Natural","Un animal","Una planta"], ans:0 },
+  { tema:"Natural o social", tipo:"mc",
+    q:"Un bosque es un elemento…",
+    opts:["Natural","Social construido","Una máquina","Un edificio"], ans:0 },
+  { tema:"Elementos naturales", tipo:"mc",
+    q:"Los elementos naturales forman parte de la…",
+    opts:["Naturaleza","Escuela","Ciudad","Tienda"], ans:0 },
+  { tema:"Elementos sociales", tipo:"mc",
+    q:"Los elementos sociales construidos son hechos por las…",
+    opts:["Personas","Montañas","Plantas","Nubes"], ans:0 },
+
+  /* Tema 3 · Problemas ambientales y cuidado del medioambiente */
+  { tema:"Cuidado del medioambiente", tipo:"mc",
+    q:"¿Cuál de estas acciones ayuda al medioambiente?",
+    opts:["Cerrar la llave del agua cuando no la usamos","Tirar basura en un río","Quemar basura","Molestar a los animales"], ans:0 },
+  { tema:"Cuidado del medioambiente", tipo:"mc",
+    q:"¿Cuál de estas acciones perjudica el medioambiente?",
+    opts:["Quemar basura","Cuidar las plantas","Colocar los residuos en su lugar","Cerrar la llave del agua"], ans:0 },
+  { tema:"¿Qué harías?", tipo:"mc",
+    q:"Observas una fuga de agua en la escuela. ¿Qué harías?",
+    opts:["Pido ayuda a un adulto","Juego con el agua","La dejo correr","No hago nada"], ans:0 },
+  { tema:"¿Qué harías?", tipo:"mc",
+    q:"Encuentras basura en el patio. ¿Qué harías?",
+    opts:["La pongo en el bote de basura","La dejo ahí","La tiro al pasto","La pateo"], ans:0 },
+  { tema:"¿Qué harías?", tipo:"mc",
+    q:"Ves que alguien está dañando una planta. ¿Qué harías?",
+    opts:["Le digo que deje de hacerlo","Lo ayudo a arrancarla","Me río","No miro"], ans:0 },
+  { tema:"Elige la correcta · Medioambiente", tipo:"mc",
+    q:"¿Cuál de las siguientes situaciones es un problema ambiental?",
+    opts:["Hay basura acumulada en un río","Los vecinos organizan una lectura","Los niños juegan en el parque","Una familia planta un árbol"], ans:0 },
+  { tema:"Cuidar el aire", tipo:"mc",
+    q:"¿Qué acción ayuda a cuidar el aire?",
+    opts:["Evitar quemar basura","Quemar llantas","Quemar basura","Hacer fogatas"], ans:0 },
+
+  /* Tema 4 · Los símbolos patrios de México */
+  { tema:"Símbolos patrios", tipo:"match",
+    q:"Relaciona cada símbolo patrio con su descripción.",
+    slots:[
+      {n:1, label:"Bandera Nacional", ans:"Tiene los colores verde, blanco y rojo"},
+      {n:2, label:"Escudo Nacional", ans:"Un águila sobre un nopal con una serpiente"},
+      {n:3, label:"Himno Nacional", ans:"Se canta en las ceremonias cívicas"},
+    ]},
+  { tema:"Símbolos patrios", tipo:"mc",
+    q:"Los colores de la Bandera de México son…",
+    opts:["Verde, blanco y rojo","Azul, blanco y rojo","Verde, amarillo y rojo","Rojo, blanco y negro"], ans:0 },
+  { tema:"Símbolos patrios", tipo:"mc",
+    q:"En el Escudo Nacional aparece un…",
+    opts:["Águila posada sobre un nopal sujetando una serpiente","León sobre una roca","Caballo corriendo","Sol sonriente"], ans:0 },
+  { tema:"Elige la correcta · Símbolos patrios", tipo:"mc",
+    q:"¿Qué símbolo patrio cantamos durante las ceremonias?",
+    opts:["El Himno Nacional Mexicano","Una ronda infantil","Una canción de cumpleaños","Las mañanitas"], ans:0 },
+  { tema:"Respeto a los símbolos", tipo:"mc",
+    q:"¿Cuál acción muestra respeto por los símbolos patrios?",
+    opts:["Escuchar con atención durante la ceremonia","Jugar mientras se canta el Himno","Empujar a los compañeros en los honores","Platicar en voz alta"], ans:0 },
+
+  /* Tema 5 · El respeto y la dignidad de las personas */
+  { tema:"Respeto y dignidad", tipo:"mc",
+    q:"Todas las personas tienen ___ y son valiosas.",
+    opts:["Dignidad","Dinero","Miedo","Prisa"], ans:0 },
+  { tema:"Respeto y dignidad", tipo:"mc",
+    q:"Debemos tratar a los demás con…",
+    opts:["Respeto","Gritos","Burlas","Empujones"], ans:0 },
+  { tema:"Respeto y dignidad", tipo:"mc",
+    q:"Aunque tengamos gustos ___, todos merecemos ser tratados bien.",
+    opts:["Diferentes","Iguales","Malos","Caros"], ans:0 },
+  { tema:"Acciones de respeto", tipo:"mc",
+    q:"¿Cuál de estas acciones muestra respeto?",
+    opts:["Escuchar cuando otra persona habla","Burlarse de un compañero","Insultar a otras personas","Empujar a los demás"], ans:0 },
+  { tema:"Acciones de respeto", tipo:"mc",
+    q:"¿Cuál de estas acciones NO muestra respeto?",
+    opts:["Insultar a otras personas","Ayudar a quien lo necesita","Respetar las opiniones de los demás","Escuchar a los demás"], ans:0 },
+];
+
+const GUIA_ETICA2 = [
+  ["🏘️ 1. Mi comunidad y sus lugares",
+    `<ul>
+       <li><span class="key">Comunidad</span>: lugar donde viven y conviven las personas; hay casas, escuelas, parques, hospitales y tiendas. <b>Ejemplo:</b> mi colonia.</li>
+       <li><span class="key">Comunidad</span>: el lugar donde vivimos y convivimos con otras personas.</li>
+       <li><span class="key">Escuela</span>: el lugar donde aprendemos.</li>
+       <li><span class="key">Centro de salud</span>: el lugar al que acudimos cuando necesitamos atención médica.</li>
+       <li><span class="key">Parque</span>: lugar donde podemos jugar y disfrutar de la naturaleza.</li>
+       <li><span class="key">Para qué sirve cada lugar</span>: Escuela → para aprender; Parque → para jugar; Centro de salud → atención médica.</li>
+       <li><span class="key">Para representar los lugares y cómo llegar a ellos</span> usamos un <b>croquis</b>.</li>
+     </ul>`],
+  ["🌳 2. Elementos naturales y sociales",
+    `<ul>
+       <li><span class="key">Elementos naturales</span>: forman parte de la naturaleza. <b>Ejemplos:</b> río, montaña, árbol, lago.</li>
+       <li><span class="key">Elementos sociales construidos</span>: son creados por las personas. <b>Ejemplos:</b> puente, escuela, hospital, casa.</li>
+       <li><span class="key">Natural o social</span>: una montaña es <b>natural</b>; una carretera es <b>social</b>; un bosque es <b>natural</b>; una tienda es <b>social</b>.</li>
+       <li><span class="key">Completa</span>: los elementos naturales forman parte de la <b>naturaleza</b>, mientras que los sociales construidos son hechos por las <b>personas</b>.</li>
+     </ul>`],
+  ["♻️ 3. Problemas ambientales y cuidado del medioambiente",
+    `<ul>
+       <li><span class="key">Problemas ambientales</span>: afectan a la naturaleza. Ayudamos cuidando el agua, evitando tirar o quemar basura y protegiendo a las plantas y los animales.</li>
+       <li><span class="key">Acciones que ayudan</span>: cerrar la llave del agua, colocar los residuos en su lugar, cuidar las plantas.</li>
+       <li><span class="key">Acciones que perjudican</span>: tirar basura en un río, quemar basura, molestar a los animales.</li>
+       <li><span class="key">¿Qué harías?</span> Fuga de agua → pido ayuda a un adulto. Basura en el patio → la pongo en el bote de basura. Alguien daña una planta → le digo que deje de hacerlo.</li>
+       <li><span class="key">Problema ambiental</span>: hay basura acumulada en un río. <b>Para cuidar el aire:</b> evitar quemar basura.</li>
+     </ul>`],
+  ["🇲🇽 4. Los símbolos patrios de México",
+    `<ul>
+       <li><span class="key">Símbolos patrios</span>: la Bandera Nacional, el Escudo Nacional y el Himno Nacional Mexicano.</li>
+       <li><span class="key">Bandera</span>: sus colores son verde, blanco y rojo; en el centro está el Escudo Nacional.</li>
+       <li><span class="key">Escudo Nacional</span>: aparece un águila posada sobre un nopal sujetando una serpiente.</li>
+       <li><span class="key">Himno Nacional Mexicano</span>: lo cantamos en las ceremonias cívicas.</li>
+       <li><span class="key">Respeto a los símbolos</span>: escuchar con atención durante la ceremonia y participar con respeto. <b>No:</b> jugar mientras se canta el Himno ni empujar a los compañeros.</li>
+     </ul>`],
+  ["🤝 5. El respeto y la dignidad de las personas",
+    `<ul>
+       <li><span class="key">Respeto</span>: todas las personas merecen respeto porque tienen dignidad y son valiosas. Debemos tratarlas con amabilidad aunque tengan gustos u opiniones diferentes.</li>
+       <li><span class="key">Dignidad</span>: todas las personas tienen dignidad y son valiosas.</li>
+       <li><span class="key">Completa</span>: debemos tratar a los demás con <b>respeto</b>; aunque tengamos gustos <b>diferentes</b>, todos merecemos ser tratados bien.</li>
+       <li><span class="key">Acciones de respeto</span>: escuchar cuando otra persona habla, ayudar a quien lo necesita, respetar las opiniones de los demás. <b>No es respeto:</b> burlarse o insultar.</li>
+     </ul>`],
+];
+
+/* ---------- Selección de materia por URL: examen.html?m=etica / humano / etica2 ---------- */
 const MATERIAS = {
-  "etica":  { titulo:"Ética, Naturaleza y Sociedades", emoji:"🌎", banco:BANCO_ETICA,  guia:GUIA_ETICA },
-  "humano": { titulo:"De lo Humano y lo Comunitario",  emoji:"🤝", banco:BANCO_HUMANO, guia:GUIA_HUMANO },
+  "etica":  { titulo:"Ética, Naturaleza y Sociedades", emoji:"🌎", grado:"5º", banco:BANCO_ETICA,  guia:GUIA_ETICA },
+  "humano": { titulo:"De lo Humano y lo Comunitario",  emoji:"🤝", grado:"5º", banco:BANCO_HUMANO, guia:GUIA_HUMANO },
+  "etica2": { titulo:"Ética, Naturaleza y Sociedades", emoji:"🌎", grado:"2º", banco:BANCO_ETICA2, guia:GUIA_ETICA2 },
 };
 let matActual = (()=>{ const m=new URLSearchParams(location.search).get("m"); return MATERIAS[m]?m:"etica"; })();
 let BANCO = MATERIAS[matActual].banco;
 let GUIA  = MATERIAS[matActual].guia;
 (function initMateria(){
   const M = MATERIAS[matActual];
+  const g = M.grado || "5º";
   document.getElementById("h1").textContent = M.titulo;
   document.getElementById("emoji").textContent = M.emoji;
-  document.title = M.titulo + " · 5º · 1er Trimestre";
+  const sub = document.getElementById("sub");
+  if(sub) sub.textContent = g + " de primaria · 1er Trimestre · Noviembre";
+  document.title = M.titulo + " · " + g + " · 1er Trimestre";
   const gt = document.getElementById("guiaTitulo");
-  if(gt) gt.textContent = "Guía de estudio · " + M.titulo + " · 5º · 1er Trimestre";
+  if(gt) gt.textContent = "Guía de estudio · " + M.titulo + " · " + g + " · 1er Trimestre";
 })();
 
 /* ---------- Motor ---------- */
