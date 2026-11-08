@@ -73,7 +73,7 @@
   .pool{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 4px}
   .chip{background:var(--card);border:2px solid var(--accent);color:var(--accent-d);
     border-radius:999px;padding:8px 14px;font-weight:700;font-size:.95rem}
-  .chip.used{opacity:.35;pointer-events:none}
+  .chip.used{pointer-events:none}
   .chip.pick{background:var(--accent);color:#fff}
   .slots{display:grid;gap:8px;margin-top:4px}
   .slot{display:flex;align-items:center;gap:10px;border:2px dashed var(--line);
@@ -872,30 +872,41 @@ function pickChip(el){
   el.classList.add("pick");
   pick = el.getAttribute("data-name");
 }
+/* colores por pareja: cada ranura y su ficha comparten color */
+const PAIR_COLORS = ["#2b6cff","#e0458a","#e8890c","#128695","#7c3aed","#d64545"];
+function slotColor(n){ return PAIR_COLORS[(n-1)%PAIR_COLORS.length]; }
+function paintChip(name,color){
+  const c=document.querySelector(`.chip[data-name="${CSS.escape(name)}"]`);
+  if(!c) return;
+  if(color){ c.style.background=color; c.style.borderColor=color; c.style.color="#fff"; c.classList.add("used"); }
+  else { c.style.background=""; c.style.borderColor=""; c.style.color=""; c.classList.remove("used","pick"); }
+}
+function resetSlotVisual(n){
+  const slot=document.querySelector(`.slot[data-n="${n}"]`);
+  const holder=document.querySelector(`[data-holder="${n}"]`);
+  const badge=slot.querySelector(".num");
+  slot.classList.remove("has"); slot.style.borderColor="";
+  if(badge) badge.style.background="";
+  holder.textContent="toca para colocar…";
+  holder.classList.add("holder"); holder.classList.remove("filled"); holder.style.color="";
+}
 function dropChip(n){
   if(answered) return;
   const holder = document.querySelector(`[data-holder="${n}"]`);
   const slot = document.querySelector(`.slot[data-n="${n}"]`);
-  if(assign[n]){ freeChip(assign[n]); }
-  if(pick==null){ // vaciar ranura
-    delete assign[n]; holder.textContent="toca para colocar…"; slot.classList.remove("has"); return;
-  }
-  for(const k in assign){ if(assign[k]===pick){ delete assign[k];
-    const h2=document.querySelector(`[data-holder="${k}"]`); h2.textContent="toca para colocar…";
-    document.querySelector(`.slot[data-n="${k}"]`).classList.remove("has"); } }
+  if(assign[n]){ paintChip(assign[n],null); }        // libera (y despinta) la ficha anterior
+  if(pick==null){ delete assign[n]; resetSlotVisual(n); return; } // vaciar ranura
+  for(const k in assign){ if(assign[k]===pick){ delete assign[k]; resetSlotVisual(k); } } // mover ficha
   assign[n]=pick;
+  const col=slotColor(n);
   holder.textContent=pick; holder.classList.remove("holder"); holder.classList.add("filled");
-  holder.style.color="var(--ink)";
-  slot.classList.add("has");
-  markChip(pick,true);
+  holder.style.color=col;
+  slot.classList.add("has"); slot.style.borderColor=col;
+  const badge=slot.querySelector(".num"); if(badge) badge.style.background=col;
+  paintChip(pick,col);
   document.querySelectorAll(".chip").forEach(c=>c.classList.remove("pick"));
   pick=null;
 }
-function markChip(name,used){
-  const c=document.querySelector(`.chip[data-name="${CSS.escape(name)}"]`);
-  if(c){ c.classList.toggle("used",used); }
-}
-function freeChip(name){ markChip(name,false); }
 
 /* revisar */
 function check(){
@@ -918,6 +929,7 @@ function check(){
     ok=true;
     q.slots.forEach(s=>{
       const slot=document.querySelector(`.slot[data-n="${s.n}"]`);
+      slot.style.borderColor="";                 // deja que ok/no (verde/rojo) pinte el borde
       const good = assign[s.n]===s.ans;
       slot.classList.add(good?"ok":"no");
       if(!good) ok=false;
