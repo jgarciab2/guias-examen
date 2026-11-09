@@ -702,11 +702,11 @@ const BANCO_HUMANO2_A = [
     q:"¿Con cuál de estas actividades puedes ayudar en casa?",
     opts:["Poner la mesa y ordenar mis zapatos","Reparar cables de electricidad","Cargar muebles muy pesados","Nada, soy muy pequeño"], ans:0 },
   { tema:"Colaboración", tipo:"match",
-    q:"Relaciona cada acción con el lugar donde colaboras.",
+    q:"Relaciona cada acción con lo que logras al colaborar.",
     slots:[
-      {n:1, label:"Guardar mis juguetes", ans:"En casa"},
-      {n:2, label:"Recoger mis útiles escolares", ans:"En la escuela"},
-      {n:3, label:"Ayudar a poner la mesa", ans:"En casa"},
+      {n:1, label:"Guardar mis juguetes", ans:"Mantengo ordenado mi cuarto"},
+      {n:2, label:"Recoger mis útiles escolares", ans:"Ayudo a tener limpia la escuela"},
+      {n:3, label:"Repartir las tareas en familia", ans:"Compartimos las responsabilidades"},
     ]},
   { tema:"Responsabilidades", tipo:"mc",
     q:"En la familia, las responsabilidades del hogar se deben…",
@@ -792,11 +792,11 @@ const BANCO_HUMANO2_B = [
     q:"¿Es cierto que solamente las mujeres deben limpiar la casa?",
     opts:["No, todas las personas pueden limpiar la casa","Sí, solo las mujeres","Sí, solo los niños","Nadie debe limpiar"], ans:0 },
   { tema:"Igualdad", tipo:"match",
-    q:"Relaciona cada actividad con quién puede realizarla.",
+    q:"Relaciona cada frase con un ejemplo de igualdad.",
     slots:[
-      {n:1, label:"Jugar futbol", ans:"Niñas y niños"},
-      {n:2, label:"Cocinar", ans:"Mujeres y hombres"},
-      {n:3, label:"Ser bombero o bombera", ans:"Mujeres y hombres"},
+      {n:1, label:"Las niñas pueden…", ans:"Jugar futbol"},
+      {n:2, label:"Los niños pueden…", ans:"Aprender a cocinar"},
+      {n:3, label:"Mujeres y hombres pueden…", ans:"Ser docentes, médicos o bomberos"},
     ]},
 
   { tema:"Emociones", tipo:"mc",
@@ -840,11 +840,11 @@ const BANCO_HUMANO2_C = [
     q:"Escribe una actividad con la que puedes colaborar en casa:",
     opts:["Limpiar mi cuarto","Reparar la instalación de luz","Manejar el coche","Nada"], ans:0 },
   { tema:"Colaboración", tipo:"match",
-    q:"Relaciona cada actividad con el lugar donde la realizas.",
+    q:"Relaciona cada actividad con dónde colaboras.",
     slots:[
-      {n:1, label:"Ordenar mis zapatos", ans:"En casa"},
-      {n:2, label:"Recoger la basura del salón", ans:"En la escuela"},
-      {n:3, label:"Guardar mis juguetes", ans:"En casa"},
+      {n:1, label:"Ordenar mis zapatos", ans:"Colaboro en casa"},
+      {n:2, label:"Recoger la basura del salón", ans:"Colaboro en la escuela"},
+      {n:3, label:"Repartir las tareas del hogar", ans:"Colaboramos en familia"},
     ]},
   { tema:"Familia", tipo:"mc",
     q:"¿Quiénes pueden ayudar en las actividades del hogar?",
@@ -1815,11 +1815,20 @@ function backHome(){
   window.scrollTo(0,0);
 }
 
-/* self-check: cada pregunta tiene respuesta válida */
+/* self-check: cada pregunta tiene respuesta válida.
+   El "relacionar" es una correspondencia 1:1: dos ranuras con la MISMA ans
+   generan fichas duplicadas que se bloquean entre sí y no dejan avanzar
+   (ver dropChip). Por eso cada ans de un match debe ser única. */
 (function selfCheck(){
-  Object.values(MATERIAS).forEach(M=>M.banco.forEach((q,i)=>{
-    if(q.tipo==="mc"){ console.assert(q.opts[q.ans]!==undefined, "mc sin ans válida #"+i); }
-    else { q.slots.forEach(s=>console.assert(typeof s.ans==="string"&&s.ans.length, "slot sin ans #"+i)); }
+  Object.entries(MATERIAS).forEach(([k,M])=>M.banco.forEach((q,i)=>{
+    if(q.tipo==="mc"){
+      console.assert(q.opts[q.ans]!==undefined, `mc sin ans válida ${k} #${i}`);
+      console.assert(new Set(q.opts).size===q.opts.length, `mc con opciones repetidas ${k} #${i}`);
+    } else {
+      q.slots.forEach(s=>console.assert(typeof s.ans==="string"&&s.ans.length, `slot sin ans ${k} #${i}`));
+      const ans=q.slots.map(s=>s.ans);
+      console.assert(new Set(ans).size===ans.length, `match con ans repetida (se bloquea al relacionar) ${k} #${i}`);
+    }
   }));
 })();
 </script>

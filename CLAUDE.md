@@ -23,6 +23,10 @@ Se despliega a Vercel desde `jgarciab2/guias-examen`, rama `master`.
   con **guía de estudio compartida** y preguntas distintas que cubren los mismos temas.
   En el portal se agrupan en una sola tarjeta desplegable.
 - **No** colorear las parejas en "relacionar" — se rechazó (relleno y bordes). Dejar el estilo original.
+- **Relacionar (`match`) es correspondencia 1:1: cada `ans` debe ser única dentro de la pregunta.**
+  Dos ranuras con la misma `ans` crean fichas duplicadas que se bloquean entre sí y el examen
+  no deja avanzar ("Coloca todos los nombres"). Para clasificar por categoría repetida (ej. casa/escuela),
+  usa `mc` o reformula a respuestas distintas. El `selfCheck` de `examen.html` ya lo verifica.
 
 ## Portal (index.html)
 - Botones de grado, **sin dropdown**.
