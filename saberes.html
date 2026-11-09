@@ -631,6 +631,84 @@ const BANCO2 = [
     q:"¿Qué día de la semana va después del miércoles?", opts:["Jueves","Martes","Viernes","Domingo"], ans:0 },
 ];
 
+/* 2º Saberes · Examen 2 (misma guía GUIA2, preguntas distintas) */
+const BANCO2_B = [
+  { tema:"Unidades, decenas y centenas", tipo:"mc", q:"¿Cuántas unidades tiene una decena?", opts:["10","100","1","5"], ans:0 },
+  { tema:"Unidades, decenas y centenas", tipo:"mc", q:"En el número 472, ¿cuánto vale el dígito 4?", opts:["400","40","4","70"], ans:0 },
+  { tema:"Unidades, decenas y centenas", tipo:"mc", q:"En el número 538, ¿cuánto vale el dígito 3?", opts:["30","300","3","80"], ans:0 },
+  { tema:"Unidades, decenas y centenas", tipo:"mc", q:"¿Qué número se forma con 3 centenas, 1 decena y 6 unidades?", opts:["316","361","631","3016"], ans:0 },
+  { tema:"Unidades, decenas y centenas", tipo:"mc", q:"¿Qué número se forma con 7 centenas, 0 decenas y 9 unidades?", opts:["709","790","79","7009"], ans:0 },
+  { tema:"Composición y descomposición", tipo:"mc", q:"¿Cómo se descompone el número 483?", opts:["400 + 80 + 3","400 + 8 + 3","4 + 80 + 3","40 + 80 + 3"], ans:0 },
+  { tema:"Composición y descomposición", tipo:"mc", q:"¿Cómo se descompone el número 905?", opts:["900 + 0 + 5","900 + 50","9 + 0 + 5","90 + 0 + 5"], ans:0 },
+  { tema:"Composición y descomposición", tipo:"mc", q:"¿Qué número se forma con 500 + 70 + 2?", opts:["572","527","5072","752"], ans:0 },
+  { tema:"Composición y descomposición", tipo:"mc", q:"¿Qué número se forma con 200 + 0 + 8?", opts:["208","280","28","2008"], ans:0 },
+  { tema:"Antecesor y sucesor", tipo:"mc", q:"El antecesor es el número que está ANTES. ¿Cuál es el antecesor de 500?", opts:["499","501","400","510"], ans:0 },
+  { tema:"Antecesor y sucesor", tipo:"mc", q:"El sucesor es el número que está DESPUÉS. ¿Cuál es el sucesor de 609?", opts:["610","608","619","600"], ans:0 },
+  { tema:"Antecesor y sucesor", tipo:"mc", q:"¿Cuál es el antecesor de 730?", opts:["729","731","720","740"], ans:0 },
+  { tema:"Sumas y restas", tipo:"mc", q:"¿Cuánto es 44 + 25?", opts:["69","68","65","79"], ans:0 },
+  { tema:"Sumas y restas", tipo:"mc", q:"¿Cuánto es 73 − 31?", opts:["42","43","41","32"], ans:0 },
+  { tema:"Sumas y restas", tipo:"mc", q:"¿Cuánto es 56 + 27?", opts:["83","73","82","93"], ans:0 },
+  { tema:"Problemas", tipo:"mc", q:"Ana tenía 60 pesos y gastó 25. ¿Cuánto le queda?", opts:["35","85","45","25"], ans:0 },
+  { tema:"Problemas", tipo:"mc", q:"Pedro juntó 28 canicas y le regalan 19 más. ¿Cuántas tiene ahora?", opts:["47","37","48","39"], ans:0 },
+  { tema:"Figuras geométricas", tipo:"mc", q:"¿Qué figura tiene 4 lados, 2 largos y 2 cortos?", opts:["Rectángulo","Cuadrado","Triángulo","Círculo"], ans:0 },
+  { tema:"Figuras geométricas", tipo:"mc", q:"¿Cuántos lados tiene un triángulo?", opts:["3","4","5","0"], ans:0 },
+  { tema:"Figuras geométricas", tipo:"mc", q:"¿Qué figura es totalmente redonda, sin esquinas?", opts:["Círculo","Cuadrado","Rectángulo","Triángulo"], ans:0 },
+  { tema:"Figuras geométricas", tipo:"match", q:"Relaciona cada figura con su número de lados.",
+    slots:[ {n:1,label:"Triángulo",ans:"3 lados"}, {n:2,label:"Cuadrado",ans:"4 lados iguales"}, {n:3,label:"Círculo",ans:"Sin lados ni esquinas"} ]},
+  { tema:"Los cinco sentidos", tipo:"mc", q:"¿Qué sentido usamos para ver los colores?", opts:["Vista","Oído","Gusto","Tacto"], ans:0 },
+  { tema:"Los cinco sentidos", tipo:"mc", q:"¿Con qué parte del cuerpo saboreamos la comida?", opts:["La lengua","La nariz","Los ojos","Las orejas"], ans:0 },
+  { tema:"Los cinco sentidos", tipo:"match", q:"Relaciona cada sentido con lo que nos permite hacer.",
+    slots:[ {n:1,label:"Vista",ans:"Ver colores y formas"}, {n:2,label:"Oído",ans:"Escuchar sonidos"}, {n:3,label:"Olfato",ans:"Percibir olores"}, {n:4,label:"Tacto",ans:"Sentir texturas"} ]},
+  { tema:"Plato del Buen Comer", tipo:"mc", q:"La manzana pertenece al grupo de…", opts:["Frutas y verduras","Cereales","Leguminosas","Origen animal"], ans:0 },
+  { tema:"Plato del Buen Comer", tipo:"mc", q:"El arroz pertenece al grupo de los…", opts:["Cereales","Frutas y verduras","Leguminosas","Origen animal"], ans:0 },
+  { tema:"Plato del Buen Comer", tipo:"match", q:"Relaciona cada alimento con su grupo del Plato del Buen Comer.",
+    slots:[ {n:1,label:"Manzana",ans:"Frutas y verduras"}, {n:2,label:"Arroz",ans:"Cereales"}, {n:3,label:"Frijoles",ans:"Leguminosas"}, {n:4,label:"Pollo",ans:"Origen animal"} ]},
+  { tema:"Medidas del tiempo", tipo:"mc", q:"Una hora tiene ___ minutos.", opts:["60","100","30","24"], ans:0 },
+  { tema:"Medidas del tiempo", tipo:"mc", q:"Un día tiene ___ horas.", opts:["24","12","60","7"], ans:0 },
+  { tema:"Medidas del tiempo", tipo:"mc", q:"¿Cuántos días tiene una semana?", opts:["7","5","30","12"], ans:0 },
+  { tema:"Medidas del tiempo", tipo:"mc", q:"¿Qué día de la semana va antes del sábado?", opts:["Viernes","Domingo","Jueves","Lunes"], ans:0 },
+  { tema:"Medidas del tiempo", tipo:"mc", q:"¿Cuál de las opciones contiene SOLAMENTE días de la semana?", opts:["Lunes, martes y jueves","Enero, lunes y marzo","Verano, otoño e invierno","Horas, minutos y días"], ans:0 },
+];
+
+/* 2º Saberes · Examen 3 (misma guía GUIA2, preguntas distintas) */
+const BANCO2_C = [
+  { tema:"Unidades, decenas y centenas", tipo:"mc", q:"¿Cuántas decenas tiene una centena?", opts:["10","100","1","5"], ans:0 },
+  { tema:"Unidades, decenas y centenas", tipo:"mc", q:"En el número 814, ¿cuánto vale el dígito 8?", opts:["800","80","8","14"], ans:0 },
+  { tema:"Unidades, decenas y centenas", tipo:"mc", q:"En el número 647, ¿cuánto vale el dígito 7?", opts:["7","70","700","40"], ans:0 },
+  { tema:"Unidades, decenas y centenas", tipo:"mc", q:"¿Qué número se forma con 4 centenas, 5 decenas y 0 unidades?", opts:["450","405","540","4050"], ans:0 },
+  { tema:"Unidades, decenas y centenas", tipo:"mc", q:"¿Qué número se forma con 6 centenas, 3 decenas y 2 unidades?", opts:["632","623","326","6032"], ans:0 },
+  { tema:"Composición y descomposición", tipo:"mc", q:"¿Cómo se descompone el número 716?", opts:["700 + 10 + 6","700 + 1 + 6","7 + 10 + 6","70 + 10 + 6"], ans:0 },
+  { tema:"Composición y descomposición", tipo:"mc", q:"¿Cómo se descompone el número 350?", opts:["300 + 50","300 + 5","30 + 50","3 + 50"], ans:0 },
+  { tema:"Composición y descomposición", tipo:"mc", q:"¿Qué número se forma con 800 + 40 + 1?", opts:["841","814","8041","481"], ans:0 },
+  { tema:"Composición y descomposición", tipo:"mc", q:"¿Qué número se forma con 100 + 90 + 9?", opts:["199","919","1099","991"], ans:0 },
+  { tema:"Antecesor y sucesor", tipo:"mc", q:"El sucesor es el número que está DESPUÉS. ¿Cuál es el sucesor de 499?", opts:["500","498","409","598"], ans:0 },
+  { tema:"Antecesor y sucesor", tipo:"mc", q:"El antecesor es el número que está ANTES. ¿Cuál es el antecesor de 810?", opts:["809","811","800","820"], ans:0 },
+  { tema:"Antecesor y sucesor", tipo:"mc", q:"¿Cuál es el sucesor de 256?", opts:["257","255","266","250"], ans:0 },
+  { tema:"Sumas y restas", tipo:"mc", q:"¿Cuánto es 63 + 18?", opts:["81","71","80","91"], ans:0 },
+  { tema:"Sumas y restas", tipo:"mc", q:"¿Cuánto es 90 − 45?", opts:["45","55","35","40"], ans:0 },
+  { tema:"Sumas y restas", tipo:"mc", q:"¿Cuánto es 37 + 46?", opts:["83","73","82","93"], ans:0 },
+  { tema:"Problemas", tipo:"mc", q:"En una caja hay 50 galletas y se comen 18. ¿Cuántas quedan?", opts:["32","38","42","22"], ans:0 },
+  { tema:"Problemas", tipo:"mc", q:"Sofía tiene 24 stickers y compra 15 más. ¿Cuántos tiene ahora?", opts:["39","29","49","35"], ans:0 },
+  { tema:"Figuras geométricas", tipo:"mc", q:"¿Cuántos lados tiene un cuadrado?", opts:["4","3","5","0"], ans:0 },
+  { tema:"Figuras geométricas", tipo:"mc", q:"¿Qué figura tiene 3 esquinas y 3 lados?", opts:["Triángulo","Cuadrado","Círculo","Rectángulo"], ans:0 },
+  { tema:"Figuras geométricas", tipo:"mc", q:"La rueda de una bicicleta tiene forma de…", opts:["Círculo","Cuadrado","Triángulo","Rectángulo"], ans:0 },
+  { tema:"Figuras geométricas", tipo:"match", q:"Relaciona cada figura con su característica.",
+    slots:[ {n:1,label:"Cuadrado",ans:"4 lados iguales"}, {n:2,label:"Rectángulo",ans:"2 lados largos y 2 cortos"}, {n:3,label:"Triángulo",ans:"3 lados"}, {n:4,label:"Círculo",ans:"Redondo, sin esquinas"} ]},
+  { tema:"Los cinco sentidos", tipo:"mc", q:"¿Qué sentido usamos para escuchar música?", opts:["Oído","Vista","Olfato","Gusto"], ans:0 },
+  { tema:"Los cinco sentidos", tipo:"mc", q:"¿Con qué parte del cuerpo olemos?", opts:["La nariz","La lengua","Los ojos","La piel"], ans:0 },
+  { tema:"Los cinco sentidos", tipo:"match", q:"Relaciona cada sentido con la parte del cuerpo que usamos.",
+    slots:[ {n:1,label:"Vista",ans:"Ojos"}, {n:2,label:"Oído",ans:"Orejas"}, {n:3,label:"Gusto",ans:"Lengua"}, {n:4,label:"Tacto",ans:"Piel"} ]},
+  { tema:"Plato del Buen Comer", tipo:"mc", q:"El frijol pertenece al grupo de las…", opts:["Leguminosas","Cereales","Frutas y verduras","Origen animal"], ans:0 },
+  { tema:"Plato del Buen Comer", tipo:"mc", q:"La leche es un alimento de origen…", opts:["Animal","Vegetal","Cereal","Mineral"], ans:0 },
+  { tema:"Plato del Buen Comer", tipo:"match", q:"Relaciona cada alimento con su grupo del Plato del Buen Comer.",
+    slots:[ {n:1,label:"Zanahoria",ans:"Frutas y verduras"}, {n:2,label:"Pan",ans:"Cereales"}, {n:3,label:"Lentejas",ans:"Leguminosas"}, {n:4,label:"Queso",ans:"Origen animal"} ]},
+  { tema:"Medidas del tiempo", tipo:"mc", q:"¿Cuántos segundos tiene un minuto?", opts:["60","100","30","24"], ans:0 },
+  { tema:"Medidas del tiempo", tipo:"mc", q:"¿Cuántos meses tiene un año?", opts:["12","10","7","24"], ans:0 },
+  { tema:"Medidas del tiempo", tipo:"mc", q:"¿Qué mes es el primero del año?", opts:["Enero","Diciembre","Marzo","Junio"], ans:0 },
+  { tema:"Medidas del tiempo", tipo:"mc", q:"¿Qué día de la semana va después del domingo?", opts:["Lunes","Sábado","Viernes","Jueves"], ans:0 },
+  { tema:"Medidas del tiempo", tipo:"mc", q:"¿Cuál de las opciones contiene SOLAMENTE meses del año?", opts:["Marzo, abril y mayo","Lunes, abril y mayo","Jueves, viernes y sábado","Horas, días y años"], ans:0 },
+];
+
 const GUIA2 = [
   ["🔢 Unidades, decenas y centenas",
     `<ul>
@@ -693,17 +771,22 @@ const GUIA2 = [
 
 /* ---------- Selección de grado por URL: saberes.html?g=2 / 4 / 5 ---------- */
 const GRADOS = {
-  "2": { label:"2º", banco:BANCO2, guia:GUIA2 },
+  "2": { label:"2º", banco:BANCO2, guia:GUIA2, variantes:{ b:BANCO2_B, c:BANCO2_C } },
   "4": { label:"4º", banco:BANCO4, guia:GUIA4 },
   "5": { label:"5º", banco:BANCO5, guia:GUIA5 },
 };
 let gradoActual = (()=>{ const g=new URLSearchParams(location.search).get("g"); return GRADOS[g]?g:"5"; })();
-let BANCO = GRADOS[gradoActual].banco;
-let GUIA  = GRADOS[gradoActual].guia;
+const varParam = new URLSearchParams(location.search).get("v");       // ?v=b / ?v=c
+const variantes = GRADOS[gradoActual].variantes || {};
+let BANCO = variantes[varParam] || GRADOS[gradoActual].banco;
+let GUIA  = GRADOS[gradoActual].guia;                                  // guía compartida
+const EXLBL = { b:" · Examen 2", c:" · Examen 3" };
+const examenLabel = variantes[varParam] ? EXLBL[varParam]
+                  : (Object.keys(variantes).length ? " · Examen 1" : "");
 (function initGrado(){
   const lbl = GRADOS[gradoActual].label;
-  const sub = document.querySelector(".sub"); if(sub) sub.textContent = lbl+" de primaria · 1er Trimestre · Noviembre";
-  document.title = "Saberes y Pensamiento Científico · "+lbl+" · 1er Trimestre";
+  const sub = document.querySelector(".sub"); if(sub) sub.textContent = lbl+" de primaria"+examenLabel+" · 1er Trimestre · Noviembre";
+  document.title = "Saberes y Pensamiento Científico · "+lbl+examenLabel+" · 1er Trimestre";
   const gt = document.getElementById("guiaTitulo"); if(gt) gt.textContent = "Guía de estudio · Saberes y Pensamiento Científico · "+lbl+" · 1er Trimestre";
   const home = document.querySelector("footer a"); if(home) home.href = "index.html?g="+gradoActual;
 })();

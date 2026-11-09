@@ -691,6 +691,264 @@ const GUIA_HUMANO = [
 ];
 
 /* =======================================================================
+   2º · De lo Humano y lo Comunitario  (apegado a la guía: 6 temas)
+   ======================================================================= */
+const BANCO_HUMANO2_A = [
+  /* Tema 1 · Colaboramos en casa y en la escuela */
+  { tema:"Colaborar", tipo:"mc",
+    q:"¿Qué significa colaborar en casa?",
+    opts:["Ayudar con las tareas del hogar junto con la familia","Dejar que otros hagan todo","Jugar sin ayudar en nada","Esconder las cosas"], ans:0 },
+  { tema:"Ayudar en casa", tipo:"mc",
+    q:"¿Con cuál de estas actividades puedes ayudar en casa?",
+    opts:["Poner la mesa y ordenar mis zapatos","Reparar cables de electricidad","Cargar muebles muy pesados","Nada, soy muy pequeño"], ans:0 },
+  { tema:"Colaboración", tipo:"match",
+    q:"Relaciona cada acción con el lugar donde colaboras.",
+    slots:[
+      {n:1, label:"Guardar mis juguetes", ans:"En casa"},
+      {n:2, label:"Recoger mis útiles escolares", ans:"En la escuela"},
+      {n:3, label:"Ayudar a poner la mesa", ans:"En casa"},
+    ]},
+  { tema:"Responsabilidades", tipo:"mc",
+    q:"En la familia, las responsabilidades del hogar se deben…",
+    opts:["Repartir de manera justa entre todos","Dejar solo a una persona","No hacer nunca","Repartir solo a los niños"], ans:0 },
+
+  /* Tema 2 · Igualdad entre niñas y niños */
+  { tema:"Igualdad", tipo:"mc",
+    q:"¿Quiénes pueden jugar futbol?",
+    opts:["Las niñas y los niños por igual","Solo los niños","Solo las niñas","Nadie"], ans:0 },
+  { tema:"Igualdad", tipo:"mc",
+    q:"¿Quién puede aprender a cocinar?",
+    opts:["Tanto las niñas como los niños","Solamente las mujeres","Solamente los hombres","Nadie puede aprender"], ans:0 },
+  { tema:"Oportunidades", tipo:"mc",
+    q:"Las niñas y los niños tienen…",
+    opts:["Las mismas oportunidades para aprender y jugar","Oportunidades solo para los niños","Oportunidades solo para las niñas","Ninguna oportunidad"], ans:0 },
+
+  /* Tema 3 · Respetamos nuestras emociones */
+  { tema:"Emociones", tipo:"mc",
+    q:"¿Qué emociones podemos sentir todas las personas?",
+    opts:["Alegría, tristeza, miedo y enojo","Solo alegría","Ninguna emoción","Solo los adultos sienten emociones"], ans:0 },
+  { tema:"Respeto a las emociones", tipo:"mc",
+    q:"Si un compañero está triste, debemos tratarlo con…",
+    opts:["Respeto y apoyo","Burlas","Gritos","Indiferencia"], ans:0 },
+  { tema:"Llorar", tipo:"mc",
+    q:"¿Quiénes pueden llorar cuando lo necesitan?",
+    opts:["Todas las personas, niñas y niños","Solo las niñas","Solo los bebés","Nadie debe llorar"], ans:0 },
+
+  /* Tema 4 · Los estereotipos */
+  { tema:"Estereotipo", tipo:"mc",
+    q:"¿Qué es un estereotipo?",
+    opts:["Una idea que limita lo que las personas pueden hacer por ser niñas o niños","Una emoción alegre","Un juego de la escuela","Una regla justa"], ans:0 },
+  { tema:"Estereotipo", tipo:"mc",
+    q:"¿Cuál de estas frases es un estereotipo?",
+    opts:["Solo las mujeres deben limpiar la casa","Niñas y niños pueden practicar deportes","Todas las personas pueden colaborar","Los hombres también pueden cocinar"], ans:0 },
+  { tema:"Estereotipos", tipo:"mc",
+    q:"¿Por qué debemos evitar los estereotipos?",
+    opts:["Porque todas las personas merecen las mismas oportunidades","Porque son divertidos","Porque solo algunos pueden elegir","Para que nadie aprenda"], ans:0 },
+
+  /* Tema 5 · Personas y servicios de nuestra comunidad */
+  { tema:"Servicios de la comunidad", tipo:"match",
+    q:"Relaciona cada profesión con su función.",
+    slots:[
+      {n:1, label:"Bombero o bombera", ans:"Apagar incendios"},
+      {n:2, label:"Médico o médica", ans:"Atender a personas enfermas"},
+      {n:3, label:"Maestro o maestra", ans:"Enseñar a los alumnos"},
+    ]},
+  { tema:"Servicios de la comunidad", tipo:"mc",
+    q:"Cuando estamos enfermos necesitamos atención…",
+    opts:["Médica","De los bomberos","De transporte","De la basura"], ans:0 },
+
+  /* Tema 6 · La pandemia de COVID-19 y la higiene */
+  { tema:"Pandemia COVID-19", tipo:"mc",
+    q:"Durante la pandemia de COVID-19, muchos niños estudiaron desde…",
+    opts:["Casa, con apoyo de sus familias y docentes","El estadio","Otro país","La calle"], ans:0 },
+  { tema:"Hábitos de higiene", tipo:"mc",
+    q:"¿Cuál hábito ayuda a cuidar nuestra salud?",
+    opts:["Lavarnos las manos con agua y jabón","Compartir vasos sin lavarlos","Toser hacia otras personas","No bañarnos nunca"], ans:0 },
+];
+
+/* De lo Humano y lo Comunitario · 2º · Examen 2 (misma guía GUIA_HUMANO2) */
+const BANCO_HUMANO2_B = [
+  { tema:"Colaborar", tipo:"mc",
+    q:"¿Por qué es importante colaborar en casa?",
+    opts:["Porque entre todos mantenemos el hogar limpio y ordenado","Porque así una sola persona hace todo","Porque no sirve de nada","Para ensuciar más"], ans:0 },
+  { tema:"Ayudar en la escuela", tipo:"mc",
+    q:"¿Con cuál actividad ayudas a tener limpia la escuela?",
+    opts:["Recoger mis útiles y colaborar en el salón","Tirar basura al piso","Rayar las paredes","Dejar todo tirado"], ans:0 },
+  { tema:"Colaboración", tipo:"match",
+    q:"Relaciona cada palabra con su significado.",
+    slots:[
+      {n:1, label:"Colaborar", ans:"Ayudar junto con otras personas"},
+      {n:2, label:"Responsabilidades", ans:"Tareas que debemos repartir de forma justa"},
+      {n:3, label:"Familia", ans:"Las personas con las que vivo en casa"},
+    ]},
+  { tema:"Responsabilidades", tipo:"mc",
+    q:"Después de trabajar o jugar, debemos…",
+    opts:["Guardar los materiales en su lugar","Dejarlos tirados","Esconderlos","Romperlos"], ans:0 },
+
+  { tema:"Igualdad", tipo:"mc",
+    q:"¿Quiénes pueden ser docentes, médicos o bomberos?",
+    opts:["Tanto las mujeres como los hombres","Solo los hombres","Solo las mujeres","Nadie"], ans:0 },
+  { tema:"Igualdad", tipo:"mc",
+    q:"¿Es cierto que solamente las mujeres deben limpiar la casa?",
+    opts:["No, todas las personas pueden limpiar la casa","Sí, solo las mujeres","Sí, solo los niños","Nadie debe limpiar"], ans:0 },
+  { tema:"Igualdad", tipo:"match",
+    q:"Relaciona cada actividad con quién puede realizarla.",
+    slots:[
+      {n:1, label:"Jugar futbol", ans:"Niñas y niños"},
+      {n:2, label:"Cocinar", ans:"Mujeres y hombres"},
+      {n:3, label:"Ser bombero o bombera", ans:"Mujeres y hombres"},
+    ]},
+
+  { tema:"Emociones", tipo:"mc",
+    q:"¿Cuál acción muestra respeto por las emociones de los demás?",
+    opts:["Acompañar con respeto a quien necesita apoyo","Burlarse de alguien porque llora","Decir que los niños no deben llorar","Ignorar a quien está triste"], ans:0 },
+  { tema:"Emociones", tipo:"mc",
+    q:"Todas las personas tenemos derecho a…",
+    opts:["Expresar nuestras emociones","Gritarle a los demás","Burlarnos de otros","Esconder lo que sentimos siempre"], ans:0 },
+  { tema:"Emociones", tipo:"match",
+    q:"Relaciona cada acción con lo que muestra.",
+    slots:[
+      {n:1, label:"Escuchar a un compañero triste", ans:"Respeto"},
+      {n:2, label:"Burlarse de alguien que llora", ans:"Falta de respeto"},
+    ]},
+
+  { tema:"Estereotipo", tipo:"mc",
+    q:"La frase “los hombres no deben llorar” es…",
+    opts:["Un estereotipo que debemos evitar","Una regla justa","Una emoción","Un juego"], ans:0 },
+  { tema:"Estereotipo", tipo:"mc",
+    q:"¿Cuál frase promueve la igualdad y NO es un estereotipo?",
+    opts:["Niñas y niños pueden practicar deportes","Solo los hombres pueden jugar futbol","Solo las mujeres deben cocinar","Los niños no deben llorar"], ans:0 },
+
+  { tema:"Servicios de la comunidad", tipo:"mc",
+    q:"¿Quién nos ayuda a apagar incendios?",
+    opts:["Los bomberos y las bomberas","Los maestros","Los médicos","Los choferes"], ans:0 },
+  { tema:"Servicios de la comunidad", tipo:"mc",
+    q:"La función de un maestro o maestra es…",
+    opts:["Enseñar a los alumnos","Apagar incendios","Atender enfermos","Repartir comida"], ans:0 },
+
+  { tema:"Pandemia COVID-19", tipo:"mc",
+    q:"Durante la pandemia, algunas familias recibían sus compras…",
+    opts:["A domicilio, en su casa","En otro país","En la escuela","En el parque"], ans:0 },
+  { tema:"Hábitos de higiene", tipo:"mc",
+    q:"¿Cuál de estos NO es un buen hábito de higiene?",
+    opts:["Compartir vasos sin lavarlos","Lavarnos las manos","Cubrirnos al toser","Bañarnos seguido"], ans:0 },
+];
+
+/* De lo Humano y lo Comunitario · 2º · Examen 3 (misma guía GUIA_HUMANO2) */
+const BANCO_HUMANO2_C = [
+  { tema:"Colaborar", tipo:"mc",
+    q:"Escribe una actividad con la que puedes colaborar en casa:",
+    opts:["Limpiar mi cuarto","Reparar la instalación de luz","Manejar el coche","Nada"], ans:0 },
+  { tema:"Colaboración", tipo:"match",
+    q:"Relaciona cada actividad con el lugar donde la realizas.",
+    slots:[
+      {n:1, label:"Ordenar mis zapatos", ans:"En casa"},
+      {n:2, label:"Recoger la basura del salón", ans:"En la escuela"},
+      {n:3, label:"Guardar mis juguetes", ans:"En casa"},
+    ]},
+  { tema:"Familia", tipo:"mc",
+    q:"¿Quiénes pueden ayudar en las actividades del hogar?",
+    opts:["Todos los integrantes de la familia","Solo mamá","Solo los niños","Nadie"], ans:0 },
+
+  { tema:"Igualdad", tipo:"mc",
+    q:"¿Existen juegos o profesiones solo para un género?",
+    opts:["No, todas las personas pueden aprender y participar","Sí, el futbol es solo para niños","Sí, cocinar es solo para niñas","Sí, muchos"], ans:0 },
+  { tema:"Igualdad", tipo:"mc",
+    q:"Niñas y niños pueden aprender nuevas actividades. Esto es…",
+    opts:["Verdadero","Falso","Solo para niñas","Solo para niños"], ans:0 },
+
+  { tema:"Emociones", tipo:"mc",
+    q:"¿Quiénes sentimos alegría, tristeza, miedo o enojo?",
+    opts:["Todas las personas","Solo los niños","Solo los adultos","Nadie"], ans:0 },
+  { tema:"Llorar", tipo:"mc",
+    q:"Llorar es algo que…",
+    opts:["Pueden hacer tanto las niñas como los niños","Solo hacen las niñas","Está prohibido","Es malo"], ans:0 },
+  { tema:"Respeto a las emociones", tipo:"match",
+    q:"Relaciona cada acción con lo que provoca.",
+    slots:[
+      {n:1, label:"Acompañar a quien necesita apoyo", ans:"Muestra respeto"},
+      {n:2, label:"Burlarse de alguien que llora", ans:"Falta el respeto"},
+    ]},
+
+  { tema:"Estereotipo", tipo:"mc",
+    q:"Un estereotipo es una idea que…",
+    opts:["Limita lo que las personas pueden hacer por ser niñas o niños","Ayuda a todos por igual","Nos hace más justos","No existe"], ans:0 },
+  { tema:"Estereotipos", tipo:"mc",
+    q:"Debemos evitar los estereotipos porque todas las personas…",
+    opts:["Merecen las mismas oportunidades para aprender y realizar actividades","Deben pensar igual","Tienen los mismos gustos","Deben hacer lo mismo"], ans:0 },
+
+  { tema:"Servicios de la comunidad", tipo:"match",
+    q:"Relaciona cada profesión con su función.",
+    slots:[
+      {n:1, label:"Médico o médica", ans:"Atender a personas enfermas"},
+      {n:2, label:"Bombero o bombera", ans:"Apagar incendios"},
+      {n:3, label:"Maestro o maestra", ans:"Enseñar a los alumnos"},
+    ]},
+  { tema:"Servicios de la comunidad", tipo:"mc",
+    q:"En nuestra comunidad hay personas que…",
+    opts:["Realizan diferentes trabajos y ofrecen servicios importantes","No ayudan a nadie","Solo juegan","No trabajan"], ans:0 },
+
+  { tema:"Pandemia COVID-19", tipo:"mc",
+    q:"¿Cómo continuaron aprendiendo muchos estudiantes cuando cerraron las escuelas?",
+    opts:["Desde casa, con apoyo de familias y docentes","No aprendieron nada","En otro país","En el parque"], ans:0 },
+  { tema:"Hábitos de higiene", tipo:"match",
+    q:"Relaciona cada hábito con lo que provoca en nuestra salud.",
+    slots:[
+      {n:1, label:"Lavarnos las manos con agua y jabón", ans:"Cuida nuestra salud"},
+      {n:2, label:"Cubrirnos al toser o estornudar", ans:"Evita contagiar a otros"},
+      {n:3, label:"Compartir vasos sin lavarlos", ans:"Puede enfermarnos"},
+    ]},
+  { tema:"Hábitos de higiene", tipo:"mc",
+    q:"Mantener hábitos de higiene nos ayuda a…",
+    opts:["Cuidar nuestra salud","Enfermarnos más","Contagiar a otros","Ensuciar todo"], ans:0 },
+];
+
+const GUIA_HUMANO2 = [
+  ["🧹 Colaboramos en casa y en la escuela",
+    `<ul>
+       <li><span class="key">Colaborar</span>: ayudar con las tareas junto con otras personas. <b>Ejemplo:</b> poner la mesa, guardar los juguetes, ordenar mis zapatos.</li>
+       <li><span class="key">Responsabilidades</span>: todos los integrantes de la <b>familia</b> pueden ayudar, repartiendo las tareas de manera justa.</li>
+       <li><span class="key">En la escuela</span>: también colaboramos para mantener limpio y ordenado el salón. <b>Ejemplo:</b> recoger mis útiles y guardar los materiales.</li>
+     </ul>
+     <img class="guiaimg" src="img/humano2/colaborar.png" alt="Niño barriendo para colaborar en casa">`],
+  ["⚖️ Igualdad entre niñas y niños",
+    `<ul>
+       <li><span class="key">Igualdad</span>: las niñas y los niños tienen las mismas oportunidades para aprender, jugar y realizar actividades.</li>
+       <li><span class="key">No hay exclusivos</span>: no existen tareas, juegos ni profesiones solo para un género. <b>Ejemplo:</b> las niñas pueden jugar futbol y los niños pueden cocinar.</li>
+       <li><span class="key">Profesiones para todos</span>: mujeres y hombres pueden ser docentes, médicos o bomberos.</li>
+     </ul>
+     <img class="guiaimg" src="img/humano2/igualdad.png" alt="Una niña y un niño jugando con un balón de futbol">`],
+  ["❤️ Respetamos nuestras emociones",
+    `<ul>
+       <li><span class="key">Emociones</span>: todas las personas sentimos alegría, tristeza, miedo o enojo, y debemos respetar lo que sienten los demás.</li>
+       <li><span class="key">Respeto</span>: si un compañero está triste, lo tratamos con respeto y lo acompañamos. <b>Ejemplo:</b> escucharlo y apoyarlo.</li>
+       <li><span class="key">Llorar</span>: no es exclusivo de las niñas ni de los niños; todas las personas pueden llorar.</li>
+     </ul>
+     <img class="guiaimg" src="img/humano2/emociones.png" alt="Una niña acompaña con respeto a un niño que está triste">`],
+  ["🚫 Los estereotipos",
+    `<ul>
+       <li><span class="key">Estereotipo</span>: una idea que limita lo que las personas pueden hacer por ser niñas o niños. <b>Ejemplo:</b> “solo las mujeres deben limpiar” o “los hombres no deben llorar”.</li>
+       <li><span class="key">Evitarlos</span>: debemos evitar los estereotipos porque todas las personas merecen las mismas oportunidades para aprender y realizar actividades.</li>
+     </ul>`],
+  ["🚒 Personas y servicios de nuestra comunidad",
+    `<ul>
+       <li><span class="key">En la comunidad</span> hay personas que realizan diferentes trabajos y ofrecen servicios importantes.</li>
+       <li><span class="key">Bombero o bombera</span>: apaga incendios.</li>
+       <li><span class="key">Médico o médica</span>: atiende a las personas enfermas.</li>
+       <li><span class="key">Maestro o maestra</span>: enseña a los alumnos.</li>
+     </ul>
+     <img class="guiaimg" src="img/humano2/servicios.png" alt="Bombero o bombera de la comunidad">`],
+  ["🧼 La pandemia de COVID-19 y la higiene",
+    `<ul>
+       <li><span class="key">Pandemia de COVID-19</span>: muchas escuelas cerraron y los estudiantes aprendieron desde casa con apoyo de docentes y familias; algunas familias recibían sus compras a domicilio.</li>
+       <li><span class="key">Hábitos para cuidar la salud</span>: lavarnos las manos con agua y jabón, cubrirnos al toser o estornudar y mantener la higiene.</li>
+       <li><span class="key">Lo que debemos evitar</span>: compartir vasos sin lavarlos o toser directamente hacia otras personas.</li>
+     </ul>
+     <img class="guiaimg" src="img/humano2/pandemia.png" alt="Niño estudiando desde casa con una computadora">
+     <img class="guiaimg" src="img/humano2/higiene.png" alt="Niño lavándose las manos con agua y jabón">`],
+];
+
+/* =======================================================================
    2º · Ética, Naturaleza y Sociedades  (apegado a la guía: 6 temas)
    ======================================================================= */
 const BANCO_ETICA2 = [
@@ -1358,6 +1616,9 @@ const MATERIAS = {
   "etica5a":{ titulo:"Ética, Naturaleza y Sociedades · Examen 1", emoji:"🌎", grado:"5º", banco:BANCO_ETICA,    guia:GUIA_ETICA },
   "etica5b":{ titulo:"Ética, Naturaleza y Sociedades · Examen 2", emoji:"🌎", grado:"5º", banco:BANCO_ETICA5_B, guia:GUIA_ETICA },
   "etica5c":{ titulo:"Ética, Naturaleza y Sociedades · Examen 3", emoji:"🌎", grado:"5º", banco:BANCO_ETICA5_C, guia:GUIA_ETICA },
+  "humano2a":{ titulo:"De lo Humano y lo Comunitario · Examen 1", emoji:"🤝", grado:"2º", banco:BANCO_HUMANO2_A, guia:GUIA_HUMANO2 },
+  "humano2b":{ titulo:"De lo Humano y lo Comunitario · Examen 2", emoji:"🤝", grado:"2º", banco:BANCO_HUMANO2_B, guia:GUIA_HUMANO2 },
+  "humano2c":{ titulo:"De lo Humano y lo Comunitario · Examen 3", emoji:"🤝", grado:"2º", banco:BANCO_HUMANO2_C, guia:GUIA_HUMANO2 },
   "etica2a":{ titulo:"Ética, Naturaleza y Sociedades · Examen 1", emoji:"🌎", grado:"2º", banco:BANCO_ETICA2,   guia:GUIA_ETICA2 },
   "etica2b":{ titulo:"Ética, Naturaleza y Sociedades · Examen 2", emoji:"🌎", grado:"2º", banco:BANCO_ETICA2_B, guia:GUIA_ETICA2 },
   "etica2c":{ titulo:"Ética, Naturaleza y Sociedades · Examen 3", emoji:"🌎", grado:"2º", banco:BANCO_ETICA2_C, guia:GUIA_ETICA2 },

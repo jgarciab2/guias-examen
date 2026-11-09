@@ -129,11 +129,13 @@
     <h2>¡A practicar!</h2>
     <p>Repasa todos los temas de tu guía con preguntas de opción múltiple,
        verdadero o falso, completar, relacionar y preguntas para escribir.</p>
-    <p class="hint" style="margin-bottom:6px">1) Elige tu grado:</p>
-    <div class="row" style="justify-content:center;gap:8px">
-      <button class="grado" data-g="3" onclick="setGrade('3')">3º</button>
-      <button class="grado" data-g="4" onclick="setGrade('4')">4º</button>
-      <button class="grado active" data-g="5" onclick="setGrade('5')">5º</button>
+    <div id="gradeStep">
+      <p class="hint" style="margin-bottom:6px">1) Elige tu grado:</p>
+      <div class="row" style="justify-content:center;gap:8px">
+        <button class="grado" data-g="3" onclick="setGrade('3')">3º</button>
+        <button class="grado" data-g="4" onclick="setGrade('4')">4º</button>
+        <button class="grado active" data-g="5" onclick="setGrade('5')">5º</button>
+      </div>
     </div>
     <p class="hint" style="margin-bottom:6px">2) Elige el tipo de examen (mismas preguntas, distinta forma de responder):</p>
     <div class="row" style="justify-content:center;gap:8px">
@@ -726,8 +728,9 @@ function setGrade(g){
   const home = document.querySelector("footer a"); if(home) home.href = "index.html?g="+g; // vuelve al grado actual
 }
 setGrade("5");   // inicializa título, encabezado y estado activo
-// ponytail: grado preseleccionado desde el portal, p.ej. lenguajes.html?g=3
-{ const g=new URLSearchParams(location.search).get("g"); if(GRADOS[g]) setGrade(g); }
+// ponytail: grado preseleccionado desde el portal (lenguajes.html?g=3) → oculta el paso de grado redundante
+{ const g=new URLSearchParams(location.search).get("g");
+  if(GRADOS[g]){ setGrade(g); document.getElementById("gradeStep").style.display="none"; } }
 
 /* ---------- Normalización para respuestas de completar ---------- */
 function norm(s){

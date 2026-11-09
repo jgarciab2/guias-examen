@@ -77,16 +77,25 @@
 "use strict";
 const MATERIAS = {
   "2":[
-    {n:"Saberes y Pensamiento Científico", f:"saberes.html?g=2", em:"🔬"},
+    {n:"Saberes y Pensamiento Científico", em:"🔬", variants:[
+      {n:"Examen 1", f:"saberes.html?g=2"},
+      {n:"Examen 2", f:"saberes.html?g=2&v=b"},
+      {n:"Examen 3", f:"saberes.html?g=2&v=c"},
+    ]},
     {n:"Ética, Naturaleza y Sociedades", em:"🌎", variants:[
       {n:"Examen 1", f:"examen.html?m=etica2a"},
       {n:"Examen 2", f:"examen.html?m=etica2b"},
       {n:"Examen 3", f:"examen.html?m=etica2c"},
     ]},
-    {n:"Lenguajes", em:"📚", variants:[
+    {n:"Inglés", em:"📚", variants:[
       {n:"Examen 1", f:"examen.html?m=ingles2a"},
       {n:"Examen 2", f:"examen.html?m=ingles2b"},
       {n:"Examen 3", f:"examen.html?m=ingles2c"},
+    ]},
+    {n:"De lo Humano y lo Comunitario", em:"🤝", variants:[
+      {n:"Examen 1", f:"examen.html?m=humano2a"},
+      {n:"Examen 2", f:"examen.html?m=humano2b"},
+      {n:"Examen 3", f:"examen.html?m=humano2c"},
     ]},
   ],
   "4":[
