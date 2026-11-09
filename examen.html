@@ -949,6 +949,234 @@ const GUIA_HUMANO2 = [
 ];
 
 /* =======================================================================
+   4º · De lo Humano y lo Comunitario  (apegado a la guía oficial IBB)
+   ======================================================================= */
+const BANCO_HUMANO4_A = [
+  /* Diálogo, escucha activa y comunicación asertiva */
+  { tema:"Diálogo y escucha activa", tipo:"mc",
+    q:"Cuando surge un desacuerdo en un juego y los estudiantes se reúnen a dialogar y a escuchar las propuestas de los demás, ¿qué valor central ejercitan?",
+    opts:["El diálogo y la escucha activa","La competencia por ganar","El silencio obligatorio","La indiferencia"], ans:0 },
+  { tema:"Empatía y comunicación asertiva", tipo:"mc",
+    q:"¿Qué acción promueve la empatía y la comunicación asertiva en el aula?",
+    opts:["Ponernos en el lugar del otro y comprender sus necesidades sin juzgar","Imponer nuestra opinión gritando","Ignorar lo que sienten los demás","Burlarnos de quien se equivoca"], ans:0 },
+  { tema:"Empatía y escucha activa", tipo:"mc",
+    q:"¿Qué es la empatía y la escucha activa?",
+    opts:["Ponerse en el lugar del otro para comprender lo que siente y piensa antes de actuar","Hablar sin dejar que nadie responda","Escuchar solo a quien me cae bien","Repetir lo que digo hasta que me den la razón"], ans:0 },
+
+  /* Autorregulación emocional */
+  { tema:"Autorregulación emocional", tipo:"mc",
+    q:"¿Qué es la autorregulación emocional?",
+    opts:["La capacidad de controlar y dirigir nuestras emociones y conductas ante situaciones de conflicto","Hacer siempre lo que siento sin pensar","Esconder todo lo que me pasa","Enojarme hasta que me obedezcan"], ans:0 },
+  { tema:"Autorregulación ante la frustración", tipo:"mc",
+    q:"¿Cuál de estas acciones demuestra autorregulación y control de emociones ante una frustración?",
+    opts:["Respirar profundo, calmarse y expresar la molestia mediante el diálogo","Gritar y aventar las cosas","Culpar a los demás de todo","Dejar de hablarle a todos"], ans:0 },
+
+  /* La escuela: convivencia armónica y acuerdos */
+  { tema:"Convivencia armónica", tipo:"mc",
+    q:"¿Por qué la escuela se considera un espacio de convivencia armónica?",
+    opts:["Porque aprendemos a colaborar, respetar reglas y convivir en diversidad","Porque ahí nadie convive","Porque solo se compite","Porque no hay reglas"], ans:0 },
+  { tema:"Acuerdos de convivencia", tipo:"mc",
+    q:"¿Cuál es el propósito principal de construir acuerdos de convivencia en el salón de clases?",
+    opts:["Garantizar un ambiente seguro, respetuoso y ordenado para el aprendizaje","Castigar a los estudiantes","Que mande una sola persona","Perder el tiempo"], ans:0 },
+
+  /* Identidad personal e influencias */
+  { tema:"Identidad personal", tipo:"mc",
+    q:"¿Qué es la identidad personal?",
+    opts:["El conjunto de valores, historia, fortalezas, gustos y nombre propio que nos hacen únicos","Solo nuestra estatura y peso","Lo que opinan los demás de nosotros","La ropa que usamos"], ans:0 },
+  { tema:"Qué nos influye", tipo:"mc",
+    q:"Nuestras formas de ser, pensar y actuar están influenciadas por:",
+    opts:["Nuestra historia personal, valores familiares, cultura y experiencias diarias","Solo la suerte","Nada ni nadie","El clima del día"], ans:0 },
+  { tema:"Conceptos clave", tipo:"match",
+    q:"Relaciona cada concepto con su significado.",
+    slots:[
+      {n:1, label:"Autorregulación emocional", ans:"Controlar y dirigir mis emociones ante un conflicto"},
+      {n:2, label:"Identidad personal", ans:"Lo que me hace único: valores, gustos y nombre propio"},
+      {n:3, label:"Empatía y escucha activa", ans:"Ponerme en el lugar del otro antes de actuar"},
+      {n:4, label:"Sentido de pertenencia", ans:"Sentirme parte valiosa de mi grupo o comunidad"},
+    ]},
+
+  /* Diversidad, pertenencia y valores */
+  { tema:"Valorar la diversidad", tipo:"mc",
+    q:"Reconocer que cada compañero tiene formas distintas de relacionarse y expresar emociones nos ayuda a:",
+    opts:["Aceptar y valorar la diversidad en el grupo","Excluir a quien es diferente","Pensar que todos deben ser iguales","Ignorar a los demás"], ans:0 },
+  { tema:"Sentido de pertenencia", tipo:"mc",
+    q:"¿Cuándo se manifiesta el sentido de pertenencia a una comunidad o escuela?",
+    opts:["Cuando nos sentimos parte del grupo, valorados y comprometidos con su bienestar","Cuando no nos importa el grupo","Cuando competimos contra todos","Cuando queremos estar solos"], ans:0 },
+  { tema:"Valores de convivencia", tipo:"mc",
+    q:"¿Qué par de valores es indispensable para lograr una convivencia pacífica e incluyente en el salón?",
+    opts:["Respeto y empatía","Envidia y burla","Egoísmo y desorden","Indiferencia y gritos"], ans:0 },
+
+  /* Comunidad y familia */
+  { tema:"La comunidad", tipo:"mc",
+    q:"En la jornada de limpieza de San Pedro, donde niños y adultos trabajaron juntos, ¿qué representa la comunidad para sus habitantes?",
+    opts:["Un espacio de convivencia donde se comparte y se trabaja por el bien común","Un lugar donde cada quien ve solo por sí mismo","Un sitio sin importancia","Un espacio solo para adultos"], ans:0 },
+  { tema:"Cuidado del entorno", tipo:"mc",
+    q:"¿Cuál de las siguientes acciones contribuye al cuidado y mejora de nuestro entorno comunitario?",
+    opts:["Participar en el mantenimiento y limpieza de espacios públicos","Tirar basura en la plaza","Rayar las bancas del parque","Desperdiciar el agua"], ans:0 },
+  { tema:"La familia como protección", tipo:"mc",
+    q:"¿Por qué se considera a la familia como un espacio fundamental de protección?",
+    opts:["Porque brinda cuidado, afecto, alimento y seguridad física y emocional","Porque solo da órdenes","Porque no se interesa por nosotros","Porque nos deja solos"], ans:0 },
+  { tema:"Ámbitos de convivencia", tipo:"match",
+    q:"Relaciona cada acción con el ámbito al que pertenece.",
+    slots:[
+      {n:1, label:"Dialogar para resolver un desacuerdo en clase", ans:"Convivencia en la escuela"},
+      {n:2, label:"Pintar bancas y sembrar árboles en la plaza", ans:"Cuidado de la comunidad"},
+      {n:3, label:"Escucharte y apoyarte cuando estás enfermo", ans:"Protección de la familia"},
+    ]},
+];
+
+/* De lo Humano y lo Comunitario · 4º · Examen 2 (misma guía GUIA_HUMANO4) */
+const BANCO_HUMANO4_B = [
+  { tema:"Diálogo y escucha activa", tipo:"mc",
+    q:"Para solucionar un problema con respeto durante un juego, lo mejor es:",
+    opts:["Reunirse a dialogar y escuchar las propuestas de los compañeros","Pelear hasta que uno gane","Dejar de jugar y enojarse","Acusar a todos con el maestro"], ans:0 },
+  { tema:"Comunicación asertiva", tipo:"mc",
+    q:"La comunicación asertiva consiste en:",
+    opts:["Expresar lo que siento y pienso con respeto, sin agredir","Gritar para que me hagan caso","Quedarme callado siempre","Ofender a quien no piensa como yo"], ans:0 },
+  { tema:"Autorregulación emocional", tipo:"mc",
+    q:"Antes de reaccionar cuando estoy muy enojado, la autorregulación me ayuda a:",
+    opts:["Calmarme, respirar y pensar antes de actuar","Decir lo primero que se me ocurra","Golpear algo","Culpar a los demás"], ans:0 },
+  { tema:"Empatía", tipo:"mc",
+    q:"Ponerse en el lugar del otro para comprender lo que siente se llama:",
+    opts:["Empatía","Envidia","Indiferencia","Competencia"], ans:0 },
+  { tema:"Acuerdos de convivencia", tipo:"mc",
+    q:"Los acuerdos de convivencia del salón sirven para:",
+    opts:["Tener un ambiente seguro, respetuoso y ordenado para aprender","Que una persona mande sobre las demás","Dejar que cada quien haga lo que quiera","Castigar sin razón"], ans:0 },
+  { tema:"Convivencia armónica", tipo:"mc",
+    q:"En la escuela aprendemos a convivir en diversidad cuando:",
+    opts:["Colaboramos y respetamos las reglas y a los demás","Nos burlamos de quien es distinto","Competimos por ser el mejor","Excluimos a los nuevos"], ans:0 },
+  { tema:"Identidad personal", tipo:"mc",
+    q:"¿Qué elementos forman parte fundamental de la identidad personal de un estudiante?",
+    opts:["Sus valores, gustos, fortalezas, historia personal y nombre propio","Solo su edad","Lo que tiene de dinero","La marca de sus zapatos"], ans:0 },
+  { tema:"Qué nos influye", tipo:"mc",
+    q:"¿Cuál de estos factores influye en nuestra forma de ser, pensar y actuar?",
+    opts:["Nuestra historia personal, la familia y la cultura","El color del cielo","El número de la casa","Nada en absoluto"], ans:0 },
+  { tema:"Conceptos clave", tipo:"match",
+    q:"Relaciona cada concepto con su definición.",
+    slots:[
+      {n:1, label:"Empatía", ans:"Comprender lo que siente y piensa otra persona"},
+      {n:2, label:"Autorregulación emocional", ans:"Dirigir mis emociones ante un conflicto"},
+      {n:3, label:"Sentido de pertenencia", ans:"Sentirme parte activa de un grupo o comunidad"},
+    ]},
+  { tema:"Valorar la diversidad", tipo:"mc",
+    q:"Que cada compañero exprese sus emociones de forma distinta es algo que debemos:",
+    opts:["Aceptar y valorar como parte de la diversidad","Corregir hasta que todos sean iguales","Ignorar por completo","Criticar en público"], ans:0 },
+  { tema:"Cuidar los espacios comunes", tipo:"mc",
+    q:"Cuidar los jardines, el patio y los baños de la escuela demuestra:",
+    opts:["Sentido de pertenencia y responsabilidad comunitaria","Que no nos importa la escuela","Que solo pensamos en nosotros","Desinterés por los demás"], ans:0 },
+  { tema:"Valores de convivencia", tipo:"mc",
+    q:"¿Cuál de estos valores favorece una convivencia pacífica e incluyente?",
+    opts:["La honestidad","La burla","El egoísmo","La indiferencia"], ans:0 },
+  { tema:"Cuidado del entorno", tipo:"mc",
+    q:"Participar en una jornada de limpieza de la plaza es una forma de:",
+    opts:["Cuidar y mejorar nuestro entorno comunitario","Perder el tiempo","Ensuciar más","Molestar a los vecinos"], ans:0 },
+  { tema:"La familia como protección", tipo:"mc",
+    q:"La familia es un espacio fundamental de protección porque:",
+    opts:["Brinda cuidado, afecto, alimento y seguridad física y emocional","Solo exige y no apoya","No se interesa por sus miembros","Nos deja sin ayuda"], ans:0 },
+  { tema:"Valores en acción", tipo:"match",
+    q:"Relaciona cada situación con el valor que demuestra.",
+    slots:[
+      {n:1, label:"Escuchar a un compañero sin interrumpir", ans:"Respeto"},
+      {n:2, label:"Decir la verdad aunque cueste", ans:"Honestidad"},
+      {n:3, label:"Ayudar a quien se siente triste", ans:"Empatía"},
+    ]},
+];
+
+/* De lo Humano y lo Comunitario · 4º · Examen 3 (misma guía GUIA_HUMANO4) */
+const BANCO_HUMANO4_C = [
+  { tema:"Empatía y comunicación asertiva", tipo:"mc",
+    q:"¿Qué significa ponernos en el lugar del otro y comprender sus necesidades sin juzgar?",
+    opts:["Practicar la empatía y la comunicación asertiva","Ser indiferente","Imponer mi opinión","Competir contra los demás"], ans:0 },
+  { tema:"Diálogo y escucha activa", tipo:"mc",
+    q:"Para lograr el entendimiento mutuo en un conflicto necesitamos, sobre todo:",
+    opts:["Diálogo y escucha activa","Gritos y enojo","Silencio y distancia","Castigos"], ans:0 },
+  { tema:"Autorregulación emocional", tipo:"mc",
+    q:"Respirar profundo y calmarse antes de hablar cuando estamos frustrados es un ejemplo de:",
+    opts:["Autorregulación emocional","Falta de control","Indiferencia","Enojo descontrolado"], ans:0 },
+  { tema:"Acuerdos de convivencia", tipo:"mc",
+    q:"Un salón con acuerdos de convivencia es un lugar:",
+    opts:["Seguro, respetuoso y ordenado para aprender","Donde cada quien hace lo que quiere","Sin respeto ni reglas","Donde manda el más fuerte"], ans:0 },
+  { tema:"Identidad personal", tipo:"mc",
+    q:"La identidad personal es el conjunto de valores, historia, fortalezas, gustos y nombre propio que:",
+    opts:["Nos hacen únicos","Nos hacen iguales a todos","No tienen importancia","Cambian con la moda"], ans:0 },
+  { tema:"Qué nos influye", tipo:"mc",
+    q:"Además de nuestra historia personal, ¿qué otra cosa influye en cómo somos?",
+    opts:["Los valores familiares y la cultura","El tamaño del salón","El día de la semana","La hora del recreo"], ans:0 },
+  { tema:"Conceptos clave", tipo:"match",
+    q:"Relaciona cada concepto con lo que describe.",
+    slots:[
+      {n:1, label:"Identidad personal", ans:"Lo que me hace único"},
+      {n:2, label:"Sentido de pertenencia", ans:"Sentirme parte de mi grupo o comunidad"},
+      {n:3, label:"Empatía", ans:"Comprender lo que siente otra persona"},
+      {n:4, label:"Autorregulación", ans:"Manejar mis emociones ante un conflicto"},
+    ]},
+  { tema:"Sentido de pertenencia", tipo:"mc",
+    q:"Sentirnos valorados, orgullosos y comprometidos con el bienestar de nuestro grupo es muestra de:",
+    opts:["Sentido de pertenencia","Desinterés","Egoísmo","Rivalidad"], ans:0 },
+  { tema:"Valorar la diversidad", tipo:"mc",
+    q:"Aceptar que cada persona es distinta y tiene valor nos ayuda a:",
+    opts:["Convivir en diversidad y respeto","Excluir a los diferentes","Pelear más seguido","Pensar que todos deben ser iguales"], ans:0 },
+  { tema:"Valores de convivencia", tipo:"mc",
+    q:"Para una convivencia pacífica e incluyente son indispensables:",
+    opts:["El respeto, la empatía y la honestidad","La burla y la envidia","El egoísmo y el desorden","La indiferencia"], ans:0 },
+  { tema:"La comunidad", tipo:"mc",
+    q:"Cuando los vecinos trabajan juntos por su plaza, la comunidad representa:",
+    opts:["Un espacio de convivencia donde se trabaja por el bien común","Un lugar sin importancia","Un sitio solo para adultos","Un espacio de competencia"], ans:0 },
+  { tema:"Cuidado del entorno", tipo:"mc",
+    q:"¿Cuál acción cuida y mejora nuestro entorno comunitario?",
+    opts:["Mantener limpios y en buen estado los espacios públicos","Rayar las paredes","Dejar basura en la calle","Maltratar las plantas"], ans:0 },
+  { tema:"La familia como protección", tipo:"mc",
+    q:"¿Cuál es un ejemplo de la familia actuando como entorno seguro y de apoyo?",
+    opts:["Cuando te escuchan, te cuidan al estar enfermo y te ayudan en tus tareas","Cuando te ignoran siempre","Cuando no te dan de comer","Cuando te dejan sin apoyo"], ans:0 },
+  { tema:"Ámbitos de convivencia", tipo:"match",
+    q:"Relaciona cada espacio con lo que nos aporta.",
+    slots:[
+      {n:1, label:"La escuela", ans:"Aprender a convivir y respetar reglas"},
+      {n:2, label:"La comunidad", ans:"Trabajar juntos por el bien común"},
+      {n:3, label:"La familia", ans:"Cuidado, afecto y seguridad"},
+    ]},
+];
+
+const GUIA_HUMANO4 = [
+  ["🗣️ Diálogo, escucha activa y comunicación asertiva",
+    `<ul>
+       <li><span class="key">Diálogo y escucha activa</span>: es el valor central para el entendimiento mutuo; cuando hay un desacuerdo, nos reunimos a dialogar, expresamos lo que sentimos y escuchamos las propuestas de los demás con respeto.</li>
+       <li><span class="key">Empatía y escucha activa</span>: ponerse en el lugar del otro para comprender lo que siente y piensa antes de actuar.</li>
+       <li><span class="key">Comunicación asertiva</span>: expresar lo que pienso y siento con respeto, sin juzgar ni agredir.</li>
+     </ul>`],
+  ["😌 Autorregulación emocional",
+    `<ul>
+       <li><span class="key">Autorregulación emocional</span>: es la capacidad de controlar y dirigir nuestras emociones y conductas ante situaciones de conflicto.</li>
+       <li><span class="key">Ante una frustración</span>: respirar profundo, calmarse y expresar la molestia mediante el diálogo.</li>
+     </ul>`],
+  ["🏫 La escuela: convivencia armónica y acuerdos",
+    `<ul>
+       <li><span class="key">Convivencia armónica</span>: la escuela es un espacio donde aprendemos a colaborar, respetar reglas y convivir en diversidad.</li>
+       <li><span class="key">Acuerdos de convivencia</span>: se construyen para garantizar un ambiente seguro, respetuoso y ordenado para el aprendizaje.</li>
+     </ul>`],
+  ["🪞 Identidad personal y lo que nos influye",
+    `<ul>
+       <li><span class="key">Identidad personal</span>: el conjunto de valores, historia, fortalezas, gustos y nombre propio que nos hacen únicos.</li>
+       <li><span class="key">Qué nos influye</span>: nuestras formas de ser, pensar y actuar están influenciadas por nuestra historia personal, los valores familiares, la cultura y las experiencias diarias.</li>
+     </ul>`],
+  ["🌈 Diversidad y sentido de pertenencia",
+    `<ul>
+       <li><span class="key">Valorar la diversidad</span>: reconocer que cada compañero tiene formas distintas de relacionarse y expresar emociones nos ayuda a aceptar y valorar la diversidad del grupo.</li>
+       <li><span class="key">Sentido de pertenencia</span>: se manifiesta cuando nos sentimos parte del grupo, valorados, orgullosos y comprometidos con su bienestar. Cuidar los espacios comunes (jardines, patio, baños) también lo demuestra.</li>
+     </ul>`],
+  ["🤝 Valores para la convivencia",
+    `<ul>
+       <li><span class="key">Valores indispensables</span>: el respeto, la empatía y la honestidad logran una convivencia pacífica e incluyente.</li>
+       <li><span class="key">En acción</span>: escuchar sin interrumpir (respeto), decir la verdad (honestidad) y ayudar a quien lo necesita (empatía).</li>
+     </ul>`],
+  ["🏘️ Comunidad y familia",
+    `<ul>
+       <li><span class="key">La comunidad</span>: un espacio de convivencia donde se comparte y se trabaja por el bien común. Cuidar el entorno es participar en el mantenimiento y limpieza de los espacios públicos.</li>
+       <li><span class="key">La familia</span>: es un espacio fundamental de protección porque brinda cuidado, afecto, alimento y seguridad física y emocional; es un entorno seguro cuando te escuchan, te apoyan y te ayudan.</li>
+     </ul>`],
+];
+
+/* =======================================================================
    2º · Ética, Naturaleza y Sociedades  (apegado a la guía: 6 temas)
    ======================================================================= */
 const BANCO_ETICA2 = [
@@ -1628,6 +1856,9 @@ const MATERIAS = {
   // alias de compatibilidad (enlaces antiguos)
   "etica":  { titulo:"Ética, Naturaleza y Sociedades", emoji:"🌎", grado:"5º", banco:BANCO_ETICA,  guia:GUIA_ETICA },
   "etica2": { titulo:"Ética, Naturaleza y Sociedades", emoji:"🌎", grado:"2º", banco:BANCO_ETICA2, guia:GUIA_ETICA2 },
+  "humano4a":{ titulo:"De lo Humano y lo Comunitario · Examen 1", emoji:"🤝", grado:"4º", banco:BANCO_HUMANO4_A, guia:GUIA_HUMANO4 },
+  "humano4b":{ titulo:"De lo Humano y lo Comunitario · Examen 2", emoji:"🤝", grado:"4º", banco:BANCO_HUMANO4_B, guia:GUIA_HUMANO4 },
+  "humano4c":{ titulo:"De lo Humano y lo Comunitario · Examen 3", emoji:"🤝", grado:"4º", banco:BANCO_HUMANO4_C, guia:GUIA_HUMANO4 },
   "etica4a":{ titulo:"Ética, Naturaleza y Sociedades · Examen 1", emoji:"🌎", grado:"4º", banco:BANCO_ETICA4_A, guia:GUIA_ETICA4 },
   "etica4b":{ titulo:"Ética, Naturaleza y Sociedades · Examen 2", emoji:"🌎", grado:"4º", banco:BANCO_ETICA4_B, guia:GUIA_ETICA4 },
   "etica4c":{ titulo:"Ética, Naturaleza y Sociedades · Examen 3", emoji:"🌎", grado:"4º", banco:BANCO_ETICA4_C, guia:GUIA_ETICA4 },
