@@ -87,6 +87,14 @@
   .slot.no{border-style:solid;border-color:var(--bad);background:rgba(255,90,90,.12)}
   .hint{color:var(--muted);font-size:.9rem;margin:2px 0 10px}
 
+  /* Imágenes (inglés) */
+  .qimg{display:block;max-width:100%;height:auto;border-radius:12px;margin:10px auto;border:1px solid var(--line)}
+  .objimg{height:58px;width:auto;vertical-align:middle;border-radius:8px;background:#fff}
+  .guiaimg{display:block;max-width:100%;height:auto;border-radius:12px;margin:8px 0;border:1px solid var(--line)}
+  .objrow{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin:8px 0}
+  .objrow figure{margin:0;text-align:center;font-weight:700;font-size:.85rem}
+  .objrow img{height:70px;width:auto;display:block;background:#fff;border-radius:8px;border:1px solid var(--line)}
+
   /* Guía de estudio */
   .guia-instr{background:rgba(26,166,183,.1);border:1px solid var(--accent);border-radius:14px;
     padding:14px 16px;margin:0 0 14px;font-weight:600}
@@ -173,6 +181,7 @@
       <p style="font-weight:700;margin:4px 0">Repasa cada tema y luego haz el examen.</p>
       <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:8px">
         <button class="btn-primary" onclick="startQuiz()">Ir al examen ▶</button>
+        <a id="pdfOrig" class="btn-accent" style="display:none;text-decoration:none" target="_blank" rel="noopener">📄 Guía original (PDF)</a>
         <button class="btn-ghost" onclick="window.print()">🖨️ Imprimir guía</button>
       </div>
       <p class="hint">Al imprimir solo sale la guía, con buen margen arriba.</p>
@@ -1013,6 +1022,201 @@ const BANCO_ETICA4_C = [
 ];
 
 /* ---------- Selección de materia por URL: examen.html?m=etica / humano / etica2 / etica4a / etica4b / etica4c ---------- */
+/* =======================================================================
+   2º · Inglés (English) · 1er Trimestre
+   Basado en "English Study Guide: First Term" (Leo's bedroom)
+   Guía compartida + 3 variantes (A, B, C). Solo mc y match (sin escribir).
+   ======================================================================= */
+const LEO_BEDROOM = `I'm Leo and this is my bedroom! The walls are green, but green isn't my favorite color. It's orange. There is a clock above my bed. I have a desk and a chair. I like to read at my desk. There is a bookshelf with some books and cars. I also have a red and blue mat. My dog likes to sleep on the mat. My bedroom has a small window. I can see the school!`;
+const readTF = s => `Lee el texto y di si la frase es <b>verdadera</b> o <b>falsa</b>:<br><em>"${LEO_BEDROOM}"</em><br><br>👉 <b>${s}</b>`;
+const TF = ["Verdadero (True)","Falso (False)"]; // 0 = True, 1 = False
+const dem = ["this","that","these","those"];     // 0 this, 1 that, 2 these, 3 those
+
+const GUIA_INGLES2 = [
+  ["🛏️ 1. Reading · Leo's bedroom",
+    `<p><em>"${LEO_BEDROOM}"</em></p>
+     <ul>
+       <li><span class="key">Favorite color</span>: orange (not green). The walls are green.</li>
+       <li><span class="key">Above the bed</span>: there is a <b>clock</b>.</li>
+       <li>Leo has a <b>desk</b> and a <b>chair</b>, a <b>bookshelf</b> with books and cars, and a <b>red and blue mat</b>.</li>
+       <li>The <b>dog</b> sleeps on the mat. The window is <b>small</b> and Leo can see the <b>school</b>.</li>
+     </ul>`],
+  ["🎒 2. School objects (vocabulary)",
+    `<div class="objrow">
+       <figure><img src="img/ingles2/obj-backpack.png" alt="backpack">Backpack</figure>
+       <figure><img src="img/ingles2/obj-bookshelf.png" alt="bookshelf">Bookshelf</figure>
+       <figure><img src="img/ingles2/obj-glue.png" alt="glue">Glue</figure>
+       <figure><img src="img/ingles2/obj-park.png" alt="park">Park</figure>
+       <figure><img src="img/ingles2/obj-poster.png" alt="poster">Poster</figure>
+     </div>
+     <ul>
+       <li><span class="key">Backpack</span> 🎒 — you carry your books in it.</li>
+       <li><span class="key">Bookshelf</span> 📚 — furniture to keep books.</li>
+       <li><span class="key">Glue</span> 🖌️ — to stick paper.</li>
+       <li><span class="key">Park</span> 🛝 — an outdoor place to play.</li>
+       <li><span class="key">Poster</span> 🖼️ — a big picture for the wall.</li>
+     </ul>`],
+  ["👉 3. this / that / these / those",
+    `<ul>
+       <li><span class="key">this</span> — one thing, <b>near</b> me. <em>This is my pencil.</em></li>
+       <li><span class="key">that</span> — one thing, <b>far</b>. <em>That is the bookshelf.</em></li>
+       <li><span class="key">these</span> — <b>many</b> things, <b>near</b>. <em>These are my crayons.</em></li>
+       <li><span class="key">those</span> — <b>many</b> things, <b>far</b>. <em>Those are my books.</em></li>
+     </ul>
+     <img class="guiaimg" src="img/ingles2/classroom.png" alt="Niño señalando: ① póster, ② crayones, ③ librero, ④ mochila">`],
+  ["🏃 4. Action verbs",
+    `<ul>
+       <li><span class="key">learn</span> — aprender. <em>I learn new words.</em></li>
+       <li><span class="key">answer</span> — responder. <em>Answer the question.</em></li>
+       <li><span class="key">choose</span> — elegir. <em>I choose a color.</em></li>
+       <li><span class="key">check</span> — revisar. <em>I check my homework.</em></li>
+       <li><span class="key">ask</span> — preguntar. <em>Let's ask the teacher.</em></li>
+     </ul>`],
+  ["🏠 5. Rooms of the house",
+    `<ul>
+       <li><span class="key">bathroom</span> — bath, mat, mirror.</li>
+       <li><span class="key">bedroom</span> — desk, bed, books.</li>
+       <li><span class="key">dining room</span> — big table and pictures on the wall.</li>
+       <li><span class="key">living room</span> — couch, small tables, lamps.</li>
+       <li><span class="key">kitchen</span> — stove and cupboards.</li>
+     </ul>`],
+  ["🪑 6. Furniture & prepositions",
+    `<ul>
+       <li><span class="key">Furniture</span>: armchair, clock, cupboard, lamp, picture.</li>
+       <li><span class="key">Prepositions</span>: <b>under</b> (debajo), <b>on</b> (encima), <b>in</b> (dentro), <b>next to</b> (al lado).</li>
+       <li><em>The bag is under the armchair. The clock is on the bookshelf. The bag is in the cupboard. The picture is on the wall. The lamp is next to the stove.</em></li>
+     </ul>
+     <img class="guiaimg" src="img/ingles2/rooms.png" alt="Sala y cocina: librero con reloj, cuadro, sillón con mochila debajo, alacena, lámpara, estufa">`],
+];
+
+/* 2º Inglés · Examen 1 (apegado al PDF) */
+const BANCO_INGLES2_A = [
+  { tema:"Reading · Leo's bedroom", tipo:"mc", q: readTF("Leo's favorite color is green."), opts:TF, ans:1 },
+  { tema:"Reading · Leo's bedroom", tipo:"mc", q: readTF("Leo can see the school from his window."), opts:TF, ans:0 },
+  { tema:"Vocabulary · Look and match", tipo:"match",
+    q:"Mira cada imagen y relaciónala con su palabra.",
+    slots:[
+      {n:1,label:"<img class='objimg' src='img/ingles2/obj-backpack.png' alt=''>",ans:"Backpack"},
+      {n:2,label:"<img class='objimg' src='img/ingles2/obj-bookshelf.png' alt=''>",ans:"Bookshelf"},
+      {n:3,label:"<img class='objimg' src='img/ingles2/obj-glue.png' alt=''>",ans:"Glue"},
+      {n:4,label:"<img class='objimg' src='img/ingles2/obj-park.png' alt=''>",ans:"Park"},
+      {n:5,label:"<img class='objimg' src='img/ingles2/obj-poster.png' alt=''>",ans:"Poster"},
+    ]},
+  { tema:"This / That / These / Those", tipo:"mc",
+    q:"<img class='qimg' src='img/ingles2/panel1-poster.png' alt=''>What is ___? It's my poster.", opts:dem, ans:1 },
+  { tema:"This / That / These / Those", tipo:"mc",
+    q:"<img class='qimg' src='img/ingles2/panel2-crayons.png' alt=''>What are ___? They're my crayons.", opts:dem, ans:3 },
+  { tema:"This / That / These / Those", tipo:"mc",
+    q:"<img class='qimg' src='img/ingles2/panel4-backpack.png' alt=''>What is ___? It's my backpack.", opts:dem, ans:0 },
+  { tema:"Action verbs", tipo:"match",
+    q:"Completa cada frase con el verbo correcto.",
+    slots:[
+      {n:1,label:"I ___ new words in my English lesson.",ans:"learn"},
+      {n:2,label:"My teacher can ___ my questions.",ans:"answer"},
+      {n:3,label:"I ___ blue and pink for the poster.",ans:"choose"},
+      {n:4,label:"I ___ my homework.",ans:"check"},
+      {n:5,label:"Let's ___ Emma about her cat.",ans:"ask"},
+    ]},
+  { tema:"Rooms of the house", tipo:"match",
+    q:"Relaciona cada cuarto con lo que hay en él.",
+    slots:[
+      {n:1,label:"bathroom",ans:"There's a bath, a mat, and a mirror."},
+      {n:2,label:"bedroom",ans:"There's a desk, a bed, and some books."},
+      {n:3,label:"dining room",ans:"There's a big table and four pictures on the wall."},
+      {n:4,label:"living room",ans:"There's a couch, two small tables, and two lamps."},
+      {n:5,label:"kitchen",ans:"There's a stove and some cupboards."},
+    ]},
+  { tema:"Furniture & prepositions", tipo:"match",
+    q:"Mira la imagen y completa cada frase con la palabra correcta.",
+    svg:"<img class='qimg' src='img/ingles2/rooms.png' alt=''>",
+    slots:[
+      {n:1,label:"The bag is under the ___.",ans:"armchair"},
+      {n:2,label:"The ___ is on the bookshelf.",ans:"clock"},
+      {n:3,label:"The bag is in the ___.",ans:"cupboard"},
+      {n:4,label:"The ___ is on the wall.",ans:"picture"},
+      {n:5,label:"The ___ is next to the stove.",ans:"lamp"},
+    ]},
+];
+
+/* 2º Inglés · Examen 2 (misma guía, preguntas distintas) */
+const BANCO_INGLES2_B = [
+  { tema:"Reading · Leo's bedroom", tipo:"mc", q: readTF("There is a clock above Leo's bed."), opts:TF, ans:0 },
+  { tema:"Reading · Leo's bedroom", tipo:"mc", q: readTF("Leo has a green and yellow mat."), opts:TF, ans:1 },
+  { tema:"Vocabulary · School objects", tipo:"mc",
+    q:"Which object do you use to stick paper?", opts:["Glue","Poster","Park","Backpack"], ans:0 },
+  { tema:"Vocabulary · School objects", tipo:"mc",
+    q:"Where can you go outside to play?", opts:["Park","Bookshelf","Glue","Poster"], ans:0 },
+  { tema:"Vocabulary · School objects", tipo:"mc",
+    q:"You put your books and pencils inside it to go to school:", opts:["Backpack","Mirror","Stove","Clock"], ans:0 },
+  { tema:"This / That / These / Those", tipo:"mc",
+    q:"___ is my pencil. <span style='color:var(--muted)'>(it's here, in my hand)</span>", opts:["This","That","These","Those"], ans:0 },
+  { tema:"This / That / These / Those", tipo:"mc",
+    q:"___ are my books, on that shelf far away.", opts:["This","That","These","Those"], ans:3 },
+  { tema:"Action verbs", tipo:"match",
+    q:"Completa cada frase con el verbo correcto.",
+    slots:[
+      {n:1,label:"I ___ to read new words every day.",ans:"learn"},
+      {n:2,label:"Please ___ the question on the board.",ans:"answer"},
+      {n:3,label:"I ___ the green crayon to draw grass.",ans:"choose"},
+      {n:4,label:"I ___ my answers before I finish.",ans:"check"},
+      {n:5,label:"I ___ my mom for help with homework.",ans:"ask"},
+    ]},
+  { tema:"Rooms of the house", tipo:"match",
+    q:"Relaciona cada cuarto con lo que hacemos en él.",
+    slots:[
+      {n:1,label:"bathroom",ans:"We wash our hands and take a bath here."},
+      {n:2,label:"bedroom",ans:"We sleep here; there is a bed."},
+      {n:3,label:"kitchen",ans:"We cook food here; there is a stove."},
+      {n:4,label:"living room",ans:"We sit on the couch and watch TV here."},
+      {n:5,label:"dining room",ans:"We eat at the big table here."},
+    ]},
+  { tema:"Furniture & prepositions", tipo:"mc",
+    q:"The bag is ___ the armchair. <span style='color:var(--muted)'>(the bag is below it)</span>", opts:["under","on","in","next to"], ans:0 },
+];
+
+/* 2º Inglés · Examen 3 (misma guía, preguntas distintas) */
+const BANCO_INGLES2_C = [
+  { tema:"Reading · Leo's bedroom", tipo:"mc", q: readTF("Leo's dog likes to sleep on the mat."), opts:TF, ans:0 },
+  { tema:"Reading · Leo's bedroom", tipo:"mc", q: readTF("Leo's bedroom has a big window."), opts:TF, ans:1 },
+  { tema:"Vocabulary · School objects", tipo:"mc",
+    q:"A big picture you hang on the wall is a...", opts:["Poster","Glue","Park","Bookshelf"], ans:0 },
+  { tema:"Vocabulary · School objects", tipo:"match",
+    q:"Relaciona cada palabra con su pista.",
+    slots:[
+      {n:1,label:"Backpack",ans:"You wear it on your back"},
+      {n:2,label:"Bookshelf",ans:"It has shelves full of books"},
+      {n:3,label:"Glue",ans:"It is sticky and joins paper"},
+      {n:4,label:"Park",ans:"It has swings, trees and a slide"},
+      {n:5,label:"Poster",ans:"A colorful sheet for the wall"},
+    ]},
+  { tema:"This / That / These / Those", tipo:"mc",
+    q:"___ is my backpack. <span style='color:var(--muted)'>(it's here, next to me)</span>", opts:["This","That","These","Those"], ans:0 },
+  { tema:"This / That / These / Those", tipo:"mc",
+    q:"___ is the bookshelf. <span style='color:var(--muted)'>(it's over there, far)</span>", opts:["This","That","These","Those"], ans:1 },
+  { tema:"This / That / These / Those", tipo:"mc",
+    q:"___ are my crayons. <span style='color:var(--muted)'>(near me, on my desk)</span>", opts:["This","That","These","Those"], ans:2 },
+  { tema:"Action verbs", tipo:"match",
+    q:"Completa cada frase con el verbo correcto.",
+    slots:[
+      {n:1,label:"At school I ___ about animals.",ans:"learn"},
+      {n:2,label:"Can you ___ this question for me?",ans:"answer"},
+      {n:3,label:"I ___ my favorite color for the poster.",ans:"choose"},
+      {n:4,label:"The teacher will ___ our homework.",ans:"check"},
+      {n:5,label:"I want to ___ a question to the teacher.",ans:"ask"},
+    ]},
+  { tema:"Rooms of the house", tipo:"match",
+    q:"Relaciona cada cuarto con lo que hay en él.",
+    slots:[
+      {n:1,label:"bathroom",ans:"There is a mirror and a bath."},
+      {n:2,label:"bedroom",ans:"There is a bed and a desk."},
+      {n:3,label:"kitchen",ans:"There is a stove and cupboards."},
+      {n:4,label:"living room",ans:"There is a couch and two lamps."},
+      {n:5,label:"dining room",ans:"There is a big table to eat."},
+    ]},
+  { tema:"Furniture & prepositions", tipo:"mc",
+    q:"The ___ is on the wall.", opts:["picture","armchair","cupboard","lamp"], ans:0 },
+];
+
 const MATERIAS = {
   "humano": { titulo:"De lo Humano y lo Comunitario",  emoji:"🤝", grado:"5º", banco:BANCO_HUMANO, guia:GUIA_HUMANO },
   "etica5a":{ titulo:"Ética, Naturaleza y Sociedades · Examen 1", emoji:"🌎", grado:"5º", banco:BANCO_ETICA,    guia:GUIA_ETICA },
@@ -1021,6 +1225,9 @@ const MATERIAS = {
   "etica2a":{ titulo:"Ética, Naturaleza y Sociedades · Examen 1", emoji:"🌎", grado:"2º", banco:BANCO_ETICA2,   guia:GUIA_ETICA2 },
   "etica2b":{ titulo:"Ética, Naturaleza y Sociedades · Examen 2", emoji:"🌎", grado:"2º", banco:BANCO_ETICA2_B, guia:GUIA_ETICA2 },
   "etica2c":{ titulo:"Ética, Naturaleza y Sociedades · Examen 3", emoji:"🌎", grado:"2º", banco:BANCO_ETICA2_C, guia:GUIA_ETICA2 },
+  "ingles2a":{ titulo:"Inglés (English) · Examen 1", emoji:"🔤", grado:"2º", banco:BANCO_INGLES2_A, guia:GUIA_INGLES2, pdf:"guias/ingles-2do-primer-trimestre.pdf" },
+  "ingles2b":{ titulo:"Inglés (English) · Examen 2", emoji:"🔤", grado:"2º", banco:BANCO_INGLES2_B, guia:GUIA_INGLES2, pdf:"guias/ingles-2do-primer-trimestre.pdf" },
+  "ingles2c":{ titulo:"Inglés (English) · Examen 3", emoji:"🔤", grado:"2º", banco:BANCO_INGLES2_C, guia:GUIA_INGLES2, pdf:"guias/ingles-2do-primer-trimestre.pdf" },
   // alias de compatibilidad (enlaces antiguos)
   "etica":  { titulo:"Ética, Naturaleza y Sociedades", emoji:"🌎", grado:"5º", banco:BANCO_ETICA,  guia:GUIA_ETICA },
   "etica2": { titulo:"Ética, Naturaleza y Sociedades", emoji:"🌎", grado:"2º", banco:BANCO_ETICA2, guia:GUIA_ETICA2 },
@@ -1043,6 +1250,8 @@ let GUIA  = MATERIAS[matActual].guia;
   if(gt) gt.textContent = "Guía de estudio · " + M.titulo + " · " + g + " · 1er Trimestre";
   const home = document.querySelector("footer a");
   if(home) home.href = "index.html?g=" + (parseInt(g,10)||5);   // vuelve al grado de donde vino
+  const pdf = document.getElementById("pdfOrig");
+  if(pdf && M.pdf){ pdf.href = M.pdf; pdf.style.display = ""; }  // guía original descargable
 })();
 
 /* ---------- Motor ---------- */
