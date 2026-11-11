@@ -2089,6 +2089,258 @@ const BANCO_INGLES5_C = [
     opts:["popular","frightening","noisy","empty"], ans:0 },
 ];
 
+/* =======================================================================
+   4º · Inglés (English) · 1er Trimestre
+   Libro "All Sorts" — Unit 1 "Family Events" + Unit 2 "Chores".
+   Temas: familia y mascotas, adjetivos de personalidad, pronombres
+   posesivos (Whose / mine...theirs), rutinas diarias, adverbios de
+   frecuencia + 3ª persona (-s) y was/were (pasado de be).
+   Guía compartida + 3 variantes (A, B, C). Solo mc y match, sin imágenes.
+   ======================================================================= */
+const GUIA_INGLES4 = [
+  ["👪 1. Family members (la familia)",
+    `<ul>
+       <li><span class="key">parents</span> — papá y mamá; <span class="key">grandparents</span> — abuelos.</li>
+       <li><span class="key">grandma / grandpa</span> (granny) — abuela / abuelo.</li>
+       <li><span class="key">son / daughter</span> — hijo / hija; <span class="key">grandson / granddaughter</span> — nieto / nieta.</li>
+       <li><span class="key">aunt / uncle</span> — tía / tío; <span class="key">cousin</span> — primo(a).</li>
+       <li><span class="key">grown-ups</span> — los adultos.</li>
+       <li><em>My mother's sister is my aunt. My aunt's son is my cousin.</em></li>
+     </ul>`],
+  ["🐾 2. Pets (mascotas)",
+    `<ul>
+       <li><span class="key">puppy</span> — perrito (baby dog).</li>
+       <li><span class="key">kitten</span> — gatito (baby cat).</li>
+       <li><span class="key">rabbit</span> — conejo (long ears, it can jump).</li>
+       <li><span class="key">fish</span> — pez (it lives in water).</li>
+     </ul>`],
+  ["🙂 3. Personality adjectives",
+    `<ul>
+       <li><span class="key">strong</span> — fuerte / <span class="key">weak</span> — débil.</li>
+       <li><span class="key">lazy</span> — flojo / <span class="key">helpful</span> — servicial.</li>
+       <li><span class="key">kind</span> — amable / <span class="key">chatty</span> — hablador.</li>
+       <li><span class="key">shy</span> — tímido / <span class="key">tired</span> — cansado.</li>
+     </ul>`],
+  ["🔑 4. Possessive pronouns (¿de quién?)",
+    `<ul>
+       <li><span class="key">Whose…?</span> — ¿de quién…?</li>
+       <li>I → <span class="key">mine</span>, you → <span class="key">yours</span>, he → <span class="key">his</span></li>
+       <li>she → <span class="key">hers</span>, we → <span class="key">ours</span>, they → <span class="key">theirs</span></li>
+       <li><em>Whose bag is this? It's mine. Whose books are these? They're theirs.</em></li>
+     </ul>`],
+  ["⏰ 5. Daily routine / chores",
+    `<ul>
+       <li><span class="key">wake up</span> — despertarse; <span class="key">get up</span> — levantarse.</li>
+       <li><span class="key">get dressed / get undressed</span> — vestirse / quitarse la ropa.</li>
+       <li><span class="key">catch the bus</span> — tomar el autobús; <span class="key">get on / get off</span> — subir / bajar.</li>
+       <li><span class="key">ride on the bus</span> — ir en el autobús; <span class="key">comic book</span> — historieta.</li>
+       <li><span class="key">collect leaves</span> — recoger hojas; <span class="key">trash can</span> — bote de basura.</li>
+     </ul>`],
+  ["🔁 6. How often + adverbs of frequency",
+    `<ul>
+       <li><span class="key">always</span> 100% · <span class="key">usually</span> 75% · <span class="key">sometimes</span> 40% · <span class="key">rarely</span> 10% · <span class="key">never</span> 0%.</li>
+       <li><span class="key">How often…?</span> — ¿con qué frecuencia…? <em>How often do you walk the dog?</em></li>
+       <li>En <b>he / she / it</b> el verbo lleva <span class="key">-s</span>: I walk → she <b>walks</b>; I do → he <b>does</b>.</li>
+       <li><em>She always brushes her teeth. He never forgets his homework.</em></li>
+     </ul>`],
+  ["⌛ 7. Was / were (pasado de be)",
+    `<ul>
+       <li>I / he / she / it → <span class="key">was</span> (negativo: <span class="key">wasn't</span>).</li>
+       <li>you / we / they → <span class="key">were</span> (negativo: <span class="key">weren't</span>).</li>
+       <li><em>I was at the park yesterday. They were happy. We weren't at school.</em></li>
+     </ul>`],
+];
+
+/* 4º Inglés · Examen 1 */
+const BANCO_INGLES4_A = [
+  { tema:"Familia · Relacionar", tipo:"match",
+    q:"Relaciona cada parentesco con su definición.",
+    slots:[
+      {n:1,label:"aunt",ans:"my mother's sister"},
+      {n:2,label:"uncle",ans:"my father's brother"},
+      {n:3,label:"cousin",ans:"my aunt's son"},
+      {n:4,label:"grandson",ans:"my son's son"},
+      {n:5,label:"grandma",ans:"my parents' mother"},
+    ]},
+  { tema:"Familia", tipo:"mc",
+    q:"My mother's sister is my ___.",
+    opts:["aunt","uncle","cousin","niece"], ans:0 },
+  { tema:"Mascotas", tipo:"mc",
+    q:"A baby dog is a ___.",
+    opts:["puppy","kitten","rabbit","fish"], ans:0 },
+  { tema:"Adjetivos de personalidad", tipo:"mc",
+    q:"He can pick up a heavy table by himself. He is ___.",
+    opts:["strong","weak","lazy","tired"], ans:0 },
+  { tema:"Adjetivos de personalidad", tipo:"mc",
+    q:"She never stops talking. She is really ___.",
+    opts:["chatty","shy","kind","weak"], ans:0 },
+  { tema:"Pronombres posesivos", tipo:"mc",
+    q:"Whose bag is this? It's ___. <span style='color:var(--muted)'>(de yo / I)</span>",
+    opts:["mine","my","me","hers"], ans:0 },
+  { tema:"Pronombres posesivos", tipo:"match",
+    q:"Relaciona cada pronombre con su posesivo.",
+    slots:[
+      {n:1,label:"I",ans:"mine"},
+      {n:2,label:"you",ans:"yours"},
+      {n:3,label:"he",ans:"his"},
+      {n:4,label:"she",ans:"hers"},
+      {n:5,label:"they",ans:"theirs"},
+    ]},
+  { tema:"Rutina diaria", tipo:"mc",
+    q:"In the morning I ___ at 7 o'clock.",
+    opts:["wake up","get off","ride","collect"], ans:0 },
+  { tema:"Rutina diaria · Relacionar", tipo:"match",
+    q:"Relaciona cada acción con su significado.",
+    slots:[
+      {n:1,label:"get on the bus",ans:"subir al autobús"},
+      {n:2,label:"get off the bus",ans:"bajar del autobús"},
+      {n:3,label:"wake up",ans:"despertarse"},
+      {n:4,label:"get dressed",ans:"vestirse"},
+      {n:5,label:"get undressed",ans:"quitarse la ropa"},
+    ]},
+  { tema:"Frecuencia", tipo:"mc",
+    q:"The adverb 'always' means ___ of the time.",
+    opts:["100%","75%","40%","0%"], ans:0 },
+  { tema:"Presente · 3ª persona", tipo:"mc",
+    q:"She ___ to school every day.",
+    opts:["walks","walk","walking","walked"], ans:0 },
+  { tema:"Was / were", tipo:"mc",
+    q:"I ___ at the park yesterday.",
+    opts:["was","were","am","is"], ans:0 },
+  { tema:"Was / were", tipo:"mc",
+    q:"They ___ happy at the birthday party.",
+    opts:["were","was","are","is"], ans:0 },
+  { tema:"Frecuencia", tipo:"mc",
+    q:"He ___ forgets his homework. <span style='color:var(--muted)'>(0%)</span>",
+    opts:["never","always","usually","sometimes"], ans:0 },
+];
+
+/* 4º Inglés · Examen 2 */
+const BANCO_INGLES4_B = [
+  { tema:"Familia", tipo:"mc",
+    q:"My father's brother is my ___.",
+    opts:["uncle","aunt","cousin","nephew"], ans:0 },
+  { tema:"Familia · Relacionar", tipo:"match",
+    q:"Relaciona cada parentesco con su definición.",
+    slots:[
+      {n:1,label:"grandma",ans:"my mother's mother"},
+      {n:2,label:"granddaughter",ans:"my son's daughter"},
+      {n:3,label:"son",ans:"my parents' boy"},
+      {n:4,label:"daughter",ans:"my parents' girl"},
+      {n:5,label:"cousin",ans:"my uncle's son"},
+    ]},
+  { tema:"Mascotas", tipo:"mc",
+    q:"A baby cat is a ___.",
+    opts:["kitten","puppy","rabbit","fish"], ans:0 },
+  { tema:"Adjetivos de personalidad", tipo:"mc",
+    q:"He never helps and watches TV all the time. He is ___.",
+    opts:["lazy","helpful","strong","kind"], ans:0 },
+  { tema:"Adjetivos · Relacionar", tipo:"match",
+    q:"Relaciona cada adjetivo con su pista.",
+    slots:[
+      {n:1,label:"strong",ans:"can lift heavy things"},
+      {n:2,label:"weak",ans:"can't pick up a box"},
+      {n:3,label:"helpful",ans:"always offers to help"},
+      {n:4,label:"shy",ans:"doesn't talk a lot"},
+      {n:5,label:"tired",ans:"didn't sleep well"},
+    ]},
+  { tema:"Pronombres posesivos", tipo:"mc",
+    q:"Can I borrow that pen? Ask Peter. It's ___.",
+    opts:["his","hers","mine","theirs"], ans:0 },
+  { tema:"Pronombres posesivos", tipo:"mc",
+    q:"These books are Tom and Mary's. They are ___.",
+    opts:["theirs","ours","yours","his"], ans:0 },
+  { tema:"Rutina diaria", tipo:"mc",
+    q:"I ___ the number 54 bus to the park.",
+    opts:["catch","wake","collect","ride"], ans:0 },
+  { tema:"Frecuencia", tipo:"mc",
+    q:"The adverb 'usually' means about ___ of the time.",
+    opts:["75%","100%","40%","10%"], ans:0 },
+  { tema:"Frecuencia · Relacionar", tipo:"match",
+    q:"Relaciona cada adverbio con su frecuencia.",
+    slots:[
+      {n:1,label:"always",ans:"100%"},
+      {n:2,label:"usually",ans:"75%"},
+      {n:3,label:"sometimes",ans:"40%"},
+      {n:4,label:"rarely",ans:"10%"},
+      {n:5,label:"never",ans:"0%"},
+    ]},
+  { tema:"Presente · 3ª persona", tipo:"mc",
+    q:"My dad ___ the dog after school.",
+    opts:["walks","walk","walking","walked"], ans:0 },
+  { tema:"Was / were", tipo:"mc",
+    q:"She ___ sick last week. <span style='color:var(--muted)'>(negativo)</span>",
+    opts:["wasn't","weren't","isn't","aren't"], ans:0 },
+  { tema:"Was / were", tipo:"mc",
+    q:"My friends ___ in the library.",
+    opts:["were","was","is","are"], ans:0 },
+  { tema:"Rutina diaria", tipo:"mc",
+    q:"Before bed, I ___ and brush my teeth.",
+    opts:["get undressed","get dressed","wake up","catch"], ans:0 },
+];
+
+/* 4º Inglés · Examen 3 */
+const BANCO_INGLES4_C = [
+  { tema:"Familia", tipo:"mc",
+    q:"My aunt's daughter is my ___.",
+    opts:["cousin","sister","aunt","niece"], ans:0 },
+  { tema:"Mascotas · Relacionar", tipo:"match",
+    q:"Relaciona cada mascota con su pista.",
+    slots:[
+      {n:1,label:"puppy",ans:"a baby dog"},
+      {n:2,label:"kitten",ans:"a baby cat"},
+      {n:3,label:"rabbit",ans:"it has long ears and can jump"},
+      {n:4,label:"fish",ans:"it lives in water"},
+    ]},
+  { tema:"Adjetivos de personalidad", tipo:"mc",
+    q:"Grandma didn't sleep well last night. She is ___.",
+    opts:["tired","strong","chatty","kind"], ans:0 },
+  { tema:"Adjetivos de personalidad", tipo:"mc",
+    q:"My mom is very nice and polite. She is ___.",
+    opts:["kind","lazy","weak","shy"], ans:0 },
+  { tema:"Pronombres posesivos · Relacionar", tipo:"match",
+    q:"Relaciona cada pregunta con su respuesta.",
+    slots:[
+      {n:1,label:"Whose computer is that?",ans:"It's his."},
+      {n:2,label:"Whose bag is it?",ans:"It's hers."},
+      {n:3,label:"Are these pets yours?",ans:"No, they're theirs."},
+      {n:4,label:"Whose books are these?",ans:"They're ours."},
+    ]},
+  { tema:"Pronombres posesivos", tipo:"mc",
+    q:"Is this your bag? No, it isn't ___.",
+    opts:["mine","my","me","his"], ans:0 },
+  { tema:"Rutina diaria · Relacionar", tipo:"match",
+    q:"Relaciona cada expresión con su significado.",
+    slots:[
+      {n:1,label:"catch the bus",ans:"tomar el autobús"},
+      {n:2,label:"ride on the bus",ans:"ir en el autobús"},
+      {n:3,label:"collect leaves",ans:"recoger hojas"},
+      {n:4,label:"trash can",ans:"bote de basura"},
+      {n:5,label:"comic book",ans:"historieta"},
+    ]},
+  { tema:"Frecuencia", tipo:"mc",
+    q:"The adverb 'sometimes' means about ___ of the time.",
+    opts:["40%","75%","10%","100%"], ans:0 },
+  { tema:"Presente · 3ª persona", tipo:"mc",
+    q:"He ___ his homework every night.",
+    opts:["does","do","doing","did"], ans:0 },
+  { tema:"Presente · Rutinas", tipo:"mc",
+    q:"I always ___ my teeth in the morning.",
+    opts:["brush","brushes","brushing","brushed"], ans:0 },
+  { tema:"Was / were", tipo:"mc",
+    q:"We ___ at school on Sunday. <span style='color:var(--muted)'>(negativo)</span>",
+    opts:["weren't","wasn't","aren't","isn't"], ans:0 },
+  { tema:"Was / were", tipo:"mc",
+    q:"The weather ___ warm yesterday.",
+    opts:["was","were","is","are"], ans:0 },
+  { tema:"Familia", tipo:"mc",
+    q:"My grandparents love me because I am their ___. <span style='color:var(--muted)'>(niña)</span>",
+    opts:["granddaughter","grandson","daughter","niece"], ans:0 },
+  { tema:"Frecuencia", tipo:"mc",
+    q:"If 'always' is 100%, then 'never' is ___.",
+    opts:["0%","10%","40%","100%"], ans:0 },
+];
+
 const MATERIAS = {
   "humano": { titulo:"De lo Humano y lo Comunitario",  emoji:"🤝", grado:"5º", banco:BANCO_HUMANO, guia:GUIA_HUMANO },
   "humanoa":{ titulo:"De lo Humano y lo Comunitario · Examen 1", emoji:"🤝", grado:"5º", banco:BANCO_HUMANO,   guia:GUIA_HUMANO },
@@ -2118,6 +2370,9 @@ const MATERIAS = {
   "etica4a":{ titulo:"Ética, Naturaleza y Sociedades · Examen 1", emoji:"🌎", grado:"4º", banco:BANCO_ETICA4_A, guia:GUIA_ETICA4 },
   "etica4b":{ titulo:"Ética, Naturaleza y Sociedades · Examen 2", emoji:"🌎", grado:"4º", banco:BANCO_ETICA4_B, guia:GUIA_ETICA4 },
   "etica4c":{ titulo:"Ética, Naturaleza y Sociedades · Examen 3", emoji:"🌎", grado:"4º", banco:BANCO_ETICA4_C, guia:GUIA_ETICA4 },
+  "ingles4a":{ titulo:"Inglés (English) · Examen 1", emoji:"🔤", grado:"4º", banco:BANCO_INGLES4_A, guia:GUIA_INGLES4 },
+  "ingles4b":{ titulo:"Inglés (English) · Examen 2", emoji:"🔤", grado:"4º", banco:BANCO_INGLES4_B, guia:GUIA_INGLES4 },
+  "ingles4c":{ titulo:"Inglés (English) · Examen 3", emoji:"🔤", grado:"4º", banco:BANCO_INGLES4_C, guia:GUIA_INGLES4 },
 };
 let matActual = (()=>{ const m=new URLSearchParams(location.search).get("m"); return MATERIAS[m]?m:"etica"; })();
 let BANCO = MATERIAS[matActual].banco;
