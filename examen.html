@@ -108,6 +108,13 @@
   details ul{margin:6px 0;padding-left:20px}
   details li{margin:4px 0}
   .key{color:var(--accent-d);font-weight:800}
+  /* Repaso de errores en la pantalla de resultado */
+  .repaso{text-align:left;margin:16px 0 4px;border-top:1px solid var(--line);padding-top:14px}
+  .repaso h3{margin:0 0 8px;font-size:1.05rem;color:var(--ink)}
+  .repaso .item{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin:8px 0}
+  .repaso .rq{font-weight:600;margin-bottom:4px}
+  .repaso .ra{color:var(--accent-d);font-weight:700}
+  .repaso .ok{color:var(--accent-d);font-weight:700;text-align:center}
 
   /* Impresión: solo la guía. */
   @page{ margin: 2cm 1.5cm 1.5cm 1.5cm; }
@@ -166,6 +173,7 @@
       <p style="font-weight:700">Tu resultado</p>
       <p class="score" id="scoreTxt"></p>
       <p id="scoreMsg" style="color:var(--muted)"></p>
+      <div id="repaso"></div>
       <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:14px">
         <button class="btn-primary" onclick="startQuiz()">Repetir</button>
         <button class="btn-accent" onclick="showGuia()">📘 Guía de estudio</button>
@@ -1836,6 +1844,251 @@ const BANCO_INGLES2_C = [
     q:"The ___ is on the wall.", opts:["picture","armchair","cupboard","lamp"], ans:0 },
 ];
 
+/* =======================================================================
+   5º · Inglés (English) · 1er Trimestre
+   Libro "All Sorts" — Welcome (números, meses, ago/from now/early/late) +
+   Unit 1 "Personal Interests" (adjetivos + presente/pasado simple).
+   Guía compartida + 3 variantes (A, B, C). Solo mc y match, sin imágenes.
+   ======================================================================= */
+const GUIA_INGLES5 = [
+  ["🔢 1. Números grandes (Welcome)",
+    `<ul>
+       <li>132 — <span class="key">one hundred thirty-two</span></li>
+       <li>421 — <span class="key">four hundred twenty-one</span></li>
+       <li>508 — <span class="key">five hundred eight</span></li>
+       <li>795 — <span class="key">seven hundred ninety-five</span></li>
+       <li>1,000 — <span class="key">one thousand</span></li>
+     </ul>
+     <p>Regla: cientos + decenas-unidades. 948 = <em>nine hundred forty-eight</em>.</p>`],
+  ["📅 2. Meses y palabras de tiempo",
+    `<ul>
+       <li><span class="key">Meses</span>: January, February, March, April, May, June, July, August, September, October, November, December (12 en total).</li>
+       <li><span class="key">ago</span> — hace (en el pasado). <em>Class started ten minutes ago.</em></li>
+       <li><span class="key">from now</span> — de aquí a / dentro de. <em>That's three months from now.</em></li>
+       <li><span class="key">early</span> — temprano / antes de tiempo. <em>I arrive early.</em></li>
+       <li><span class="key">late</span> — tarde. <em>Why are you late?</em></li>
+     </ul>`],
+  ["⭐ 3. Vocabulary · Adjetivos",
+    `<ul>
+       <li><span class="key">important</span> — something you care about the most</li>
+       <li><span class="key">special</span> — something unique</li>
+       <li><span class="key">noisy</span> — makes a lot of noise</li>
+       <li><span class="key">enormous</span> — very big</li>
+       <li><span class="key">interesting</span> — makes you think</li>
+       <li><span class="key">amazing</span> — very good</li>
+       <li><span class="key">frightening</span> — scary</li>
+       <li><span class="key">lovely</span> — pretty or beautiful</li>
+       <li><span class="key">friendly</span> — nice and kind to everyone</li>
+       <li><span class="key">lucky</span> — to have good luck</li>
+       <li><span class="key">excellent</span> — done very well</li>
+       <li><span class="key">tidy</span> — clean and organized</li>
+       <li><span class="key">wonderful</span> — brilliant and pleasing</li>
+       <li><span class="key">popular</span> — a lot of people like it</li>
+     </ul>`],
+  ["🕒 4. Presente simple vs. pasado simple",
+    `<ul>
+       <li><span class="key">Presente simple</span> — hechos que siempre son verdad y rutinas. <em>I play football on Mondays.</em></li>
+       <li><span class="key">Pasado simple</span> — momentos o eventos que ya pasaron (antes de ahora). <em>Last Monday I played football.</em></li>
+     </ul>`],
+  ["✅ 5. Verbos regulares (+ed)",
+    `<ul>
+       <li>play → <span class="key">played</span>, watch → <span class="key">watched</span>, dance → <span class="key">danced</span></li>
+       <li>cook → <span class="key">cooked</span>, learn → <span class="key">learned</span>, paint → <span class="key">painted</span></li>
+       <li>love → <span class="key">loved</span>, like → <span class="key">liked</span>, debate → <span class="key">debated</span></li>
+     </ul>`],
+  ["🔁 6. Verbos irregulares (pasado)",
+    `<ul>
+       <li>go → <span class="key">went</span>, win → <span class="key">won</span>, swim → <span class="key">swam</span></li>
+       <li>do → <span class="key">did</span>, eat → <span class="key">ate</span>, have → <span class="key">had</span>, run → <span class="key">ran</span></li>
+       <li>be (is) → <span class="key">was</span>, teach → <span class="key">taught</span>, make → <span class="key">made</span></li>
+       <li>ride → <span class="key">rode</span>, sleep → <span class="key">slept</span>, read → <span class="key">read</span>, see → <span class="key">saw</span></li>
+     </ul>`],
+  ["❓ 7. Preguntas y negativos",
+    `<ul>
+       <li><span class="key">Presente</span>: don't / doesn't. <em>I don't like scary movies. My sister doesn't do her homework.</em></li>
+       <li><span class="key">Pasado</span>: didn't + verbo base. <em>They didn't go to the mountains.</em></li>
+       <li><span class="key">Preguntas presente</span>: What/Where/When + <b>do/does</b> + base. <em>What sports do you play?</em></li>
+       <li><span class="key">Preguntas pasado</span>: What/Where/When + <b>did</b> + base. <em>Where did you go on vacation?</em></li>
+     </ul>`],
+];
+
+/* 5º Inglés · Examen 1 */
+const BANCO_INGLES5_A = [
+  { tema:"Números · Relacionar", tipo:"match",
+    q:"Relaciona cada número con su nombre en inglés.",
+    slots:[
+      {n:1,label:"132",ans:"one hundred thirty-two"},
+      {n:2,label:"421",ans:"four hundred twenty-one"},
+      {n:3,label:"508",ans:"five hundred eight"},
+      {n:4,label:"795",ans:"seven hundred ninety-five"},
+      {n:5,label:"1,000",ans:"one thousand"},
+    ]},
+  { tema:"Palabras de tiempo", tipo:"mc",
+    q:"It's 1:30. Class started ten minutes ___.",
+    opts:["ago","from now","early","late"], ans:0 },
+  { tema:"Meses", tipo:"mc",
+    q:"Which month comes right after October?",
+    opts:["November","September","December","August"], ans:0 },
+  { tema:"Vocabulary · Adjetivos", tipo:"match",
+    q:"Relaciona cada adjetivo con su significado.",
+    slots:[
+      {n:1,label:"important",ans:"something you care about the most"},
+      {n:2,label:"enormous",ans:"very big"},
+      {n:3,label:"noisy",ans:"makes a lot of noise"},
+      {n:4,label:"frightening",ans:"scary"},
+      {n:5,label:"lucky",ans:"to have good luck"},
+    ]},
+  { tema:"Vocabulary · Adjetivos", tipo:"mc",
+    q:"That game is very ___ at school. Everybody plays it!",
+    opts:["popular","noisy","frightening","tidy"], ans:0 },
+  { tema:"Pasado simple · Regulares", tipo:"mc",
+    q:"We dance every week. Last Tuesday we ___ to the music.",
+    opts:["danced","dance","dances","dancing"], ans:0 },
+  { tema:"Pasado simple · Irregulares", tipo:"mc",
+    q:"Yesterday I ___ to the youth center with my friends.",
+    opts:["went","goed","go","gone"], ans:0 },
+  { tema:"Presente → Pasado", tipo:"match",
+    q:"Relaciona cada verbo con su pasado.",
+    slots:[
+      {n:1,label:"play",ans:"played"},
+      {n:2,label:"go",ans:"went"},
+      {n:3,label:"win",ans:"won"},
+      {n:4,label:"swim",ans:"swam"},
+      {n:5,label:"eat",ans:"ate"},
+    ]},
+  { tema:"Negativos", tipo:"mc",
+    q:"My sister ___ her homework on Sundays. <span style='color:var(--muted)'>(negativo, presente)</span>",
+    opts:["doesn't do","don't do","didn't do","isn't do"], ans:0 },
+  { tema:"Preguntas · Orden", tipo:"mc",
+    q:"¿Cuál pregunta está bien escrita?",
+    opts:["What sports do you play?","What sports you play?","What sports do you played?","Sports what do you play?"], ans:0 },
+  { tema:"Presente vs. Pasado", tipo:"mc",
+    q:"Usamos el <b>pasado simple</b> para hablar de...",
+    opts:["momentos o eventos que ya pasaron","cosas que siempre son verdad","planes para mañana","órdenes"], ans:0 },
+  { tema:"Preguntas · Pasado", tipo:"mc",
+    q:"___ you go on vacation last summer?",
+    opts:["Where did","Where do","Where does","Where are"], ans:0 },
+  { tema:"Reading · Adjetivos", tipo:"mc",
+    q:"The hotel is very big. Another word for 'very big' is ___.",
+    opts:["enormous","noisy","tidy","lucky"], ans:0 },
+];
+
+/* 5º Inglés · Examen 2 */
+const BANCO_INGLES5_B = [
+  { tema:"Números", tipo:"mc",
+    q:"Which number is 'five hundred eight'?",
+    opts:["508","580","518","5,008"], ans:0 },
+  { tema:"Palabras de tiempo", tipo:"mc",
+    q:"It's on November 16th. That's three months ___.",
+    opts:["from now","ago","early","late"], ans:0 },
+  { tema:"Meses", tipo:"mc",
+    q:"How many months are there in one year?",
+    opts:["twelve","ten","eleven","nine"], ans:0 },
+  { tema:"Vocabulary · Adjetivos", tipo:"match",
+    q:"Relaciona cada adjetivo con su significado.",
+    slots:[
+      {n:1,label:"special",ans:"something unique"},
+      {n:2,label:"interesting",ans:"makes you think"},
+      {n:3,label:"amazing",ans:"very good"},
+      {n:4,label:"tidy",ans:"clean and organized"},
+      {n:5,label:"friendly",ans:"nice and kind to everyone"},
+    ]},
+  { tema:"Vocabulary · Adjetivos", tipo:"mc",
+    q:"Be quiet! You are too ___!",
+    opts:["noisy","lovely","tidy","lucky"], ans:0 },
+  { tema:"Pasado simple · Regulares", tipo:"mc",
+    q:"We debate in class. Last Wednesday we ___ the issues.",
+    opts:["debated","debate","debates","debating"], ans:0 },
+  { tema:"Pasado simple · Irregulares", tipo:"mc",
+    q:"We played the match and last week my team ___!",
+    opts:["won","winned","win","wins"], ans:0 },
+  { tema:"Presente → Pasado", tipo:"match",
+    q:"Relaciona cada verbo con su pasado.",
+    slots:[
+      {n:1,label:"see",ans:"saw"},
+      {n:2,label:"have",ans:"had"},
+      {n:3,label:"do",ans:"did"},
+      {n:4,label:"run",ans:"ran"},
+      {n:5,label:"teach",ans:"taught"},
+    ]},
+  { tema:"Negativos · Pasado", tipo:"mc",
+    q:"They went to the mountains. En negativo: They ___ to the mountains.",
+    opts:["didn't go","don't go","doesn't go","not went"], ans:0 },
+  { tema:"Preguntas · Orden", tipo:"mc",
+    q:"___ did you go on vacation?",
+    opts:["Where","What","Who","How many"], ans:0 },
+  { tema:"Presente vs. Pasado", tipo:"mc",
+    q:"Usamos el <b>presente simple</b> para hablar de...",
+    opts:["hechos que siempre son verdad y rutinas","eventos que ya pasaron","algo que pasará mañana","un cuento de miedo"], ans:0 },
+  { tema:"Vocabulary · Adjetivos", tipo:"mc",
+    q:"My brother's room is always clean and organized. He's very ___.",
+    opts:["tidy","noisy","frightening","lucky"], ans:0 },
+  { tema:"Pasado simple · Regulares", tipo:"mc",
+    q:"We play games every day. Last Monday we ___ football.",
+    opts:["played","play","plays","playing"], ans:0 },
+];
+
+/* 5º Inglés · Examen 3 */
+const BANCO_INGLES5_C = [
+  { tema:"Números", tipo:"mc",
+    q:"Which number is 'seven hundred ninety-five'?",
+    opts:["795","759","705","7,095"], ans:0 },
+  { tema:"Palabras de tiempo", tipo:"mc",
+    q:"Someone who arrives before the time is ___.",
+    opts:["early","late","ago","from now"], ans:0 },
+  { tema:"Números · Relacionar", tipo:"match",
+    q:"Relaciona cada número con su nombre en inglés.",
+    slots:[
+      {n:1,label:"219",ans:"two hundred nineteen"},
+      {n:2,label:"384",ans:"three hundred eighty-four"},
+      {n:3,label:"652",ans:"six hundred fifty-two"},
+      {n:4,label:"873",ans:"eight hundred seventy-three"},
+      {n:5,label:"948",ans:"nine hundred forty-eight"},
+    ]},
+  { tema:"Vocabulary · Adjetivos", tipo:"match",
+    q:"Relaciona cada adjetivo con su significado.",
+    slots:[
+      {n:1,label:"wonderful",ans:"brilliant and pleasing"},
+      {n:2,label:"excellent",ans:"done very well"},
+      {n:3,label:"popular",ans:"a lot of people like it"},
+      {n:4,label:"lovely",ans:"pretty or beautiful"},
+      {n:5,label:"important",ans:"something you care about the most"},
+    ]},
+  { tema:"Vocabulary · Adjetivos", tipo:"mc",
+    q:"The storm was very loud and scary. It was very ___.",
+    opts:["frightening","lovely","tidy","popular"], ans:0 },
+  { tema:"Pasado simple · Regulares", tipo:"mc",
+    q:"Last Friday, I ___ video games with my best friend.",
+    opts:["played","play","plays","playing"], ans:0 },
+  { tema:"Pasado simple · Irregulares", tipo:"mc",
+    q:"Last summer I ___ in the ocean.",
+    opts:["swam","swimmed","swim","swims"], ans:0 },
+  { tema:"Presente → Pasado", tipo:"match",
+    q:"Relaciona cada verbo con su pasado.",
+    slots:[
+      {n:1,label:"is",ans:"was"},
+      {n:2,label:"make",ans:"made"},
+      {n:3,label:"ride",ans:"rode"},
+      {n:4,label:"read",ans:"read"},
+      {n:5,label:"sleep",ans:"slept"},
+    ]},
+  { tema:"Negativos · Presente", tipo:"mc",
+    q:"I like playing board games. En negativo: I ___ playing board games.",
+    opts:["don't like","doesn't like","didn't like","not like"], ans:0 },
+  { tema:"Preguntas · Orden", tipo:"mc",
+    q:"What days ___ you go to the youth center? <span style='color:var(--muted)'>(rutina, presente)</span>",
+    opts:["do","did","does","are"], ans:0 },
+  { tema:"Presente vs. Pasado", tipo:"mc",
+    q:"'I visited my grandma yesterday' usa el tiempo simple ___.",
+    opts:["pasado","presente","futuro","de pregunta"], ans:0 },
+  { tema:"Vocabulary · Adjetivos", tipo:"mc",
+    q:"The museum visit made me think a lot. It was very ___.",
+    opts:["interesting","noisy","tidy","lucky"], ans:0 },
+  { tema:"Vocabulary · Adjetivos", tipo:"mc",
+    q:"A place that a lot of people like to go to is very ___.",
+    opts:["popular","frightening","noisy","empty"], ans:0 },
+];
+
 const MATERIAS = {
   "humano": { titulo:"De lo Humano y lo Comunitario",  emoji:"🤝", grado:"5º", banco:BANCO_HUMANO, guia:GUIA_HUMANO },
   "humanoa":{ titulo:"De lo Humano y lo Comunitario · Examen 1", emoji:"🤝", grado:"5º", banco:BANCO_HUMANO,   guia:GUIA_HUMANO },
@@ -1853,6 +2106,9 @@ const MATERIAS = {
   "ingles2a":{ titulo:"Inglés (English) · Examen 1", emoji:"🔤", grado:"2º", banco:BANCO_INGLES2_A, guia:GUIA_INGLES2, pdf:"guias/ingles-2do-primer-trimestre.pdf" },
   "ingles2b":{ titulo:"Inglés (English) · Examen 2", emoji:"🔤", grado:"2º", banco:BANCO_INGLES2_B, guia:GUIA_INGLES2, pdf:"guias/ingles-2do-primer-trimestre.pdf" },
   "ingles2c":{ titulo:"Inglés (English) · Examen 3", emoji:"🔤", grado:"2º", banco:BANCO_INGLES2_C, guia:GUIA_INGLES2, pdf:"guias/ingles-2do-primer-trimestre.pdf" },
+  "ingles5a":{ titulo:"Inglés (English) · Examen 1", emoji:"🔤", grado:"5º", banco:BANCO_INGLES5_A, guia:GUIA_INGLES5 },
+  "ingles5b":{ titulo:"Inglés (English) · Examen 2", emoji:"🔤", grado:"5º", banco:BANCO_INGLES5_B, guia:GUIA_INGLES5 },
+  "ingles5c":{ titulo:"Inglés (English) · Examen 3", emoji:"🔤", grado:"5º", banco:BANCO_INGLES5_C, guia:GUIA_INGLES5 },
   // alias de compatibilidad (enlaces antiguos)
   "etica":  { titulo:"Ética, Naturaleza y Sociedades", emoji:"🌎", grado:"5º", banco:BANCO_ETICA,  guia:GUIA_ETICA },
   "etica2": { titulo:"Ética, Naturaleza y Sociedades", emoji:"🌎", grado:"2º", banco:BANCO_ETICA2, guia:GUIA_ETICA2 },
@@ -1884,13 +2140,13 @@ let GUIA  = MATERIAS[matActual].guia;
 
 /* ---------- Motor ---------- */
 const $ = s => document.querySelector(s);
-let orden = [], idx = 0, aciertos = 0, answered = false, pick = null, assign = {};
+let orden = [], idx = 0, aciertos = 0, answered = false, pick = null, assign = {}, fallos = [];
 
 function shuffle(a){ a=a.slice(); for(let i=a.length-1;i>0;i--){const j=(Math.random()*(i+1))|0;[a[i],a[j]]=[a[j],a[i]];} return a; }
 
 function startQuiz(){
   orden = shuffle(BANCO.map((_,i)=>i));
-  idx=0; aciertos=0;
+  idx=0; aciertos=0; fallos=[];
   $("#inicio").classList.add("hidden");
   $("#guia").classList.add("hidden");
   $("#fin").classList.add("hidden");
@@ -2004,7 +2260,14 @@ function check(){
   }
   answered=true;
   if(ok){ aciertos++; flash("¡Correcto! 🎉","ok"); }
-  else { flash("Revisa la respuesta correcta 👇","no"); }
+  else {
+    const detalle = q.tipo==="mc"
+      ? `<div class="rq">${q.q}</div><div class="ra">✔ ${q.opts[q.ans]}</div>`
+      : `<div class="rq">${q.tema}</div><div class="ra">`+
+          q.slots.map(s=>`${s.label?s.label+" → ":""}${s.ans}`).join("<br>") +`</div>`;
+    fallos.push(`<div class="item">${detalle}</div>`);
+    flash("Revisa la respuesta correcta 👇","no");
+  }
   $("#btnCheck").style.display="none";
   $("#btnNext").style.display="";
   $("#btnNext").textContent = (idx+1<orden.length) ? "Siguiente ▶" : "Ver resultado 🏁";
@@ -2025,6 +2288,9 @@ function finish(){
   $("#scoreMsg").textContent = pct===1 ? "¡Perfecto! Te la sabes toda 🌟"
     : pct>=.7 ? "¡Muy bien! Repasa lo que falló."
     : "Buen intento. Lee la guía y vuelve a intentar 💪";
+  $("#repaso").innerHTML = fallos.length
+    ? `<div class="repaso"><h3>📌 Para reforzar (${fallos.length} ${fallos.length===1?"pregunta":"preguntas"}):</h3>${fallos.join("")}</div>`
+    : `<div class="repaso"><p class="ok">✅ ¡Sin errores! No hay nada que repasar.</p></div>`;
   window.scrollTo(0,0);
   if(window.fiesta) fiesta();
 }
