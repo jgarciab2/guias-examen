@@ -2341,6 +2341,209 @@ const BANCO_INGLES4_C = [
     opts:["0%","10%","40%","100%"], ans:0 },
 ];
 
+/* Diagrama compartido: fracción con sus partes señaladas (numerador, línea, denominador) */
+const FRAC_PARTES_SVG = `
+<svg viewBox="0 0 380 150" role="img" aria-label="Fracción tres cuartos con el numerador, la línea divisora y el denominador señalados" style="width:100%;max-width:380px;height:auto;display:block;margin:12px 0">
+  <text x="62" y="58" font-size="48" font-weight="800" text-anchor="middle" fill="var(--primary)">3</text>
+  <line x1="28" y1="75" x2="96" y2="75" stroke="var(--warn)" stroke-width="7" stroke-linecap="round"/>
+  <text x="62" y="124" font-size="48" font-weight="800" text-anchor="middle" fill="var(--accent)">4</text>
+  <circle cx="84" cy="44" r="3.5" fill="var(--primary)"/>
+  <line x1="84" y1="44" x2="150" y2="36" stroke="var(--primary)" stroke-width="2"/>
+  <text x="156" y="34" font-size="16" font-weight="800" fill="var(--primary)">Numerador</text>
+  <text x="156" y="52" font-size="12" fill="var(--muted)">cuántas partes tomas</text>
+  <circle cx="96" cy="75" r="3.5" fill="var(--warn)"/>
+  <line x1="96" y1="75" x2="150" y2="78" stroke="var(--warn)" stroke-width="2"/>
+  <text x="156" y="82" font-size="16" font-weight="800" fill="#c47f00">Línea divisora</text>
+  <circle cx="84" cy="106" r="3.5" fill="var(--accent)"/>
+  <line x1="84" y1="106" x2="150" y2="114" stroke="var(--accent)" stroke-width="2"/>
+  <text x="156" y="118" font-size="16" font-weight="800" fill="var(--accent)">Denominador</text>
+  <text x="156" y="136" font-size="12" fill="var(--muted)">en cuántas partes se divide</text>
+</svg>`;
+
+/* Mini-imagen de una fracción k/d (barra con k celdas coloreadas de d), para usar en ranuras */
+function fracBarImg(k,d){
+  const cw=22, W=d*cw+2;
+  let r="";
+  for(let i=0;i<d;i++){
+    r+=`<rect x="${1+i*cw}" y="1" width="${cw}" height="26" fill="${i<k?'var(--accent)':'none'}" ${i<k?'opacity=".85" ':''}stroke="currentColor" stroke-width="2"/>`;
+  }
+  return `<svg viewBox="0 0 ${W} 28" role="img" aria-label="Fracción ${k} de ${d}" style="height:30px;width:auto;display:inline-block;vertical-align:middle">${r}</svg>`;
+}
+
+/* ===================== ROBÓTICA · 4º ===================== */
+const GUIA_ROBOTICA4 = [
+  ["🍕 Fracciones",
+    `<p>Una <span class="key">fracción</span> representa una o varias <b>partes iguales</b> de una unidad o un todo.</p>
+     <svg viewBox="0 0 120 120" role="img" aria-label="Círculo dividido en 4 partes, una coloreada" style="width:100%;max-width:140px;height:auto;display:block;margin:10px 0">
+       <path d="M60 60 L60 10 A50 50 0 0 1 110 60 Z" fill="var(--accent)" opacity=".85"/>
+       <circle cx="60" cy="60" r="50" fill="none" stroke="currentColor" stroke-width="3"/>
+       <line x1="10" y1="60" x2="110" y2="60" stroke="currentColor" stroke-width="3"/>
+       <line x1="60" y1="10" x2="60" y2="110" stroke="currentColor" stroke-width="3"/>
+     </svg>
+     <p>Si partes una pizza en <b>4</b> partes iguales y tomas <b>1</b>, tienes <b>1/4</b> (un cuarto).</p>
+     <p>Las <span class="key">partes de la fracción</span> son <b>numerador</b>, <b>denominador</b> y <b>línea divisora</b>. Observa cuál es cuál:</p>
+     ${FRAC_PARTES_SVG}
+     <ul>
+       <li><span class="key">Numerador</span> (arriba): cuántas partes se toman o se tienen.</li>
+       <li><span class="key">Denominador</span> (abajo): en cuántas partes iguales se divide el todo.</li>
+       <li><span class="key">Línea divisora</span>: separa al numerador del denominador.</li>
+     </ul>
+     <p>Para <b>leer una fracción en un dibujo</b>, cuenta las partes coloreadas (numerador) y el total de partes (denominador):</p>
+     <svg viewBox="0 0 260 60" role="img" aria-label="Barra de 5 partes con 3 coloreadas" style="width:100%;max-width:260px;height:auto;display:block;margin:10px 0">
+       <rect x="5"   y="10" width="50" height="40" fill="var(--accent)" opacity=".85" stroke="currentColor" stroke-width="2"/>
+       <rect x="55"  y="10" width="50" height="40" fill="var(--accent)" opacity=".85" stroke="currentColor" stroke-width="2"/>
+       <rect x="105" y="10" width="50" height="40" fill="var(--accent)" opacity=".85" stroke="currentColor" stroke-width="2"/>
+       <rect x="155" y="10" width="50" height="40" fill="none" stroke="currentColor" stroke-width="2"/>
+       <rect x="205" y="10" width="50" height="40" fill="none" stroke="currentColor" stroke-width="2"/>
+     </svg>
+     <p>3 partes coloreadas de 5 en total = <b>3/5</b>. &nbsp;Ejemplos: <b>1/2</b> = la mitad · <b>1/4</b> = un cuarto · <b>3/4</b> = tres cuartos.</p>`],
+  ["🚀 Exploración espacial: Curiosity",
+    `<ul>
+       <li><span class="key">Curiosity</span>: también conocida como misión <b>Mars Science Laboratory (MSL)</b>.</li>
+       <li><span class="key">Es un rover</span> (astromóvil o vehículo de exploración espacial).</li>
+       <li>Se desplaza por la superficie de <span class="key">Marte</span>. La misión la dirigió la <span class="key">NASA</span>.</li>
+       <li>Aterrizó el <span class="key">6 de agosto de 2012</span> en el cráter Gale.</li>
+     </ul>`],
+  ["🐞 Insectos y exoesqueleto",
+    `<ul>
+       <li>Los <span class="key">insectos</span> son el grupo de animales más abundante en la naturaleza.</li>
+       <li><span class="key">Exoesqueleto</span>: cubierta externa que protege el cuerpo del insecto (exo = exterior, un esqueleto por fuera).</li>
+     </ul>`],
+  ["🌳 Ecosistemas",
+    `<ul>
+       <li><span class="key">Ecosistema</span>: conjunto de seres vivos y el medio físico donde se relacionan.</li>
+       <li>Se clasifican por su <span class="key">clima, tipo de suelo y vegetación dominante</span>.</li>
+       <li><span class="key">Terrestres</span>: se desarrollan entre el suelo y el subsuelo. La <b>selva tropical</b> tiene la mayor biodiversidad terrestre.</li>
+       <li><span class="key">Acuáticos</span>: aguas de océanos y aguas continentales, dulces y saladas.</li>
+       <li><span class="key">Humedales</span>: zonas inundables como pantanos y ciénagas.</li>
+       <li><span class="key">Plancton</span>: organismos de los océanos que producen una parte importante del oxígeno.</li>
+     </ul>`],
+  ["🌋 El volcán Popocatépetl",
+    `<ul>
+       <li>Altura: <span class="key">4,710 m</span> sobre el nivel del mar.</li>
+       <li>Se localiza entre <span class="key">Morelos, Puebla y Ciudad de México</span>.</li>
+       <li><span class="key">Popocatépetl</span> significa <b>“montaña que humea”</b>.</li>
+     </ul>`],
+  ["🤖 Robótica y mecanismos",
+    `<ul>
+       <li><span class="key">Catapulta</span>: dispositivo que lanza objetos usando energía almacenada.</li>
+       <li><span class="key">Reto de la práctica 1</span>: el robot debe avanzar de un punto inicial a uno final sin salirse de su ruta.</li>
+     </ul>`],
+];
+
+/* Examen único de Robótica 4º: cubre todos los puntos de la guía.
+   Fracciones integradas con dibujos y preguntas de arrastrar y soltar. */
+const BANCO_ROBOTICA4 = [
+  /* ----- Fracciones ----- */
+  { tema:"¿Qué es una fracción?", tipo:"mc",
+    q:"¿Qué es una fracción?",
+    opts:["Una forma de representar partes iguales de un todo","Un número para contar animales","Una figura de cuatro lados","Un tipo de mapa"], ans:0 },
+  { tema:"Partes de la fracción", tipo:"mc",
+    q:"¿Cuáles son las partes de una fracción?",
+    opts:["Numerador, denominador y línea divisora","Suma, resta y total","Punto, coma y raya","Ancho, largo y alto"], ans:0 },
+  { tema:"Numerador y denominador", tipo:"match",
+    q:"Relaciona cada parte de la fracción con lo que significa.",
+    slots:[
+      {n:1, label:"Numerador", ans:"Cuántas partes se toman"},
+      {n:2, label:"Denominador", ans:"En cuántas partes se divide el todo"},
+      {n:3, label:"Línea divisora", ans:"Separa los dos números"},
+    ]},
+  { tema:"Leer una fracción", tipo:"mc",
+    q:`¿Qué fracción está coloreada?
+       <svg viewBox="0 0 200 50" role="img" aria-label="Barra de 4 partes con 3 coloreadas" style="width:100%;max-width:200px;height:auto;display:block;margin:10px 0">
+         <rect x="4"   y="5" width="46" height="40" fill="var(--accent)" opacity=".85" stroke="currentColor" stroke-width="2"/>
+         <rect x="50"  y="5" width="46" height="40" fill="var(--accent)" opacity=".85" stroke="currentColor" stroke-width="2"/>
+         <rect x="96"  y="5" width="46" height="40" fill="var(--accent)" opacity=".85" stroke="currentColor" stroke-width="2"/>
+         <rect x="142" y="5" width="46" height="40" fill="none" stroke="currentColor" stroke-width="2"/>
+       </svg>`,
+    opts:["3/4","1/4","4/3","3/3"], ans:0 },
+  { tema:"Fracción de la pizza", tipo:"mc",
+    q:"Si una pizza se divide en 4 partes iguales y tomas 1, ¿qué fracción tomaste?",
+    opts:["1/4","4/1","1/2","2/4"], ans:0 },
+  { tema:"Nombra la fracción (con dibujo)", tipo:"match",
+    q:"Arrastra el nombre correcto a cada dibujo. Cuenta las partes coloreadas.",
+    slots:[
+      {n:1, label:fracBarImg(1,2), ans:"Un medio (1/2)"},
+      {n:2, label:fracBarImg(1,4), ans:"Un cuarto (1/4)"},
+      {n:3, label:fracBarImg(3,4), ans:"Tres cuartos (3/4)"},
+    ]},
+  { tema:"Nombra la fracción (con dibujo)", tipo:"match",
+    q:"Arrastra el nombre correcto a cada dibujo. Fíjate en cuántas partes hay y cuántas están coloreadas.",
+    slots:[
+      {n:1, label:fracBarImg(1,3), ans:"Un tercio (1/3)"},
+      {n:2, label:fracBarImg(2,3), ans:"Dos tercios (2/3)"},
+      {n:3, label:fracBarImg(2,5), ans:"Dos quintos (2/5)"},
+    ]},
+  /* ----- Exploración espacial: Curiosity ----- */
+  { tema:"Misión Curiosity (MSL)", tipo:"mc",
+    q:"¿Qué misión espacial también es conocida como Curiosity?",
+    opts:["Mars Science Laboratory (MSL)","Luna Express","Viaje al Sol","Estación del Mar"], ans:0 },
+  { tema:"Rover Curiosity", tipo:"mc",
+    q:"¿Qué tipo de vehículo es Curiosity?",
+    opts:["Un rover de exploración espacial","Un avión de pasajeros","Un submarino","Un tren"], ans:0 },
+  { tema:"Misión Curiosity", tipo:"mc",
+    q:"¿En qué planeta se desplaza Curiosity y qué agencia dirigió la misión?",
+    opts:["En Marte, dirigida por la NASA","En la Luna, dirigida por una escuela","En Venus, dirigida por una fábrica","En Júpiter, dirigida por un museo"], ans:0 },
+  { tema:"Exploración espacial", tipo:"match",
+    q:"Relaciona cada dato de la misión con lo que le corresponde.",
+    slots:[
+      {n:1, label:"Curiosity", ans:"Un rover que explora Marte"},
+      {n:2, label:"NASA", ans:"La agencia que dirigió la misión"},
+      {n:3, label:"6 de agosto de 2012", ans:"Fecha en que aterrizó en Marte"},
+    ]},
+  /* ----- Insectos ----- */
+  { tema:"Insectos", tipo:"mc",
+    q:"¿Cuál es el grupo de animales más abundante en la naturaleza?",
+    opts:["Los insectos","Los elefantes","Las ballenas","Las águilas"], ans:0 },
+  { tema:"Exoesqueleto", tipo:"mc",
+    q:"¿Qué función tiene el exoesqueleto de los insectos?",
+    opts:["Les sirve como protección","Les sirve para volar más alto","Les da color","No sirve para nada"], ans:0 },
+  { tema:"Exoesqueleto", tipo:"mc",
+    q:"¿Qué significa que un animal tenga exoesqueleto?",
+    opts:["Que tiene un esqueleto externo","Que no tiene huesos","Que es muy grande","Que vive en el agua"], ans:0 },
+  /* ----- Ecosistemas ----- */
+  { tema:"Ecosistema", tipo:"mc",
+    q:"¿Qué es un ecosistema?",
+    opts:["Un conjunto de seres vivos y el medio físico donde se relacionan","Una tienda de mascotas","Un edificio de departamentos","Una máquina"], ans:0 },
+  { tema:"Biodiversidad", tipo:"mc",
+    q:"¿Qué ecosistema tiene la mayor biodiversidad terrestre?",
+    opts:["La selva tropical","El desierto seco","La banqueta de la calle","Un salón vacío"], ans:0 },
+  { tema:"Clasificación de ecosistemas", tipo:"mc",
+    q:"¿Cómo se clasifican los ecosistemas?",
+    opts:["Por su clima, tipo de suelo y vegetación dominante","Por su tamaño y color","Por su precio","Por el día de la semana"], ans:0 },
+  { tema:"Ecosistemas terrestres", tipo:"mc",
+    q:"¿Dónde se desarrollan los ecosistemas terrestres?",
+    opts:["Entre el suelo y el subsuelo","Solo en el cielo","Dentro de los volcanes","En el espacio"], ans:0 },
+  { tema:"Ecosistemas acuáticos", tipo:"mc",
+    q:"¿Qué incluyen los ecosistemas acuáticos?",
+    opts:["Aguas de océanos y continentales, dulces y saladas","Solo el agua de una botella","Solo el hielo","Solo la lluvia"], ans:0 },
+  { tema:"Ecosistemas", tipo:"match",
+    q:"Relaciona cada palabra con lo que le corresponde.",
+    slots:[
+      {n:1, label:"Ecosistema", ans:"Seres vivos, su medio y sus relaciones"},
+      {n:2, label:"Humedales", ans:"Zonas inundables como pantanos y ciénagas"},
+      {n:3, label:"Plancton", ans:"Organismos de los océanos que producen oxígeno"},
+    ]},
+  /* ----- Popocatépetl ----- */
+  { tema:"Popocatépetl", tipo:"mc",
+    q:"¿Qué significa la palabra Popocatépetl?",
+    opts:["Montaña que humea","Río muy largo","Casa de piedra","Camino del Sol"], ans:0 },
+  { tema:"Popocatépetl", tipo:"mc",
+    q:"¿Entre qué estados se localiza el Popocatépetl?",
+    opts:["Morelos, Puebla y Ciudad de México","Jalisco y Nayarit","Yucatán y Campeche","Sonora y Baja California"], ans:0 },
+  { tema:"Popocatépetl", tipo:"mc",
+    q:"¿Cuál es la altura del volcán Popocatépetl?",
+    opts:["4,710 m","100 m","50,000 m","12 m"], ans:0 },
+  /* ----- Robótica y mecanismos ----- */
+  { tema:"Catapulta", tipo:"mc",
+    q:"¿Qué es una catapulta?",
+    opts:["Un dispositivo que lanza objetos usando energía almacenada","Un animal del bosque","Un tipo de fracción","Una estrella"], ans:0 },
+  { tema:"Reto de robótica", tipo:"mc",
+    q:"¿Qué demuestra el reto de robótica de la práctica 1?",
+    opts:["Que el robot avance de un punto inicial a uno final sin salir de su ruta","Que el robot cante una canción","Que el robot vuele","Que el robot se apague solo"], ans:0,
+    recuerda:"El reto pide que el robot avance sobre un escenario de un punto inicial a uno final sin salirse de su ruta." },
+];
+
 const MATERIAS = {
   "humano": { titulo:"De lo Humano y lo Comunitario",  emoji:"🤝", grado:"5º", banco:BANCO_HUMANO, guia:GUIA_HUMANO },
   "humanoa":{ titulo:"De lo Humano y lo Comunitario · Examen 1", emoji:"🤝", grado:"5º", banco:BANCO_HUMANO,   guia:GUIA_HUMANO },
@@ -2373,6 +2576,7 @@ const MATERIAS = {
   "ingles4a":{ titulo:"Inglés (English) · Examen 1", emoji:"🔤", grado:"4º", banco:BANCO_INGLES4_A, guia:GUIA_INGLES4 },
   "ingles4b":{ titulo:"Inglés (English) · Examen 2", emoji:"🔤", grado:"4º", banco:BANCO_INGLES4_B, guia:GUIA_INGLES4 },
   "ingles4c":{ titulo:"Inglés (English) · Examen 3", emoji:"🔤", grado:"4º", banco:BANCO_INGLES4_C, guia:GUIA_INGLES4 },
+  "robotica4":{ titulo:"Robótica", emoji:"🤖", grado:"4º", banco:BANCO_ROBOTICA4, guia:GUIA_ROBOTICA4 },
 };
 let matActual = (()=>{ const m=new URLSearchParams(location.search).get("m"); return MATERIAS[m]?m:"etica"; })();
 let BANCO = MATERIAS[matActual].banco;
@@ -2495,7 +2699,7 @@ function check(){
       if(i===pick && pick!==q.ans) b.classList.add("no");
     });
     ok = (pick===q.ans);
-    $("#modelo").innerHTML = `<b>Respuesta correcta:</b> ${q.opts[q.ans]}`;
+    $("#modelo").innerHTML = `<b>Respuesta correcta:</b> ${q.opts[q.ans]}` + (q.recuerda?`<div class="hint">💡 Recuerda: ${q.recuerda}</div>`:``);
     $("#modelo").classList.add("show");
   } else {
     if(Object.keys(assign).length < q.slots.length){ flash("Coloca todos los nombres 🙂","no"); return; }
@@ -2517,7 +2721,7 @@ function check(){
   if(ok){ aciertos++; flash("¡Correcto! 🎉","ok"); }
   else {
     const detalle = q.tipo==="mc"
-      ? `<div class="rq">${q.q}</div><div class="ra">✔ ${q.opts[q.ans]}</div>`
+      ? `<div class="rq">${q.q}</div><div class="ra">✔ ${q.opts[q.ans]}</div>${q.recuerda?`<div class="hint">💡 Recuerda: ${q.recuerda}</div>`:``}`
       : `<div class="rq">${q.tema}</div><div class="ra">`+
           q.slots.map(s=>`${s.label?s.label+" → ":""}${s.ans}`).join("<br>") +`</div>`;
     fallos.push(`<div class="item">${detalle}</div>`);
