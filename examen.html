@@ -87,6 +87,45 @@
   .slot.no{border-style:solid;border-color:var(--bad);background:rgba(255,90,90,.12)}
   .hint{color:var(--muted);font-size:.9rem;margin:2px 0 10px}
 
+  /* Ejercicio de programa: arrastrar acciones a cada bloque + robot animado */
+  .prog{margin:10px 0}
+  .prow{display:flex;align-items:center;gap:8px;margin:6px 0}
+  .pblk.run{outline:3px solid var(--warn);outline-offset:2px;border-radius:9px}
+  .parrow{color:var(--muted);font-weight:800;flex:0 0 auto}
+  .pdrop{flex:1 1 auto;min-height:44px;border:2px dashed var(--line);border-radius:12px;
+    display:flex;align-items:center;justify-content:center;text-align:center;padding:6px 10px;
+    color:var(--muted);font-weight:600;font-size:.9rem;background:var(--card)}
+  .pdrop.over{border-color:var(--accent);background:rgba(26,166,183,.12)}
+  .pdrop.ok{border-style:solid;border-color:var(--good);background:rgba(46,204,113,.14);
+    color:var(--ink);font-weight:700}
+  .pdrop.ok::before{content:"✓";color:var(--good-d);font-weight:900;margin-right:6px}
+  .pdrop.bad{animation:shk .35s}
+  @keyframes shk{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+  .ppool{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 2px}
+  .pfx{background:var(--card);border:2px solid var(--accent);color:var(--accent-d);
+    border-radius:12px;padding:8px 12px;font-weight:700;font-size:.9rem;cursor:grab;
+    touch-action:none;user-select:none;-webkit-user-select:none}
+  .pfx.placed{display:none}
+  .pfx.ghost{position:fixed;z-index:60;pointer-events:none;opacity:.95;box-shadow:var(--shadow);cursor:grabbing}
+  .rstage{margin:14px 0 4px;padding:10px;border:1px solid var(--line);border-radius:14px;background:var(--card)}
+  .rtrack{position:relative;height:72px;overflow:hidden;border-radius:10px;background:rgba(26,166,183,.06)}
+  .rbot{position:absolute;left:6px;bottom:10px;transform:translateX(0);
+    transition:transform 0s linear;display:flex;flex-direction:column;align-items:center}
+  .rface{font-size:1.7rem;line-height:1}
+  .rwheels{display:flex;gap:16px;margin-top:-3px}
+  .rwheel{width:20px;height:20px;border-radius:50%;border:3px solid var(--ink);
+    background:var(--muted);position:relative}
+  .rwheel::after{content:"";position:absolute;left:50%;top:2px;width:2px;height:7px;margin-left:-1px;background:var(--card)}
+  .rwheel.spin{animation:spin .45s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .rcap{text-align:center;font-weight:700;color:var(--accent-d);margin-top:6px;min-height:1.3em}
+  .rplay{display:inline-flex;align-items:center;gap:6px;background:var(--primary);color:#fff;
+    border:none;border-radius:999px;padding:9px 18px;font-weight:800;cursor:pointer;margin-top:6px}
+  .rplay[disabled]{opacity:.5;cursor:default}
+  @media (prefers-reduced-motion:reduce){
+    .rwheel.spin{animation:none} .rbot{transition:none} .pdrop.bad{animation:none}
+  }
+
   /* Imágenes (inglés) */
   .qimg{display:block;max-width:100%;height:auto;border-radius:12px;margin:10px auto;border:1px solid var(--line)}
   .objimg{height:58px;width:auto;vertical-align:middle;border-radius:8px;background:#fff}
@@ -2544,6 +2583,485 @@ const BANCO_ROBOTICA4 = [
     recuerda:"El reto pide que el robot avance sobre un escenario de un punto inicial a uno final sin salirse de su ruta." },
 ];
 
+/* ===================== ROBÓTICA · 5º ===================== */
+/* Bloque de programación estilo RCU (recrea la imagen de la guía; sirve como
+   ilustración y como etiqueta arrastrable del ejercicio interactivo). */
+function vexBlk(text,color){
+  return `<span style="display:inline-block;background:${color};color:#fff;font-weight:700;
+    font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.8rem;padding:6px 11px;border-radius:7px;
+    box-shadow:0 1px 2px rgba(0,0,0,.3);white-space:nowrap">${text}</span>`;
+}
+const VEX_HAT="#17a398", VEX_MOT="#8a6f4a", VEX_WAIT="#e08b2c";
+const VEX_PROGRAMA = `<div style="display:inline-flex;flex-direction:column;gap:3px;align-items:flex-start;margin:10px 0">
+  ${vexBlk("RCU · task1",VEX_HAT)}
+  ${vexBlk("Set motor · M1 · speed to 50",VEX_MOT)}
+  ${vexBlk("Set motor · M2 · speed to 50",VEX_MOT)}
+  ${vexBlk("wait · 3 · seconds",VEX_WAIT)}
+  ${vexBlk("Set motor · M1 · speed to 0",VEX_MOT)}
+  ${vexBlk("Set motor · M2 · speed to 0",VEX_MOT)}
+</div>`;
+
+const GUIA_ROBOTICA5 = [
+  ["♻️ Robot autosustentable",
+    `<ul>
+       <li>El <span class="key">motor</span> es el componente que permite que el robot se mueva de un punto a otro.</li>
+       <li>El <span class="key">efecto invernadero</span> conserva parte de la energía solar y ayuda a regular la temperatura del planeta.</li>
+       <li>La <span class="key">energía eléctrica</span> es una alternativa al combustible en los vehículos.</li>
+       <li>El aumento de <span class="key">gases contaminantes</span> en la atmósfera provoca el <b>calentamiento global</b>.</li>
+     </ul>`],
+  ["📐 El robot arquitecto",
+    `<ul>
+       <li>La <span class="key">arquitectura</span> es una combinación de <b>arte y técnicas</b>; en ella participan las <b>matemáticas y la geometría</b>.</li>
+       <li>La <span class="key">geometría</span> estudia las <b>figuras</b>.</li>
+       <li>El <span class="key">hexágono</span> destaca por su <b>resistencia y eficiencia</b> (por eso aparece en panales y estructuras).</li>
+     </ul>`],
+  ["👀 Los sentidos del robot",
+    `<ul>
+       <li><span class="key">Sensor</span>: recibe información del medio, como la luz o la temperatura.</li>
+       <li><span class="key">Microcontrolador</span>: funciona como el <b>cerebro</b> del robot y procesa la información.</li>
+       <li><span class="key">Actuador</span>: permite que el robot realice acciones, como moverse o emitir sonido.</li>
+       <li>El <span class="key">tacto</span> es el sentido que reconoce cualidades físicas de los objetos que tocamos.</li>
+     </ul>`],
+  ["⚙️ Engranajes",
+    `<ul>
+       <li>Un mecanismo de <span class="key">engranajes</span> está formado por <b>ruedas dentadas</b>.</li>
+       <li>Cuando dos engranajes entran en contacto, <span class="key">transmiten el movimiento</span> de uno a otro.</li>
+       <li>Hay engranajes en <span class="key">muchas máquinas de uso diario</span>.</li>
+       <li>Si un engranaje <b>pequeño</b> mueve a uno <b>más grande</b>, el grande gira <span class="key">más lento</span>.</li>
+     </ul>`],
+  ["🐜 Anagramas y sistema binario",
+    `<ul>
+       <li>Las hormigas emiten <span class="key">feromonas</span> para comunicarse mediante el olor.</li>
+       <li>Un <span class="key">anagrama</span> es una palabra formada al reordenar las letras de otra.</li>
+       <li>La computadora representa la información con el <span class="key">sistema binario</span>, que usa solo dos números: <b>0 y 1</b>.</li>
+     </ul>`],
+  ["🎸 Guitarra robótica",
+    `<ul>
+       <li>La <span class="key">música</span> es una representación artística.</li>
+       <li>En algunos instrumentos, el sonido se produce por la <span class="key">vibración de una cuerda</span>.</li>
+       <li>La <span class="key">escala diatónica</span> es una forma común de organizar los sonidos para crear armonías.</li>
+       <li>El <span class="key">pentagrama</span> es la red de líneas donde se representan las notas musicales.</li>
+       <li>La primera nota de la escala musical es <span class="key">Do</span>.</li>
+     </ul>`],
+  ["🧩 Bloques de programación",
+    `<p>Un programa se arma apilando <span class="key">bloques</span>; el robot los ejecuta <b>de arriba hacia abajo</b>. Lee lo que hace cada uno:</p>
+     ${VEX_PROGRAMA}
+     <ul>
+       <li><b>RCU · task1</b>: inicia la ejecución del programa.</li>
+       <li><b>Set motor · velocidad</b>: enciende un motor a la velocidad indicada (50).</li>
+       <li><b>wait · segundos</b>: mantiene lo anterior durante ese tiempo (3 s).</li>
+       <li><b>Set motor · velocidad 0</b>: detiene por completo el motor.</li>
+     </ul>`],
+];
+
+/* Examen único de Robótica 5º: cubre el 100% de los temas de la guía (25 preguntas)
+   + el ejercicio interactivo de bloques de programación (pregunta 26). */
+const BANCO_ROBOTICA5 = [
+  /* ----- Autosustentable ----- */
+  { tema:"Movimiento del robot", tipo:"mc",
+    q:"¿Qué componente del robot permite que se mueva de un punto a otro?",
+    opts:["El motor","El sensor","La pantalla","El tornillo"], ans:0 },
+  { tema:"Efecto invernadero", tipo:"mc",
+    q:"¿Qué fenómeno ayuda a conservar parte de la energía solar y regular la temperatura del planeta?",
+    opts:["El efecto invernadero","Un eclipse","Una tormenta","El viento"], ans:0 },
+  { tema:"Energías alternativas", tipo:"mc",
+    q:"¿Qué tipo de energía puede sustituir al combustible en los vehículos?",
+    opts:["La eléctrica","La del carbón","La del petróleo","Ninguna"], ans:0 },
+  { tema:"Gases contaminantes", tipo:"mc",
+    q:"¿Cuál es uno de los efectos del aumento de gases contaminantes en la atmósfera?",
+    opts:["Provoca el calentamiento global","Limpia el aire","Apaga el Sol","No pasa nada"], ans:0 },
+  /* ----- El robot arquitecto ----- */
+  { tema:"Arquitectura", tipo:"mc",
+    q:"¿Qué es la arquitectura?",
+    opts:["Una combinación de arte y técnicas","Un tipo de animal","Un juego de mesa","Una comida"], ans:0 },
+  { tema:"Disciplinas de la arquitectura", tipo:"mc",
+    q:"¿Qué disciplinas forman parte de la arquitectura?",
+    opts:["Matemáticas y geometría","Natación y canto","Cocina y baile","Historia y poesía"], ans:0 },
+  { tema:"La geometría", tipo:"mc",
+    q:"¿Qué estudia la geometría?",
+    opts:["Las figuras","Los animales","Las estrellas","Los colores"], ans:0 },
+  { tema:"Figura resistente", tipo:"mc",
+    q:"¿Qué figura geométrica destaca por su resistencia y eficiencia en la arquitectura?",
+    opts:["El hexágono","El círculo","La línea","El punto"], ans:0 },
+  /* ----- Los sentidos ----- */
+  { tema:"El sensor", tipo:"mc",
+    q:"¿Qué componente recibe información del medio, como la luz o la temperatura?",
+    opts:["El sensor","La rueda","El motor","El cable"], ans:0 },
+  { tema:"Sentido del tacto", tipo:"mc",
+    q:"¿Qué sentido permite reconocer cualidades físicas de los objetos que tocamos?",
+    opts:["El tacto","El oído","La vista","El olfato"], ans:0 },
+  { tema:"El cerebro del robot", tipo:"mc",
+    q:"¿Qué componente funciona como el cerebro del robot y procesa la información?",
+    opts:["El microcontrolador","La batería","La rueda","El foco"], ans:0 },
+  { tema:"El actuador", tipo:"mc",
+    q:"¿Qué componente permite que el robot realice acciones, como moverse o emitir sonido?",
+    opts:["El actuador","El sensor","El cable","El tornillo"], ans:0 },
+  { tema:"Componentes del robot", tipo:"match",
+    q:"Relaciona cada componente del robot con lo que hace.",
+    slots:[
+      {n:1, label:"Sensor", ans:"Recibe información del medio"},
+      {n:2, label:"Microcontrolador", ans:"Procesa la información (el cerebro)"},
+      {n:3, label:"Actuador", ans:"Realiza las acciones del robot"},
+      {n:4, label:"Motor", ans:"Permite que el robot se mueva"},
+    ]},
+  /* ----- Engranajes ----- */
+  { tema:"Mecanismo de engranajes", tipo:"mc",
+    q:"¿Cómo está conformado un mecanismo de engranajes?",
+    opts:["Por ruedas dentadas","Por cuerdas","Por imanes","Por espejos"], ans:0 },
+  { tema:"Engranajes en contacto", tipo:"mc",
+    q:"¿Qué sucede cuando dos engranajes entran en contacto?",
+    opts:["Transmiten movimiento de uno a otro","Se apagan","Se derriten","No pasa nada"], ans:0 },
+  { tema:"Dónde hay engranajes", tipo:"mc",
+    q:"¿Dónde podemos encontrar engranajes?",
+    opts:["En muchas máquinas de uso diario","Solo en el mar","Solo en el espacio","En ningún lado"], ans:0 },
+  { tema:"Tamaño de los engranajes", tipo:"mc",
+    q:"Si un engranaje pequeño mueve a uno más grande, ¿cómo será el movimiento del engranaje grande?",
+    opts:["Más lento","Más rápido","Igual de rápido","Al revés para siempre"], ans:0 },
+  /* ----- Anagramas y binario ----- */
+  { tema:"Feromonas", tipo:"mc",
+    q:"¿Qué sustancia emiten las hormigas para comunicarse mediante el olor?",
+    opts:["Feromonas","Agua","Miel","Arena"], ans:0 },
+  { tema:"Anagramas", tipo:"mc",
+    q:"¿Cómo se llaman las palabras que se forman al reordenar las letras de otra palabra?",
+    opts:["Anagramas","Rimas","Números","Dibujos"], ans:0 },
+  { tema:"Sistema binario", tipo:"mc",
+    q:"¿Qué sistema utiliza la computadora para representar información?",
+    opts:["El sistema binario","El sistema solar","El sistema de riego","El sistema de audio"], ans:0 },
+  { tema:"Números del binario", tipo:"mc",
+    q:"El sistema binario solo usa dos números, ¿cuáles son?",
+    opts:["0 y 1","1 y 2","5 y 10","9 y 0"], ans:0 },
+  /* ----- Guitarra robótica ----- */
+  { tema:"La música", tipo:"mc",
+    q:"¿Qué es la música?",
+    opts:["Una representación artística","Un animal","Una figura geométrica","Un metal"], ans:0 },
+  { tema:"Producción del sonido", tipo:"mc",
+    q:"¿Qué puede producir sonido en algunos instrumentos?",
+    opts:["La vibración de una cuerda","El color de la madera","El peso del instrumento","Su precio"], ans:0 },
+  { tema:"Escala diatónica", tipo:"mc",
+    q:"¿Cómo se llama la forma común de organizar los sonidos para crear armonías musicales?",
+    opts:["La escala diatónica","La tabla del dos","El abecedario","El calendario"], ans:0 },
+  { tema:"El pentagrama", tipo:"mc",
+    q:"¿Cómo se llama la red de líneas donde se representan las notas musicales?",
+    opts:["El pentagrama","El tablero","El mapa","La cuadrícula"], ans:0 },
+  { tema:"Primera nota", tipo:"mc",
+    q:"¿Cuál es la primera nota de la escala musical?",
+    opts:["Do","Sol","La","Mi"], ans:0 },
+  /* ----- Pregunta 26: ejercicio interactivo de bloques (arrastrar + robot animado) ----- */
+  { tema:"Bloques de programación", tipo:"programa",
+    q:"Arma el programa del robot: arrastra cada acción al bloque correcto. Al terminar, ¡míralo en acción!",
+    slots:[
+      {n:1, k:"hat",   label:vexBlk("RCU · task1",VEX_HAT),                 ans:"Inicia la ejecución del programa"},
+      {n:2, k:"m1on",  label:vexBlk("Set motor · M1 · speed to 50",VEX_MOT), ans:"Enciende el motor 1 a velocidad de 50"},
+      {n:3, k:"m2on",  label:vexBlk("Set motor · M2 · speed to 50",VEX_MOT), ans:"Enciende el motor 2 a velocidad de 50"},
+      {n:4, k:"wait",  label:vexBlk("wait · 3 · seconds",VEX_WAIT),          ans:"Mantiene la velocidad 50 durante 3 segundos"},
+      {n:5, k:"m1off", label:vexBlk("Set motor · M1 · speed to 0",VEX_MOT),  ans:"Detiene por completo el motor 1"},
+      {n:6, k:"m2off", label:vexBlk("Set motor · M2 · speed to 0",VEX_MOT),  ans:"Detiene por completo el motor 2"},
+    ],
+    recuerda:"El robot ejecuta los bloques en orden: inicia, enciende los dos motores a 50, los mantiene 3 segundos y luego los detiene (velocidad 0)." },
+];
+
+/* ===================== COMPUTACIÓN · 2º ===================== */
+/* Onda de sonido: muchas ondas juntas = agudo; pocas y anchas = grave */
+function waveSvg(cycles,amp){
+  const W=240,H=60,mid=30; let d="M0 "+mid; const steps=cycles*20;
+  for(let i=1;i<=steps;i++){ const x=(W*i/steps).toFixed(1); const y=(mid-amp*Math.sin(i/steps*cycles*2*Math.PI)).toFixed(1); d+=` L${x} ${y}`; }
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="onda de sonido" style="width:100%;max-width:240px;height:auto;display:inline-block;vertical-align:middle;margin:4px 0"><path d="${d}" fill="none" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/></svg>`;
+}
+const WAVE_AGUDO=waveSvg(9,14), WAVE_GRAVE=waveSvg(3,20);
+/* Diagrama del oído: misma imagen de la guía (extraída del PDF) */
+const EAR_IMG = `<img class="guiaimg" src="img/computacion2/oido.jpg" style="max-width:440px;background:#fff" alt="Partes del oído: oído externo (oreja), oído medio (huesecillos y tímpano) y oído interno (caracol)">`;
+
+const GUIA_COMPUTACION2 = [
+  ["🔊 El sonido",
+    `<ul>
+       <li>El <span class="key">sonido</span> es una forma de <b>energía</b> que se propaga en <b>ondas</b> y percibimos con el <b>oído</b>.</li>
+       <li>Muchos objetos <span class="key">emiten sonido</span>: 🚗 un carro, 📣 un silbato, ☎️ un teléfono, ⌚ un reloj…</li>
+       <li>Hay <span class="key">sonidos débiles</span> (suaves): 🔔 una campanita, ⏰ un reloj, 💧 una gota de agua.</li>
+       <li>Y hay <span class="key">sonidos fuertes</span>: 🥁 un tambor, 🚑 una ambulancia, 🏍️ una moto, ✈️ un avión.</li>
+     </ul>`],
+  ["🎵 El tono: agudo y grave",
+    `<p>El <span class="key">tono</span> es una cualidad del sonido que nos dice si es <b>agudo</b> o <b>grave</b>.</p>
+     <p><b>Sonido agudo</b> (fino o alto): las ondas van muy juntitas.</p>${WAVE_AGUDO}
+     <p><b>Sonido grave</b> (grueso o bajo): las ondas son anchas y separadas.</p>${WAVE_GRAVE}`],
+  ["👂 Cómo oímos: partes del oído",
+    `<p>El sonido entra por la <span class="key">oreja</span>, hace vibrar el <span class="key">tímpano</span>,
+        los <span class="key">huesecillos</span> pasan la vibración y el <span class="key">caracol</span> la envía al cerebro.</p>
+     ${EAR_IMG}`],
+  ["📦 La materia, el volumen, la masa y el peso",
+    `<ul>
+       <li><span class="key">Materia</span>: todo lo que tiene <b>masa</b> y ocupa un <b>lugar en el espacio</b> (una silla, el agua, el aire…).</li>
+       <li><span class="key">Volumen</span>: el <b>espacio</b> que ocupa un objeto. Puede ser grande, mediano o pequeño. 🚗 un carro ocupa mucho; una goma de borrar ocupa poco.</li>
+       <li><span class="key">Masa</span>: la <b>cantidad de materia</b> que tiene un cuerpo.</li>
+       <li><span class="key">Peso</span>: la <b>fuerza</b> con la que la gravedad atrae a un cuerpo.</li>
+     </ul>`],
+  ["🧊 Estados de la materia",
+    `<p>La materia se presenta en <span class="key">tres estados</span>:</p>
+     <ul>
+       <li><span class="key">Sólido</span> 🧊🪑: tiene <b>forma propia</b> y es firme; no cambia fácilmente.</li>
+       <li><span class="key">Líquido</span> 💧🥛: <b>no tiene forma propia</b>; toma la forma del recipiente y fluye.</li>
+       <li><span class="key">Gaseoso</span> 🎈☁️: es ligero como el aire; no lo puedes agarrar y <b>llena todo el espacio</b>.</li>
+     </ul>`],
+];
+
+/* Examen único de Computación 2º: cubre los 15 puntos de la guía (sonido y materia). */
+const BANCO_COMPUTACION2 = [
+  /* ----- Sonido ----- */
+  { tema:"¿Qué es el sonido?", tipo:"mc",
+    q:"¿Qué es el sonido?",
+    opts:["Una forma de energía que viaja en ondas y oímos con el oído","Un color muy brillante","Un tipo de comida","Un animal pequeño"], ans:0 },
+  { tema:"¿Con qué oímos?", tipo:"mc",
+    q:"¿Con qué parte del cuerpo percibimos el sonido?",
+    opts:["Con el oído","Con los pies","Con el codo","Con el cabello"], ans:0 },
+  { tema:"Objetos que emiten sonido", tipo:"mc",
+    q:"¿Cuál de estos objetos emite sonido?",
+    opts:["☎️ Un teléfono","🍎 Una manzana","✏️ Un lápiz quieto","🪨 Una piedra quieta"], ans:0 },
+  { tema:"Sonidos fuertes y débiles", tipo:"match",
+    q:"Relaciona cada tipo de sonido con un ejemplo.",
+    slots:[
+      {n:1, label:"Sonido fuerte 🔊", ans:"Una ambulancia, un tambor o un avión"},
+      {n:2, label:"Sonido débil (suave) 🔈", ans:"Una gota de agua o una campanita"},
+    ]},
+  { tema:"Sonido fuerte", tipo:"mc",
+    q:"¿Cuál de estos emite un sonido FUERTE?",
+    opts:["🚑 Una ambulancia","💧 Una gota de agua","🔔 Una campanita","⏰ El tic-tac de un reloj"], ans:0 },
+  /* ----- Tono ----- */
+  { tema:"¿Qué es el tono?", tipo:"mc",
+    q:"¿Qué es el tono de un sonido?",
+    opts:["La cualidad que nos dice si el sonido es agudo o grave","El color del sonido","El peso del sonido","El sabor del sonido"], ans:0 },
+  { tema:"Agudo y grave", tipo:"match",
+    q:`Relaciona cada sonido con cómo es. Fíjate en las ondas:<br>Agudo ${WAVE_AGUDO}<br>Grave ${WAVE_GRAVE}`,
+    slots:[
+      {n:1, label:"Sonido agudo", ans:"Fino o alto (ondas muy juntas)"},
+      {n:2, label:"Sonido grave", ans:"Grueso o bajo (ondas anchas)"},
+    ]},
+  /* ----- Oído ----- */
+  { tema:"Partes del oído", tipo:"match",
+    q:`Relaciona cada parte del oído con lo que hace.${EAR_IMG}`,
+    slots:[
+      {n:1, label:"Oreja", ans:"Recibe el sonido por fuera"},
+      {n:2, label:"Tímpano", ans:"Membrana que vibra con el sonido"},
+      {n:3, label:"Huesecillos", ans:"Huesos pequeños que pasan la vibración"},
+      {n:4, label:"Caracol", ans:"Tiene forma de espiral, en el oído interno"},
+    ]},
+  { tema:"El caracol del oído", tipo:"mc",
+    q:"¿Cómo se llama la parte del oído que tiene forma de espiral?",
+    opts:["El caracol","La oreja","El tímpano","El codo"], ans:0 },
+  /* ----- Materia y volumen ----- */
+  { tema:"¿Qué es la materia?", tipo:"mc",
+    q:"¿Qué es la materia?",
+    opts:["Todo lo que tiene masa y ocupa un lugar en el espacio","Solo las cosas de color rojo","Solo lo que vuela","Solo los animales"], ans:0 },
+  { tema:"Ejemplo de materia", tipo:"mc",
+    q:"¿Cuál de estos es un ejemplo de materia?",
+    opts:["🪑 Una silla","La alegría","Un sueño","El silencio"], ans:0 },
+  { tema:"¿Qué es el volumen?", tipo:"mc",
+    q:"¿Qué es el volumen de un objeto?",
+    opts:["El espacio que ocupa el objeto","El ruido que hace","Su color","Su temperatura"], ans:0 },
+  { tema:"Mayor volumen", tipo:"mc",
+    q:"De estos objetos, ¿cuál tiene MAYOR volumen (ocupa más espacio)?",
+    opts:["🚗 Un carro","🪑 Un banco","🌀 Un trompo","Una goma de borrar"], ans:0 },
+  { tema:"Menor volumen", tipo:"mc",
+    q:"De estos objetos, ¿cuál tiene MENOR volumen (ocupa menos espacio)?",
+    opts:["Una goma de borrar","🚗 Un carro","🪑 Un banco","🌀 Un trompo"], ans:0 },
+  { tema:"Masa y peso", tipo:"match",
+    q:"Relaciona cada palabra con lo que significa.",
+    slots:[
+      {n:1, label:"Masa", ans:"La cantidad de materia que tiene un cuerpo"},
+      {n:2, label:"Peso", ans:"La fuerza con que la gravedad atrae a un cuerpo"},
+    ]},
+  /* ----- Estados de la materia ----- */
+  { tema:"Estados de la materia", tipo:"mc",
+    q:"¿En cuántos estados se presenta la materia y cuáles son?",
+    opts:["Tres: sólido, líquido y gaseoso","Uno: solo sólido","Dos: frío y caliente","Cuatro: rojo, azul, verde y amarillo"], ans:0 },
+  { tema:"¿Qué es un sólido?", tipo:"mc",
+    q:"¿Cómo es un objeto sólido?",
+    opts:["Tiene forma propia y es firme; no cambia fácilmente","No se puede tocar","Siempre está mojado","Flota en el aire"], ans:0 },
+  { tema:"¿Qué es un líquido?", tipo:"mc",
+    q:"¿Cómo es un líquido?",
+    opts:["No tiene forma propia; toma la forma del recipiente y fluye","Es muy duro y firme","Llena todo el espacio como el aire","No ocupa ningún lugar"], ans:0 },
+  { tema:"¿Qué es un gas?", tipo:"mc",
+    q:"¿Cómo es la materia en estado gaseoso?",
+    opts:["Es ligera como el aire y llena todo el espacio","Es dura y pesada","Tiene forma propia","No se puede mover"], ans:0 },
+  { tema:"Estados y su forma", tipo:"match",
+    q:"Relaciona cada estado de la materia con cómo es.",
+    slots:[
+      {n:1, label:"Sólido 🧊", ans:"Tiene forma propia y es firme"},
+      {n:2, label:"Líquido 💧", ans:"Toma la forma del recipiente y fluye"},
+      {n:3, label:"Gaseoso 🎈", ans:"Es ligero y llena todo el espacio"},
+    ]},
+  { tema:"Clasificar: el hielo", tipo:"mc",
+    q:"El hielo 🧊 es materia en estado…",
+    opts:["Sólido","Líquido","Gaseoso"], ans:0 },
+  { tema:"Clasificar: la leche", tipo:"mc",
+    q:"La leche 🥛 y el agua 💧 son materia en estado…",
+    opts:["Líquido","Sólido","Gaseoso"], ans:0 },
+  { tema:"Clasificar: el aire del globo", tipo:"mc",
+    q:"El aire que llena un globo 🎈 es materia en estado…",
+    opts:["Gaseoso","Sólido","Líquido"], ans:0 },
+  { tema:"Clasificar: la silla", tipo:"mc",
+    q:"Una silla 🪑 es materia en estado…",
+    opts:["Sólido","Líquido","Gaseoso"], ans:0,
+    recuerda:"Un sólido tiene forma propia y es firme: la silla, el lápiz y el balón son sólidos." },
+];
+
+/* ===================== COMPUTACIÓN · 4º ===================== */
+/* Imágenes de reflexión/refracción extraídas de la guía (PDF) */
+function luzImg(name,alt){ return `<img class="qimg" src="img/computacion4/${name}.jpg" alt="${alt}" style="max-width:220px;background:#fff">`; }
+const LUZ_GALERIA = `<div class="objrow">
+  <figure><img src="img/computacion4/gafas.jpg" alt="Gafas">Gafas · refracción ✓</figure>
+  <figure><img src="img/computacion4/laser.jpg" alt="Láser y espejo">Láser en espejo · reflexión ✗</figure>
+  <figure><img src="img/computacion4/lupa.jpg" alt="Niña con lupa">Lupa · refracción ✓</figure>
+  <figure><img src="img/computacion4/arcoiris.jpg" alt="Arcoíris">Arcoíris · refracción ✓</figure>
+  <figure><img src="img/computacion4/espejo.jpg" alt="Niño frente al espejo">Espejo · reflexión ✗</figure>
+  <figure><img src="img/computacion4/popote.jpg" alt="Vaso con popote">Vaso y popote · refracción ✓</figure>
+</div>`;
+const OPT_LUZ = ["Reflexión: la luz rebota","Refracción: la luz atraviesa algo transparente y se desvía"];
+
+const GUIA_COMPUTACION4 = [
+  ["⚡ La energía y sus tipos",
+    `<ul>
+       <li><span class="key">Energía</span>: la capacidad que tienen los objetos y los seres vivos para <b>moverse, cambiar o hacer un trabajo</b>.</li>
+       <li>☀️ <span class="key">Energía solar</span>: viene del <b>Sol</b>; nos da luz y calor y ayuda a crecer a las plantas.</li>
+       <li>💡 <span class="key">Energía eléctrica</span>: viaja por los <b>cables</b> y hace funcionar aparatos (focos, tele, computadora).</li>
+       <li>🌬️ <span class="key">Energía eólica</span>: se produce con la <b>fuerza del viento</b> (veleros y molinos de viento).</li>
+     </ul>`],
+  ["🏃 Energía potencial y cinética",
+    `<ul>
+       <li><span class="key">Energía potencial</span>: la que tienen los cuerpos que están en <b>reposo</b> (quietos).</li>
+       <li><span class="key">Energía cinética</span>: la que tienen los cuerpos que están en <b>movimiento</b>.</li>
+     </ul>`],
+  ["🌈 La luz: reflexión y refracción",
+    `<ul>
+       <li><span class="key">Reflexión</span>: la luz <b>rebota</b> (como en un espejo). En la guía se marca con <b>✗</b>.</li>
+       <li><span class="key">Refracción</span>: la luz <b>atraviesa</b> algo transparente y <b>cambia de dirección</b> (lupa, agua, gotas de lluvia). Se marca con <b>✓</b>.</li>
+     </ul>
+     ${LUZ_GALERIA}`],
+  ["🪓 Inventos que cambiaron la historia (de la piedra al metal)",
+    `<ul>
+       <li><span class="key">Hacha de mano</span>: piedra tallada con filo y mango de madera; para cortar carne o madera y cavar.</li>
+       <li><span class="key">Lanza</span>: vara larga con punta afilada; para cazar a mayor distancia.</li>
+       <li><span class="key">Garrote</span>: palo grueso y pesado; para golpear y defenderse.</li>
+       <li><span class="key">Arcos y flechas</span>: rama flexible con cuerda tensa; para lanzar flechas a gran distancia.</li>
+       <li>🔥 Al frotar dos palos o piedras (<span class="key">fricción</span>) se generaba <b>fuego</b>, que daba calor y luz.</li>
+       <li>En la <span class="key">Edad de Piedra</span> las herramientas eran de <b>piedra, hueso o madera</b>.</li>
+       <li>🛞 <span class="key">La rueda</span>: facilitó el transporte en carros y dio origen al torno y a los engranajes.</li>
+       <li>⛵ <span class="key">La vela</span>: aprovechó el viento para navegar y abrió las rutas comerciales por mar.</li>
+       <li>⚒️ <span class="key">Edad de Hierro</span>: con la <b>metalurgia y la forja</b> se fundía el hierro y se golpeaba para darle forma.</li>
+     </ul>`],
+  ["🏭 Las Revoluciones Industriales",
+    `<ul>
+       <li><span class="key">Primera Revolución Industrial</span>: la máquina de vapor, el telar mecánico, la locomotora de vapor y el barco de vapor.</li>
+       <li><span class="key">Segunda Revolución Industrial</span>: el automóvil, la bombilla eléctrica, el teléfono, el avión y la radio.</li>
+     </ul>`],
+];
+
+/* Examen único de Computación 4º: cubre los 18 puntos de la guía (energía, luz e inventos). */
+const BANCO_COMPUTACION4 = [
+  /* ----- Energía ----- */
+  { tema:"¿Qué es la energía?", tipo:"mc",
+    q:"¿Qué es la energía?",
+    opts:["La capacidad de moverse, cambiar o hacer un trabajo","Un tipo de piedra","Un animal","Un color"], ans:0 },
+  { tema:"Energía solar", tipo:"mc",
+    q:"¿Qué es la energía solar?",
+    opts:["La que viene del Sol y nos da luz y calor","La que viaja por los cables","La que hace el viento","La de los cuerpos quietos"], ans:0 },
+  { tema:"Energía eléctrica", tipo:"mc",
+    q:"¿Qué es la energía eléctrica?",
+    opts:["La que viaja por los cables y hace funcionar aparatos","La que viene del Sol","La que produce el viento","La del agua de los ríos"], ans:0 },
+  { tema:"Energía eólica", tipo:"mc",
+    q:"¿Qué es la energía eólica?",
+    opts:["La que se produce con la fuerza del viento","La que viene del Sol","La que viaja por los cables","La de los cuerpos en reposo"], ans:0 },
+  { tema:"Energía potencial", tipo:"mc",
+    q:"¿Qué es la energía potencial?",
+    opts:["La que tienen los cuerpos que están en reposo (quietos)","La que tienen los cuerpos en movimiento","La que da el Sol","La del viento"], ans:0 },
+  { tema:"Energía cinética", tipo:"mc",
+    q:"¿Qué es la energía cinética?",
+    opts:["La que tienen los cuerpos que están en movimiento","La que tienen los cuerpos quietos","La que viaja por los cables","La que da calor"], ans:0 },
+  { tema:"Tipos de energía", tipo:"match",
+    q:"Relaciona cada tipo de energía con su fuente.",
+    slots:[
+      {n:1, label:"Energía solar ☀️", ans:"Viene del Sol (luz y calor)"},
+      {n:2, label:"Energía eléctrica 💡", ans:"Viaja por los cables"},
+      {n:3, label:"Energía eólica 🌬️", ans:"Se produce con el viento"},
+    ]},
+  { tema:"Potencial y cinética", tipo:"match",
+    q:"Relaciona cada energía con el estado del cuerpo.",
+    slots:[
+      {n:1, label:"Energía potencial", ans:"Un cuerpo en reposo (quieto)"},
+      {n:2, label:"Energía cinética", ans:"Un cuerpo en movimiento"},
+    ]},
+  /* ----- Luz: reflexión y refracción ----- */
+  { tema:"La reflexión", tipo:"mc",
+    q:"¿Qué es la reflexión de la luz?",
+    opts:["La luz rebota (como en un espejo)","La luz desaparece","La luz se vuelve agua","La luz hace ruido"], ans:0 },
+  { tema:"La refracción", tipo:"mc",
+    q:"¿Qué es la refracción de la luz?",
+    opts:["La luz atraviesa algo transparente y cambia de dirección","La luz rebota en un espejo","La luz se apaga","La luz pesa más"], ans:0 },
+  { tema:"Reflexión y refracción", tipo:"match",
+    q:"Relaciona cada fenómeno de la luz con lo que ocurre.",
+    slots:[
+      {n:1, label:"Reflexión", ans:"La luz rebota (por ejemplo en un espejo)"},
+      {n:2, label:"Refracción", ans:"La luz atraviesa algo transparente y se desvía"},
+    ]},
+  { tema:"¿Reflexión o refracción?", tipo:"mc",
+    q:`¿Qué fenómeno de la luz muestra esta imagen?${luzImg("gafas","Gafas")}`,
+    opts:OPT_LUZ, ans:1 },
+  { tema:"¿Reflexión o refracción?", tipo:"mc",
+    q:`¿Qué fenómeno de la luz muestra esta imagen?${luzImg("laser","Láser apuntando a un espejo")}`,
+    opts:OPT_LUZ, ans:0 },
+  { tema:"¿Reflexión o refracción?", tipo:"mc",
+    q:`¿Qué fenómeno de la luz muestra esta imagen?${luzImg("lupa","Niña viendo con una lupa")}`,
+    opts:OPT_LUZ, ans:1 },
+  { tema:"¿Reflexión o refracción?", tipo:"mc",
+    q:`¿Qué fenómeno de la luz muestra esta imagen?${luzImg("arcoiris","Arcoíris con lluvia")}`,
+    opts:OPT_LUZ, ans:1 },
+  { tema:"¿Reflexión o refracción?", tipo:"mc",
+    q:`¿Qué fenómeno de la luz muestra esta imagen?${luzImg("espejo","Niño frente a un espejo")}`,
+    opts:OPT_LUZ, ans:0 },
+  { tema:"¿Reflexión o refracción?", tipo:"mc",
+    q:`¿Qué fenómeno de la luz muestra esta imagen?${luzImg("popote","Vaso con agua y popote")}`,
+    opts:OPT_LUZ, ans:1,
+    recuerda:"La luz se dobla al pasar del aire al agua, por eso el popote parece quebrado: eso es refracción." },
+  /* ----- Inventos y herramientas ----- */
+  { tema:"Hacha de mano", tipo:"mc",
+    q:"¿Para qué se usaba el hacha de mano en la prehistoria?",
+    opts:["Para cortar carne o madera y cavar","Para volar","Para cocinar pasteles","Para escribir cartas"], ans:0 },
+  { tema:"La lanza", tipo:"mc",
+    q:"¿Para qué servía la lanza?",
+    opts:["Para cazar animales a mayor distancia","Para peinarse","Para medir el tiempo","Para pintar"], ans:0 },
+  { tema:"El garrote", tipo:"mc",
+    q:"¿Para qué se usaba el garrote?",
+    opts:["Para golpear y defenderse","Para nadar","Para sembrar flores","Para leer"], ans:0 },
+  { tema:"Herramientas de piedra", tipo:"match",
+    q:"Relaciona cada herramienta antigua con su uso.",
+    slots:[
+      {n:1, label:"Hacha de mano", ans:"Cortar carne o madera y cavar"},
+      {n:2, label:"Lanza", ans:"Cazar animales a mayor distancia"},
+      {n:3, label:"Garrote", ans:"Golpear y defenderse"},
+      {n:4, label:"Arcos y flechas", ans:"Lanzar flechas a gran distancia"},
+    ]},
+  { tema:"El fuego", tipo:"mc",
+    q:"¿Qué se generaba al hacer fricción (frotar) con dos palos o piedras?",
+    opts:["Fuego, que daba calor y luz","Agua","Viento","Oro"], ans:0 },
+  { tema:"Edad de Piedra", tipo:"mc",
+    q:"¿De qué material eran las herramientas en la Edad de Piedra?",
+    opts:["De piedra, hueso o madera","De plástico","De vidrio","De aluminio"], ans:0 },
+  { tema:"La rueda", tipo:"mc",
+    q:"¿Por qué fue importante el invento de la rueda?",
+    opts:["Facilitó el transporte y dio origen al torno y a los engranajes","Sirvió para apagar el fuego","Hizo llover","Sirvió para volar"], ans:0 },
+  { tema:"La vela", tipo:"mc",
+    q:"¿Para qué sirvió el invento de la vela (de los barcos)?",
+    opts:["Para aprovechar el viento y navegar ríos y mares","Para dar luz en la noche","Para cocinar","Para cavar la tierra"], ans:0,
+    recuerda:"La vela es la tela del barco que atrapa el viento; abrió las rutas comerciales por mar." },
+  { tema:"Edad de Hierro", tipo:"mc",
+    q:"¿Qué se usaba para fabricar herramientas en la Edad de Hierro?",
+    opts:["La metalurgia y la forja: fundir el hierro y golpearlo para darle forma","Solo piedras sin tallar","Papel y pegamento","Hielo"], ans:0 },
+  { tema:"Primera Revolución Industrial", tipo:"mc",
+    q:"¿Cuál de estos inventos es de la Primera Revolución Industrial?",
+    opts:["La máquina de vapor","El automóvil","El avión","El teléfono"], ans:0 },
+  { tema:"Segunda Revolución Industrial", tipo:"mc",
+    q:"¿Cuál de estos inventos es de la Segunda Revolución Industrial?",
+    opts:["El automóvil","El telar mecánico","La locomotora de vapor","El barco de vapor"], ans:0 },
+];
+
 const MATERIAS = {
   "humano": { titulo:"De lo Humano y lo Comunitario",  emoji:"🤝", grado:"5º", banco:BANCO_HUMANO, guia:GUIA_HUMANO },
   "humanoa":{ titulo:"De lo Humano y lo Comunitario · Examen 1", emoji:"🤝", grado:"5º", banco:BANCO_HUMANO,   guia:GUIA_HUMANO },
@@ -2577,6 +3095,9 @@ const MATERIAS = {
   "ingles4b":{ titulo:"Inglés (English) · Examen 2", emoji:"🔤", grado:"4º", banco:BANCO_INGLES4_B, guia:GUIA_INGLES4 },
   "ingles4c":{ titulo:"Inglés (English) · Examen 3", emoji:"🔤", grado:"4º", banco:BANCO_INGLES4_C, guia:GUIA_INGLES4 },
   "robotica4":{ titulo:"Robótica", emoji:"🤖", grado:"4º", banco:BANCO_ROBOTICA4, guia:GUIA_ROBOTICA4 },
+  "robotica5":{ titulo:"Robótica", emoji:"🤖", grado:"5º", banco:BANCO_ROBOTICA5, guia:GUIA_ROBOTICA5 },
+  "computacion2":{ titulo:"Computación", emoji:"💻", grado:"2º", banco:BANCO_COMPUTACION2, guia:GUIA_COMPUTACION2 },
+  "computacion4":{ titulo:"Computación", emoji:"💻", grado:"4º", banco:BANCO_COMPUTACION4, guia:GUIA_COMPUTACION4 },
 };
 let matActual = (()=>{ const m=new URLSearchParams(location.search).get("m"); return MATERIAS[m]?m:"etica"; })();
 let BANCO = MATERIAS[matActual].banco;
@@ -2616,6 +3137,7 @@ function startQuiz(){
 
 function render(){
   answered=false; pick=null; assign={};
+  progPlaying=false; cancelAnimationFrame(progRaf);   // detén cualquier animación de programa en curso
   const q = BANCO[orden[idx]];
   $("#count").textContent = `Pregunta ${idx+1} de ${orden.length}`;
   $("#barFill").style.width = (idx/orden.length*100)+"%";
@@ -2630,6 +3152,8 @@ function render(){
   if(q.tipo==="mc"){
     // baraja el orden visible; data-i conserva el índice real, así check() no cambia
     h += shuffle(q.opts.map((_,i)=>i)).map(i=>`<button class="opt" data-i="${i}" onclick="pickOpt(${i})">${q.opts[i]}</button>`).join("");
+  } else if(q.tipo==="programa"){
+    h += programaHTML(q);
   } else {
     if(q.svg) h += q.svg;
     const names = shuffle(q.slots.map(s=>s.ans));
@@ -2642,6 +3166,7 @@ function render(){
        </button>`).join("") +`</div>`;
   }
   $("#qbody").innerHTML = h;
+  if(q.tipo==="programa"){ $("#btnCheck").style.display="none"; initPrograma(q); }
 }
 
 /* opción múltiple */
@@ -2684,6 +3209,150 @@ function markChip(name,used){
   if(c){ c.classList.toggle("used",used); }
 }
 function freeChip(name){ markChip(name,false); }
+
+/* ---------- Ejercicio de programa (robótica): arrastrar y soltar + robot ---------- */
+let progPlaced=0, progTotal=0, progPlaying=false, pGhost=null, pChip=null, progRaf=0;
+const pEsc=s=>String(s).replace(/"/g,"&quot;");
+
+function programaHTML(q){
+  const rows = q.slots.map(s=>
+    `<div class="prow">
+       <span class="pblk" data-k="${s.k}">${s.label}</span>
+       <span class="parrow">→</span>
+       <span class="pdrop" data-ans="${pEsc(s.ans)}">suelta aquí la acción…</span>
+     </div>`).join("");
+  const chips = shuffle(q.slots.map(s=>s.ans)).map(a=>
+    `<span class="pfx" data-ans="${pEsc(a)}">${a}</span>`).join("");
+  return `<div class="prog">
+    <div class="hint">Arrastra cada acción (abajo) hasta el bloque que le toca. Si aciertas, la pieza se queda fija ✓.</div>
+    <div class="ppool" id="ppool">${chips}</div>
+    <div id="prows">${rows}</div>
+    <div class="rstage hidden" id="rstage">
+      <div class="rtrack"><div class="rbot" id="rbot"><span class="rface">🤖</span>
+        <span class="rwheels"><span class="rwheel" id="wL"></span><span class="rwheel" id="wR"></span></span>
+      </div></div>
+      <div class="rcap" id="rcap">¡Programa completo! Tócalo para verlo correr.</div>
+      <div style="text-align:center"><button class="rplay" id="rplay" onclick="runPrograma()">▶ Ver en acción</button></div>
+    </div>
+  </div>`;
+}
+function initPrograma(q){
+  progPlaced=0; progTotal=q.slots.length; progPlaying=false; pGhost=null; pChip=null;
+  document.querySelectorAll("#ppool .pfx").forEach(chip=>
+    chip.addEventListener("pointerdown", e=>startPfxDrag(e,chip)));
+}
+function startPfxDrag(e,chip){
+  if(chip.classList.contains("placed")||progPlaying) return;
+  e.preventDefault();
+  pChip=chip;
+  pGhost=chip.cloneNode(true); pGhost.classList.add("ghost");
+  document.body.appendChild(pGhost); moveGhost(e);
+  chip.setPointerCapture(e.pointerId);
+  chip.addEventListener("pointermove",onPfxMove);
+  chip.addEventListener("pointerup",onPfxUp);
+  chip.addEventListener("pointercancel",onPfxUp);
+}
+function moveGhost(e){
+  if(!pGhost) return;
+  pGhost.style.left=(e.clientX-pGhost.offsetWidth/2)+"px";
+  pGhost.style.top =(e.clientY-pGhost.offsetHeight/2)+"px";
+}
+function dropUnder(e){
+  const el=document.elementFromPoint(e.clientX,e.clientY);
+  return el&&el.closest?el.closest(".pdrop"):null;
+}
+function onPfxMove(e){
+  moveGhost(e);
+  const drop=dropUnder(e);
+  document.querySelectorAll(".pdrop.over").forEach(d=>{if(d!==drop)d.classList.remove("over");});
+  if(drop&&!drop.classList.contains("ok")) drop.classList.add("over");
+}
+function onPfxUp(e){
+  const chip=pChip;
+  if(chip){
+    chip.removeEventListener("pointermove",onPfxMove);
+    chip.removeEventListener("pointerup",onPfxUp);
+    chip.removeEventListener("pointercancel",onPfxUp);
+    try{chip.releasePointerCapture(e.pointerId);}catch(_){}
+  }
+  const drop=dropUnder(e);
+  document.querySelectorAll(".pdrop.over").forEach(d=>d.classList.remove("over"));
+  if(pGhost){ pGhost.remove(); pGhost=null; }
+  pChip=null;
+  if(!drop||!chip||drop.classList.contains("ok")) return;
+  if(drop.getAttribute("data-ans")===chip.getAttribute("data-ans")){
+    drop.classList.remove("over","bad"); drop.classList.add("ok");
+    drop.textContent=chip.getAttribute("data-ans");
+    chip.classList.add("placed");
+    progPlaced++;
+    if(progPlaced===progTotal) programaSolved();
+  } else {
+    drop.classList.add("bad");
+    setTimeout(()=>drop.classList.remove("bad"),400);
+    flash("Esa acción no va en ese bloque, inténtalo otra vez 🙂","no");
+  }
+}
+function programaSolved(){
+  const q=BANCO[orden[idx]];
+  answered=true; aciertos++;
+  $("#rstage").classList.remove("hidden");
+  if(q.recuerda){ $("#modelo").innerHTML=`<b>¡Bien hecho!</b> ${q.recuerda}`; $("#modelo").classList.add("show"); }
+  flash("¡Programa armado! 🎉","ok");
+  $("#btnNext").style.display="";
+  $("#btnNext").textContent=(idx+1<orden.length)?"Siguiente ▶":"Ver resultado 🏁";
+  $("#rstage").scrollIntoView({behavior:"smooth",block:"center"});
+}
+function pBlk(k,on){ const b=document.querySelector(`.pblk[data-k="${k}"]`); if(b) b.classList.toggle("run",on); }
+function pClearBlk(){ document.querySelectorAll(".pblk.run").forEach(b=>b.classList.remove("run")); }
+function runPrograma(){
+  if(progPlaying) return;
+  progPlaying=true;
+  const play=$("#rplay"), bot=$("#rbot"), wL=$("#wL"), wR=$("#wR"), cap=$("#rcap"), track=$(".rtrack");
+  play.disabled=true;
+  const reduce=matchMedia("(prefers-reduced-motion:reduce)").matches;
+  // reinicia posición y ruedas
+  bot.style.transition="none"; bot.style.transform="translateX(0)";
+  wL.classList.remove("spin"); wR.classList.remove("spin"); pClearBlk();
+  const maxX=Math.max(40, track.clientWidth - bot.offsetWidth - 12);
+  let x=0, m1=false, m2=false;              // posición y estado de cada motor
+  const FULL=maxX/4.2;                        // px/seg con los dos motores (recorre la pista durante el programa)
+  // bucle en tiempo real: el robot se mueve MIENTRAS los motores están encendidos
+  let last=performance.now();
+  function loop(now){
+    if(!progPlaying) return;
+    const dt=Math.min(.05,(now-last)/1000); last=now;
+    const v=FULL*(((m1?1:0)+(m2?1:0))/2);     // 2 motores = velocidad completa, 1 = mitad, 0 = quieto
+    if(v>0){ x=Math.min(maxX, x+v*dt); bot.style.transform="translateX("+x+"px)"; }
+    progRaf=requestAnimationFrame(loop);
+  }
+  if(!reduce) progRaf=requestAnimationFrame(loop);
+  // secuencia de bloques, igual que las instrucciones
+  const steps=[
+    {k:"hat",   ms:700,  cap:()=>"▶ Inicia el programa",                    go:()=>{}},
+    {k:"m1on",  ms:600,  cap:()=>"Motor 1 encendido a 50",                  go:()=>{ m1=true; wL.classList.add("spin"); }},
+    {k:"m2on",  ms:600,  cap:()=>"Motor 2 encendido a 50 · ¡el robot avanza!", go:()=>{ m2=true; wR.classList.add("spin"); }},
+    {k:"wait",  ms:3000, count:true, cap:(s)=>"Mantiene la velocidad 50 · faltan "+s+" s", go:()=>{}},
+    {k:"m1off", ms:700,  cap:()=>"Motor 1 detenido",                        go:()=>{ m1=false; wL.classList.remove("spin"); }},
+    {k:"m2off", ms:900,  cap:()=>"Motor 2 detenido · ¡programa terminado! ✅", go:()=>{ m2=false; wR.classList.remove("spin"); }},
+  ];
+  let i=0, countTimer=0;
+  function endAnim(){
+    cancelAnimationFrame(progRaf); clearInterval(countTimer);
+    if(reduce) bot.style.transform="translateX("+maxX+"px)";
+    progPlaying=false; play.disabled=false; play.textContent="▶ Verlo otra vez"; pClearBlk();
+  }
+  (function step(){
+    clearInterval(countTimer);
+    if(i>=steps.length){ endAnim(); return; }
+    const st=steps[i++];
+    pClearBlk(); pBlk(st.k,true); st.go();
+    if(st.count){
+      let s=Math.ceil(st.ms/1000); cap.textContent=st.cap(s);
+      countTimer=setInterval(()=>{ s--; if(s>0) cap.textContent=st.cap(s); }, 1000);
+    } else cap.textContent=st.cap();
+    setTimeout(step, reduce?Math.min(st.ms,450):st.ms);
+  })();
+}
 
 /* revisar */
 function check(){
